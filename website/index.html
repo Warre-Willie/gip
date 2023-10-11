@@ -17,98 +17,233 @@
 
 <body>
   <div id="navbar"></div> <!-- include navbar -->
-  <div class="">
-    <div class="tile is-ancestor">
-      <div class="tile is-vertical is-8">
-        <div class="tile">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="subtitle"><b>Heat map</b></p>
-              <figure class="image">
-                <div class="has-background-link" style="height: 500px;"></div>
-              </figure>
-            </article>
-          </div>
+  <div class="tile is-ancestor tile-padding">
+    <div class="tile is-vertical is-8" style="height: 634px;">
+      <div class="tile">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="subtitle"><b>Heat map</b></p>
+            <figure class="image">
+              <div class="has-background-link" style="height: 530px;"></div>
+            </figure>
+          </article>
         </div>
       </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="subtitle"><b>Infromatie</b></p>
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                <span class="icon-text ">
-                  <span class="icon">
-                    <i class="fa-solid fa-traffic-light"></i>
-                  </span>
+    </div>
+
+    <div id="info-panel" class="tile is-parent">
+      <article class="tile is-child box">
+        <p class="subtitle" style="position: relative;">
+          <b>|Zone| info</b>
+          <button class="button is-warning is-rounded is-small" style="position: absolute; right: 0px;">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+          
+        </p>
+        
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              <span class="icon-text ">
+                <span class="icon">
+                  <i class="fa-solid fa-traffic-light"></i>
                 </span>
-                <span>
-                  Druktebarometer <span class="tag is-success is-light">Huidig</span>
-                </span>
-              </p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <div class="field">
-                  <label class="label">Manueel wijzigen</label>
-                  <div class="control">
-                    <div class="buttons has-addons">
-                      <button class="button is-success">Groen</button>
-                      <button class="button is-warning">Geel</button>
-                      <button class="button is-danger">Rood</button>
-                    </div>
+              </span>
+              <span>
+                Druktebarometer <span class="tag is-success is-light">Huidige kleur</span>
+              </span>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Manueel wijzigen</label>
+                <div class="control">
+                  <div class="buttons has-addons">
+                    <button class="button is-success">Groen</button>
+                    <button class="button is-warning">Geel</button>
+                    <button class="button is-danger">Rood</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <br>
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                <span class="icon-text ">
-                  <span class="icon">
-                    <i class="fa-solid fa-table"></i>
-                  </span>
+        </div>
+        <br>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              <span class="icon-text ">
+                <span class="icon">
+                  <i class="fa-solid fa-table"></i>
                 </span>
-                <span>
-                  Logboek
+              </span>
+              <span>
+                Logboek
+              </span>
+            <div class="pt-2 pr-2">
+              <div class="select is-small">
+                <select>
+                  <option>5 min</option>
+                  <option>15 min</option>
+                  <option>30 min</option>
+                  <option>1 uur</option>
+                  <option>2 uur</option>
+                  <option>5 uur</option>
+                  <option>12 uur</option>
+                  <option>24 uur</option>
+                </select>
+              </div>
+            </div>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content table-container" style="max-height: 450px; overflow: auto;">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <th>Tijd</th>
+                  <th>Aantal mensen</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>13:00</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>13:05</td>
+                    <td>122</td>
+                  </tr>
+                  <tr>
+                    <td>13:10</td>
+                    <td>143</td>
+                  </tr>
+                  <tr>
+                    <td>13:15</td>
+                    <td>98</td>
+                  </tr>
+                  <tr>
+                    <td>13:05</td>
+                    <td>122</td>
+                  </tr>
+                  <tr>
+                    <td>13:10</td>
+                    <td>143</td>
+                  </tr>
+                  <tr>
+                    <td>13:15</td>
+                    <td>98</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div id="settings-panel" class="tile is-parent hide">
+      <article class="tile is-child box">
+        <p class="subtitle"><b>|Zone| instellingen</b></p>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              <span class="icon-text ">
+                <span class="icon">
+                  <i class="fa-solid fa-traffic-light"></i>
                 </span>
-              </p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <table class="table is-fullwidth is-striped">
-                  <thead>
-                    <th>Tijd</th>
-                    <th>Aantal mensen</th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>13:00</td>
-                      <td>100</td>
-                    </tr>
-                    <tr>
-                      <td>13:05</td>
-                      <td>122</td>
-                    </tr>
-                    <tr>
-                      <td>13:10</td>
-                      <td>143</td>
-                    </tr>
-                    <tr>
-                      <td>13:15</td>
-                      <td>98</td>
-                    </tr>
-                  </tbody>
-                </table>
+              </span>
+              <span>
+                Druktebarometer <span class="tag is-success is-light">Huidig</span>
+              </span>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <label class="label">Manueel wijzigen</label>
+                <div class="control">
+                  <div class="buttons has-addons">
+                    <button class="button is-success">Groen</button>
+                    <button class="button is-warning">Geel</button>
+                    <button class="button is-danger">Rood</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-      </div>
+        </div>
+        <br>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              <span class="icon-text ">
+                <span class="icon">
+                  <i class="fa-solid fa-table"></i>
+                </span>
+              </span>
+              <span>
+                Logboek
+              </span>
+            <div class="pt-2 pr-2">
+              <div class="select is-small">
+                <select>
+                  <option>5 min</option>
+                  <option>15 min</option>
+                  <option>30 min</option>
+                  <option>1 uur</option>
+                  <option>2 uur</option>
+                  <option>5 uur</option>
+                  <option>12 uur</option>
+                  <option>24 uur</option>
+                </select>
+              </div>
+            </div>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content table-container" style="max-height: 450px; overflow: auto;">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <th>Tijd</th>
+                  <th>Aantal mensen</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>13:00</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>13:05</td>
+                    <td>122</td>
+                  </tr>
+                  <tr>
+                    <td>13:10</td>
+                    <td>143</td>
+                  </tr>
+                  <tr>
+                    <td>13:15</td>
+                    <td>98</td>
+                  </tr>
+                  <tr>
+                    <td>13:05</td>
+                    <td>122</td>
+                  </tr>
+                  <tr>
+                    <td>13:10</td>
+                    <td>143</td>
+                  </tr>
+                  <tr>
+                    <td>13:15</td>
+                    <td>98</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </article>
     </div>
-  </div>
+
   </div>
 </body>
 

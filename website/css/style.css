@@ -6,3 +6,11 @@
 .navbar-brand-img {
   max-height: 48px !important;
 }
+
+.tile-padding {
+  padding: 15px;
+}
+
+.hide {
+  display: none !important;
+}
