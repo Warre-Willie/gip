@@ -1,14 +1,20 @@
+<!DOCTYPE html>
 <html lang="nl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crowd management</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crowd management</title>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
-    <script> $(function(){ $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script> 
+  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
 
-    <div id="metadata"></div> <!-- include metadata -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script>
+
+  <div id="metadata"></div> <!-- include metadata -->
 </head>
+
 <body>
   <div id="navbar"></div> <!-- include navbar -->
   <div class="box">
@@ -17,7 +23,7 @@
         <div class="tile">
           <div class="tile is-parent">
             <article class="tile is-child box">
-              <p class="subtitle">Heat map</p>
+              <p class="subtitle"><b>Heat map</b></p>
               <figure class="image">
                 <div class="has-background-link" style="height: 500px;"></div>
               </figure>
@@ -27,17 +33,41 @@
       </div>
       <div class="tile is-parent">
         <article class="tile is-child box">
-          <p class="subtitle">Instellingen</p>
-          <div class="field">
-            <label class="label">Gebied naam</label>
-            <div class="control">
-              <input class="input is-warning" type="text" placeholder="Bv. Main stage">
+          <p class="subtitle"><b>Infromatie</b></p>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Druktebarometer</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="field">
+                  <label class="label">Manueel wijzigen</label>
+                  <div class="control">
+                    <div class="buttons has-addons">
+                      <button class="button is-success">
+                        <i class="fa-solid fa-traffic-light"></i>
+                      </button>
+                      <button class="button is-warning">
+                        <i class="fa-solid fa-traffic-light"></i>
+                      </button>
+                      <button class="button is-danger">
+                        <i class="fa-solid fa-traffic-light"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <label class="label">Aantal mensen</label>
-            <div class="control">
-              <input class="input is-warning" type="text" placeholder="Bv. 304">
+            <br>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">Logboek</p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+
+                </div>
+              </div>
             </div>
           </div>
         </article>
@@ -45,4 +75,5 @@
     </div>
   </div>
 </body>
+
 </html>
