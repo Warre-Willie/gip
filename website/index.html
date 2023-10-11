@@ -1,0 +1,48 @@
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd management</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
+    <script> $(function(){ $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script> 
+
+    <div id="metadata"></div> <!-- include metadata -->
+</head>
+<body>
+  <div id="navbar"></div> <!-- include navbar -->
+  <div class="box">
+    <div class="tile is-ancestor">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="subtitle">Heat map</p>
+              <figure class="image">
+                <div class="has-background-link" style="height: 500px;"></div>
+              </figure>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="subtitle">Instellingen</p>
+          <div class="field">
+            <label class="label">Gebied naam</label>
+            <div class="control">
+              <input class="input is-warning" type="text" placeholder="Bv. Main stage">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Aantal mensen</label>
+            <div class="control">
+              <input class="input is-warning" type="text" placeholder="Bv. 304">
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
