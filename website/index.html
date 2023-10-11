@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crowd management</title>
 
-  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon">
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
@@ -36,7 +36,16 @@
           <p class="subtitle"><b>Infromatie</b></p>
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title">Druktebarometer</p>
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-solid fa-traffic-light"></i>
+                  </span>
+                </span>
+                <span>
+                  Druktebarometer <span class="tag is-success is-light">Huidig</span>
+                </span>
+              </p>
             </header>
             <div class="card-content">
               <div class="content">
@@ -44,35 +53,30 @@
                   <label class="label">Manueel wijzigen</label>
                   <div class="control">
                     <div class="buttons has-addons">
-                      <button class="button is-success">
-                        <i class="fa-solid fa-traffic-light"></i>
-                      </button>
-                      <button class="button is-warning">
-                        <i class="fa-solid fa-traffic-light"></i>
-                      </button>
-                      <button class="button is-danger">
-                        <i class="fa-solid fa-traffic-light"></i>
-                      </button>
+                      <button class="button is-success">Groen</button>
+                      <button class="button is-warning">Geel</button>
+                      <button class="button is-danger">Rood</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <br>
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">Logboek</p>
-              </header>
-              <div class="card-content">
-                <div class="content">
+          </div>
+          <br>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Logboek</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
 
-                </div>
               </div>
             </div>
           </div>
-        </article>
       </div>
+      </article>
     </div>
+  </div>
   </div>
 </body>
 
