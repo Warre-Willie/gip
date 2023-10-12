@@ -24,27 +24,22 @@
   <body>
     <div id="navbar"></div>
     <!-- include navbar -->
-    <div class="tile is-ancestor tile-padding">
-      <div class="tile is-vertical is-8" style="height: 200px">
-        <div class="tile">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <nav class="panel">
-                <progress class="progress is-link" value="50" max="100">50%</progress>
-                500/1000
-              </nav>
-            </article>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tile is-ancestor tile-padding">
-      <div class="tile is-vertical is-8" style="height: 634px">
-        <div class="tile">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <nav class="panel">
+    <div class="tile is-ancestor">
+        <div class="tile is-vertical is-8" style="height: 200px;">
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title">Aantal tickets</p>
+                    <div class="content">
+                        <progress class="progress is-link" value="50" max="100">50%</progress>
+                        500/1000
+                    </div>
+                </article>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title">Ticket zoeken</p>
+                    <div class="content">
+                      <nav class="panel">
                 <p class="panel-heading">Tickets</p>
                 <div class="panel-block">
                   <p class="control has-icons-left">
@@ -114,14 +109,20 @@
                   </button>
                 </div>
               </nav>
-            </article>
-          </div>
+                    </div>
+                </article>
+            </div>
         </div>
-      </div>
-
-      <div id="info-panel" class="tile is-parent">
-        <article class="tile is-child box"></article>
-      </div>
+        <div class="tile is-parent">
+            <article class="tile is-child box" style="height: 820px;">
+                <div class="content">
+                    <p class="title">Ticket instellingen</p>
+                    <p class="subtitle">Here wil be the ticket settings</p>
+                    <div class="content">
+                    </div>
+                </div>
+            </article>
+        </div>
     </div>
-  </body>
+</body>
 </html>
