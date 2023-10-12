@@ -1,20 +1,105 @@
 <!DOCTYPE html>
 <html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket beheer</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ticket beheer</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(function () {
+        $("#navbar").load("includes/navbar.html");
+        $("#metadata").load("includes/metadata.html");
+      });
+    </script>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
-  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script>
+    <div id="metadata"></div>
+    <!-- include metadata -->
+  </head>
 
-  <div id="metadata"></div> <!-- include metadata -->
-</head>
+  <body>
+    <div id="navbar"></div>
+    <!-- include navbar -->
+    <div class="tile is-ancestor tile-padding">
+      <div class="tile is-vertical is-8" style="height: 634px">
+        <div class="tile">
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <nav class="panel">
+                <p class="panel-heading">Repositories</p>
+                <div class="panel-block">
+                  <p class="control has-icons-left">
+                    <input class="input" type="text" placeholder="Search" />
+                    <span class="icon is-left">
+                      <i class="fas fa-search" aria-hidden="true"></i>
+                    </span>
+                  </p>
+                </div>
+                <p class="panel-tabs">
+                  <a class="is-active">All</a>
+                  <a>Public</a>
+                  <a>Private</a>
+                  <a>Sources</a>
+                  <a>Forks</a>
+                </p>
+                <a class="panel-block is-active">
+                  <span class="panel-icon">
+                    <i class="fas fa-book" aria-hidden="true"></i>
+                  </span>
+                  bulma
+                </a>
+                <a class="panel-block">
+                  <span class="panel-icon">
+                    <i class="fas fa-book" aria-hidden="true"></i>
+                  </span>
+                  marksheet
+                </a>
+                <a class="panel-block">
+                  <span class="panel-icon">
+                    <i class="fas fa-book" aria-hidden="true"></i>
+                  </span>
+                  minireset.css
+                </a>
+                <a class="panel-block">
+                  <span class="panel-icon">
+                    <i class="fas fa-book" aria-hidden="true"></i>
+                  </span>
+                  jgthms.github.io
+                </a>
+                <a class="panel-block">
+                  <span class="panel-icon">
+                    <i class="fas fa-code-branch" aria-hidden="true"></i>
+                  </span>
+                  daniellowtw/infboard
+                </a>
+                <a class="panel-block">
+                  <span class="panel-icon">
+                    <i class="fas fa-code-branch" aria-hidden="true"></i>
+                  </span>
+                  mojs
+                </a>
+                <label class="panel-block">
+                  <input type="checkbox" />
+                  remember me
+                </label>
+                <div class="panel-block">
+                  <button class="button is-link is-outlined is-fullwidth">
+                    Reset all filters
+                  </button>
+                </div>
+              </nav>
+            </article>
+          </div>
+        </div>
+      </div>
 
-<body>
-  <div id="navbar"></div> <!-- include navbar -->
-</body>
-
+      <div id="info-panel" class="tile is-parent">
+        <article class="tile is-child box"></article>
+      </div>
+    </div>
+  </body>
 </html>
