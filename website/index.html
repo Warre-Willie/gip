@@ -31,11 +31,11 @@
       </div>
     </div>
 
-    <div id="info-panel" class="tile is-parent hide">
+    <div id="info-panel" class="tile is-parent">
       <article class="tile is-child box">
-        <p class="subtitle settings-save-button-container">
-          <b>|Zone| </b>info
-          <button class="button is-warning is-rounded is-small settings-save-button">
+        <p class="subtitle panel-button-container">
+          <b>{Zone} </b>info
+          <button class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings('settings')">
             <i class="fa-solid fa-gear"></i>
           </button>
 
@@ -139,11 +139,14 @@
       </article>
     </div>
 
-    <div id="settings-panel" class="tile is-parent">
+    <div id="settings-panel" class="tile is-parent hide">
       <article class="tile is-child box">
-        <p class="subtitle settings-save-button-container">
-          <b>|Zone| </b>instellingen
-          <button class="button is-warning is-rounded is-small settings-save-button">
+        <p class="subtitle panel-button-container">
+          <b>{Zone} </b>instellingen
+          <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings('info')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="button is-warning is-rounded is-small panel-1-button">
             <i class="fa-solid fa-floppy-disk"></i>
           </button>
         </p>

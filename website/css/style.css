@@ -20,11 +20,16 @@
   overflow: auto;
 }
 
-.settings-save-button-container {
+.panel-button-container {
   position: relative;
 }
 
-.settings-save-button {
+.panel-1-button {
   position: absolute;
   right: 0px;
+}
+
+.panel-2-button {
+  position: absolute;
+  right: 50.5px;
 }
