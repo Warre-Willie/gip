@@ -14,3 +14,17 @@
 .hide {
   display: none !important;
 }
+
+.logbook {
+  max-height: 450px;
+  overflow: auto;
+}
+
+.settings-save-button-container {
+  position: relative;
+}
+
+.settings-save-button {
+  position: absolute;
+  right: 0px;
+}
