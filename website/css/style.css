@@ -33,3 +33,11 @@
   position: absolute;
   right: 50.5px;
 }
+.ticket-list{
+  max-height: 200px;
+  overflow: auto;
+}
+
+.panel-heading{
+  margin-bottom: 0px !important;
+}
