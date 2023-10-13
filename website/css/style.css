@@ -14,3 +14,12 @@
 .hide {
   display: none !important;
 }
+
+.ticket-list{
+  max-height: 200px;
+  overflow: auto;
+}
+
+.panel-heading{
+  margin-bottom: 0px !important;
+}
