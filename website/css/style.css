@@ -45,3 +45,19 @@
 .fit-tile-content{
   display: inline !important;
 }
+
+.ticket-panel-container{
+  display: flex;
+}
+
+.ticket-dropdown{
+  margin-left: auto;
+}
+
+.ticket-connect-modal{
+  width: 300px;
+}
+
+.ticket-barcode-center{
+  margin-left: 25%;
+}
