@@ -34,10 +34,14 @@
   right: 50.5px;
 }
 .ticket-list{
-  max-height: 200px;
+  max-height: 300px;
   overflow: auto;
 }
 
 .panel-heading{
   margin-bottom: 0px !important;
+}
+
+.fit-tile-content{
+  display: inline !important;
 }
