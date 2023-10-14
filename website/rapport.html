@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rapport maken</title>
 
-    <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rapport maken</title>
 
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.js"
-      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      $(function () {
-        $("#navbar").load("includes/navbar.html");
-        $("#metadata").load("includes/metadata.html");
-        $("#footer").load("includes/footer.html");
-      });
-    </script>
+  <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon" />
 
-    <div id="metadata"></div>
-    <!-- include metadata -->
-  </head>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $("#navbar").load("includes/navbar.html");
+      $("#metadata").load("includes/metadata.html");
+      $("#footer").load("includes/footer.html");
+    });
+  </script>
 
-  <body>
-    <div id="navbar"></div>
-    <!-- include navbar -->
-    <div class="tile is-ancestor tile-padding">
-      <div class="tile is-3 is-vertical is-parent">
-        <div class="tile is-child box">
-          <p class="subtitle"><b>Download instellingen</b></p>
-          <br />
-          <br />
-          <div class="buttons">
-            <button class="button is-success">Genereer PDF</button>
-          </div>
-        </div>
-      </div>
-      <div class="tile is-vertical is-parent">
-        <div class="tile is-child box">
-          <p class="subtitle"><b>Voorstelling</b></p>
-          <object data="Preview_doc/CM.com - General Admission - 8G31606094.pdf" type="application/pdf" width="100%" height="700px">
-          <p>Unable to display PDF file. <a href="Preview_doc/CM.com - General Admission - 8G31606094.pdf">Download</a> instead.</p>
+  <div id="metadata"></div>
+  <!-- include metadata -->
+</head>
+
+<body>
+  <div id="navbar"></div>
+  <!-- include navbar -->
+  <div class="tile is-ancestor tile-padding">
+    <div class="tile is-3 is-vertical is-parent">
+      <div class="tile is-child box">
+        <p class="subtitle"><b>Download instellingen</b></p>
+        <br />
+        <br />
+        <div class="buttons">
+          <button class="button is-success">Genereer PDF</button>
         </div>
       </div>
     </div>
-    <div id="footer"></div>
-    <!-- include footer-->
-  </body>
+    <div class="tile is-vertical is-parent">
+      <div class="tile is-child box">
+        <p class="subtitle"><b>Voorstelling</b></p>
+        <div class="is-hidden-touch">
+          <object data="Preview_doc/CM.com - General Admission - 8G31606094.pdf" type="application/pdf" width="100%"
+            height="700px">
+            <p>Unable to display PDF file. <a href="Preview_doc/CM.com - General Admission - 8G31606094.pdf">Download</a>
+              instead.</p>
+          </object>
+        </div>
+        <div class="is-hidden-desktop">
+          <p>Open a PDF file <a href="preview_doc/CM.com - General Admission - 8G31606094.pdf" target="_blank">example</a>.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div id="footer"></div>
+  <!-- include footer-->
+</body>
+
 </html>
