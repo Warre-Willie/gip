@@ -17,7 +17,7 @@ function searchTicket() {
 }
 
 function clearInput() {
-  document.getElementById("filter-input").value = "";
+  document.getElementById("search-input").value = "";
   document.getElementById("ticket-list").focus();
-  filterFunction();
+  searchTicket();
 }
