@@ -6,16 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rapport maken</title>
 
+  <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon" />
+
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
-  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script>
+  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); $("#footer").load("includes/footer.html"); });</script>
 
   <div id="metadata"></div> <!-- include metadata -->
 </head>
 
 <body>
   <div id="navbar"></div> <!-- include navbar -->
-  <button class="button is-small is-succes">Small</button>
+  <div class="page-content"></div>
+  <div id="footer"></div> <!-- include navbar -->
 </body>
 
 </html>

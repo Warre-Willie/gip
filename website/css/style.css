@@ -33,31 +33,50 @@
   position: absolute;
   right: 50.5px;
 }
-.ticket-list{
+.ticket-list {
   max-height: 300px;
   overflow: auto;
 }
 
-.panel-heading{
+.panel-heading {
   margin-bottom: 0px !important;
 }
 
-.fit-tile-content{
+.fit-tile-content {
   display: inline !important;
 }
 
-.ticket-panel-container{
+.ticket-panel-container {
   display: flex;
 }
 
-.ticket-dropdown{
+.ticket-dropdown {
   margin-left: auto;
 }
 
-.ticket-connect-modal{
+.ticket-connect-modal {
   width: 300px;
 }
 
-.ticket-barcode-center{
+.ticket-barcode-center {
   margin-left: 25%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
 }
