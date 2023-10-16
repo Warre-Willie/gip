@@ -8,5 +8,4 @@ print("Scan barcode:")
 while True:
     if uart.any():
         data = uart.read()
-        data = data.decode()
-        print("Barcode: " + data)
+        print("Barcode: " + data.decode())
