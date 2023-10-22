@@ -59,7 +59,7 @@ while True:
             
     elif user == "2":
         if(old_user == "2"):
-            pixels.set_pixel_line(10,29 , orange)
+            pixels.set_pixel_line(10,19 , orange)
             pixels.show()
         elif(old_user == "1"):
             up(1,10,green,orange)
