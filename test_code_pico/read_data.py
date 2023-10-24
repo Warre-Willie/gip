@@ -10,7 +10,7 @@ reader = MFRC522(spi_id=0,sck=6,miso=4,mosi=7,cs=5,rst=22)
 I2C_ADDR = 0x27
 I2C_NUM_ROWS = 2
 I2C_NUM_COLS = 16
-i2c = I2C(1, sda=Pin(26), scl=Pin(27), freq=400000)
+i2c = I2C(1, sda=machine.Pin(26), scl=machine.Pin(27), freq=400000)
 lcd = I2cLcd(i2c, I2C_ADDR, I2C_NUM_ROWS, I2C_NUM_COLS)
 
 lcd.backlight_on()
