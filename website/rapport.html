@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html lang="nl">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rapport maken</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rapport maken</title>
+    <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon"/>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
-  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); $("#footer").load("includes/footer.html"); });</script>
 
-  <div id="metadata"></div> <!-- include metadata -->
-</head>
-
-<body>
-  <div id="navbar"></div> <!-- include navbar -->
-</body>
-
+    <div id="metadata"></div> <!-- include metadata -->
+  </head>
+    <div id="navbar"></div> <!-- include navbar -->
+    <div class="tile is-ancestor tile-padding">
+      <div class="tile is-3 is-vertical is-parent fit-tile-content">
+        <div class="tile is-child box">
+          <p class="subtitle"><b>Download instellingen</b></p>
+          <div class="card-content filter-table">
+            <table class="table is-fullwidth">
+              <tbody>
+                <tr>
+                  <td>
+                    <label class="checkbox">
+                      <input type="checkbox" />
+                        Verspreiding tussen tijden
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label class="checkbox">
+                      <input type="checkbox" />
+                      Verspreiding tussen zones
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label class="checkbox">
+                      <input type="checkbox" />
+                      Aantal tickets
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="button is-success" style="width: 100%">
+            Genereer PDF
+          </button>
+        </div>
+      </div>
+      <div class="tile is-vertical is-parent fit-tile-content">
+        <div class="tile is-child box">
+          <p class="subtitle"><b>Voorstelling</b></p>
+          <div class="is-hidden-touch">
+            <object
+              data="preview_doc/main preview doc.pdf"
+              type="application/pdf"
+              width="100%"
+              height="700px"
+            >
+              <p>
+                Unable to display PDF file.
+                <a href="preview_doc/main preview doc.pdf">Download</a> instead.
+              </p>
+            </object>
+          </div>
+          <div class="is-hidden-desktop">
+            <p>
+              Open a PDF file
+              <a href="preview_doc/main preview doc.pdf" target="_blank"
+                >example</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer"></div> <!-- include footer-->
+  </body>
 </html>

@@ -6,239 +6,242 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crowd management</title>
 
-  <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon" />
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
-  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); });</script>
+  <script> $(function () { $("#navbar").load("includes/navbar.html"); $("#metadata").load("includes/metadata.html"); $("#footer").load("includes/footer.html"); });</script>
 
   <div id="metadata"></div> <!-- include metadata -->
 </head>
+
 <body>
   <div id="navbar"></div> <!-- include navbar -->
-  <div class="tile is-ancestor tile-padding">
-    <div class="tile is-vertical is-8" style="height: 634px;">
-      <div class="tile">
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="subtitle"><b>Heat map</b></p>
-            <figure class="image">
-              <div class="has-background-link" style="height: 530px;"></div>
-            </figure>
-          </article>
+  <div class="page-content">
+    <div class="tile is-ancestor tile-padding page-content">
+      <div class="tile is-vertical is-8 fit-tile-content">
+        <div class="tile">
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="subtitle"><b>Heat map</b></p>
+              <figure class="image">
+                <div class="has-background-link" style="height: 530px;"></div>
+              </figure>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div id="info-panel" class="tile is-parent">
-      <article class="tile is-child box">
-        <p class="subtitle panel-button-container">
-          <b>{Zone} </b>info
-          <button class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings('settings')">
-            <i class="fa-solid fa-gear"></i>
-          </button>
+      <div id="info-panel" class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="subtitle panel-button-container">
+            <b>{Zone} </b>info
+            <button class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings('settings')">
+              <i class="fa-solid fa-gear"></i>
+            </button>
 
-        </p>
+          </p>
 
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa-solid fa-traffic-light"></i>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-solid fa-traffic-light"></i>
+                  </span>
                 </span>
-              </span>
-              <span>
-                Druktebarometer <span class="tag is-success is-light">Huidige kleur</span>
-              </span>
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <div class="field">
-                <label class="label">Manueel wijzigen</label>
-                <div class="control">
-                  <div class="buttons has-addons">
-                    <button class="button is-success">Groen</button>
-                    <button class="button is-warning">Geel</button>
-                    <button class="button is-danger">Rood</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa-solid fa-table"></i>
+                <span>
+                  Druktebarometer <span class="tag is-success is-light">Huidige kleur</span>
                 </span>
-              </span>
-              <span>
-                Logboek
-              </span>
-            <div class="pt-2 pr-2">
-              <div class="select is-small">
-                <select>
-                  <option>5 min</option>
-                  <option>15 min</option>
-                  <option>30 min</option>
-                  <option>1 uur</option>
-                  <option>2 uur</option>
-                  <option>5 uur</option>
-                </select>
-              </div>
-            </div>
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content table-container logbook">
-              <table class="table is-fullwidth is-striped">
-                <thead>
-                  <th>Tijd</th>
-                  <th>Aantal mensen</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>13:00</td>
-                    <td>100</td>
-                  </tr>
-                  <tr>
-                    <td>13:05</td>
-                    <td>122</td>
-                  </tr>
-                  <tr>
-                    <td>13:10</td>
-                    <td>143</td>
-                  </tr>
-                  <tr>
-                    <td>13:15</td>
-                    <td>98</td>
-                  </tr>
-                  <tr>
-                    <td>13:05</td>
-                    <td>122</td>
-                  </tr>
-                  <tr>
-                    <td>13:10</td>
-                    <td>143</td>
-                  </tr>
-                  <tr>
-                    <td>13:15</td>
-                    <td>98</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <div id="settings-panel" class="tile is-parent hide">
-      <article class="tile is-child box">
-        <p class="subtitle panel-button-container">
-          <b>{Zone} </b>instellingen
-          <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings('info')">
-            <i class="fa-solid fa-arrow-left"></i>
-          </button>
-          <button class="button is-warning is-rounded is-small panel-1-button">
-            <i class="fa-solid fa-floppy-disk"></i>
-          </button>
-        </p>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa-solid fa-traffic-light"></i>
-                </span>
-              </span>
-              <span>
-                Druktebarometer <span class="tag is-success is-light">Huidig</span>
-              </span>
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <div class="field">
-                <label class="label">Drempelwaarde wijzigen</label>
-                <div class="control">
-                  <div class="columns is-desktop">
-                    <div class="column">
-                      <div class="field">
-                        <div class="control">
-                          <input class="input is-success" type="text" value="10">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="column">
-                      <div class="field">
-                        <div class="control">
-                          <input class="input is-warning" type="text" value="20">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="column">
-                      <div class="field">
-                        <div class="control">
-                          <input class="input is-danger" type="text" value="30">
-                        </div>
-                      </div>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="field">
+                  <label class="label">Manueel wijzigen</label>
+                  <div class="control">
+                    <div class="buttons has-addons">
+                      <button class="button is-success">Groen</button>
+                      <button class="button is-warning">Geel</button>
+                      <button class="button is-danger">Rood</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <br>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa-solid fa-font"></i>
+          <br>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-solid fa-table"></i>
+                  </span>
                 </span>
-              </span>
-              <span>
-                Zone naam
-              </span>
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <input class="input is-link" type="text" placeholder="Bv. Main stage">
+                <span>
+                  Logboek
+                </span>
+              <div class="pt-2 pr-2">
+                <div class="select is-small">
+                  <select>
+                    <option>5 min</option>
+                    <option>15 min</option>
+                    <option>30 min</option>
+                    <option>1 uur</option>
+                    <option>2 uur</option>
+                    <option>5 uur</option>
+                  </select>
+                </div>
+              </div>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content table-container logbook">
+                <table class="table is-fullwidth is-striped">
+                  <thead>
+                    <th>Tijd</th>
+                    <th>Aantal mensen</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>13:00</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>13:05</td>
+                      <td>122</td>
+                    </tr>
+                    <tr>
+                      <td>13:10</td>
+                      <td>143</td>
+                    </tr>
+                    <tr>
+                      <td>13:15</td>
+                      <td>98</td>
+                    </tr>
+                    <tr>
+                      <td>13:05</td>
+                      <td>122</td>
+                    </tr>
+                    <tr>
+                      <td>13:10</td>
+                      <td>143</td>
+                    </tr>
+                    <tr>
+                      <td>13:15</td>
+                      <td>98</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-        <br>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa-regular fa-trash-can"></i>
-                </span>
-              </span>
-              <span>
-                Reset aantal mensen
-              </span>
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <button class="button is-danger">Reset</button>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
 
+      <div id="settings-panel" class="tile is-parent hide">
+        <article class="tile is-child box">
+          <p class="subtitle panel-button-container">
+            <b>{Zone} </b>instellingen
+            <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings('info')">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="button is-warning is-rounded is-small panel-1-button">
+              <i class="fa-solid fa-floppy-disk"></i>
+            </button>
+          </p>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-solid fa-traffic-light"></i>
+                  </span>
+                </span>
+                <span>
+                  Druktebarometer <span class="tag is-success is-light">Huidig</span>
+                </span>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="field">
+                  <label class="label">Drempelwaarde wijzigen</label>
+                  <div class="control">
+                    <div class="columns is-desktop">
+                      <div class="column">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input is-success" type="text" value="10">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="column">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input is-warning" type="text" value="20">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="column">
+                        <div class="field">
+                          <div class="control">
+                            <input class="input is-danger" type="text" value="30">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-solid fa-font"></i>
+                  </span>
+                </span>
+                <span>
+                  Zone naam
+                </span>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <input class="input is-link" type="text" placeholder="Bv. Mainstage">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon-text ">
+                  <span class="icon">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </span>
+                </span>
+                <span>
+                  Reset aantal mensen
+                </span>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <button class="button is-danger">Reset</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   </div>
+  <div id="footer"></div> <!-- include navbar -->
 </body>
 
 </html>
