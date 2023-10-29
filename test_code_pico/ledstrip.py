@@ -77,12 +77,3 @@ while True:
             pixels.show()
      
     old_user = user
-    
-    
-
-
-        
-
-    
-    
-
