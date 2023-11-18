@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+//Tutorial: https://www.youtube.com/watch?v=n1QarlZj3lM&ab_channel=ProgrammingGuru
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
