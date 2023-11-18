@@ -1,3 +1,4 @@
+#library: https://pypi.org/project/mysql-connector-python/
 import mysql.connector
 
 db = mysql.connector.connect(
