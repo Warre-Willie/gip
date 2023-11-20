@@ -5,14 +5,14 @@ from umqtt.simple import MQTTClient
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect("JUWiFi","Jeroen2012")
+wlan.connect("TP-LINK_EE42","29487868")
 time.sleep(5)
 print(wlan.ifconfig())
 
 button_on = Pin(0, Pin.IN, Pin.PULL_DOWN)
 button_off = Pin(1, Pin.IN, Pin.PULL_DOWN)
 
-mqtt_server = 'raspberrypi.local'
+mqtt_server = '192.168.0.101'
 client_id = 'test'
 topic_pub = b'led'
 topic_on_msg = b'on'

@@ -5,13 +5,13 @@ from umqtt.simple import MQTTClient
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect("JUWiFi","Jeroen2012")
+wlan.connect("TP-LINK_EE42","29487868")
 time.sleep(5)
 print(wlan.ifconfig())
 
 LED = Pin(0, Pin.OUT)
 
-mqtt_server = 'raspberrypi.local'
+mqtt_server = '192.168.0.101'
 client_id = 'test2'
 topic_sub = b'led'
 
