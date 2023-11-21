@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report</title>
+    <link rel="stylesheet" href="css/printstyle.css" />
+  </head>
+
+  <body>
+    <div id="pspdfkit-header">
+      <div class="header-columns">
+        <div class="logotype">
+          <img
+            class="logo"
+            src="image/logo_print.png"
+            style="width: 120px; height: 78px"
+          />
+        </div>
+
+        <div>
+          <p>
+            Crowd Control<br />
+            info@crowdcontrol.com<br />
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" style="page-break-after: always">
+      <div>
+        <h1 style="text-align: center">Report</h1>
+      </div>
+
+      <div>
+        <h4>
+          Report Author: Admin<br />
+          Date: {time stamp} <br />
+          Location: HQ {festival}
+        </h4>
+      </div>
+      <div class="spacer-2"></div>
+
+      <img
+        src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Q1','Q2','Q3','Q4'], datasets:[{label:'Users',data:[50,60,70,180]},{label:'Revenue',data:[100,200,300,400]}]}}"
+        style="width: 500px"
+      />
+    </div>
+
+    <h4 class="margin-b-0">Subtitle One</h4>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+    <div class="line-break"></div>
+  </body>
+</html>
