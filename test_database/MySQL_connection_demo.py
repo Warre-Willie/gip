@@ -10,7 +10,7 @@ db = mysql.connector.connect(
 
 mycursor = db.cursor(dictionary=True)
 
-mycursor.execute("SELECT * FROM persoongegevens")
+mycursor.execute("SELECT * FROM persoongegens1")
 
 for row in mycursor:
     for key, value in row.items():
