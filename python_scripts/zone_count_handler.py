@@ -15,20 +15,21 @@ mqtt_server = '192.168.0.101'
 client_id = 'test2'
 topic_sub = b'led'
 counter = 0
+old_msg = ""
 
 
 def sub_cb(topic, msg):
     print("New message on topic {}".format(topic.decode('utf-8')))
     msg = msg.decode('utf-8')
     
-    if msg != old_msg
+    if msg != old_msg:
         match msg:
             case "-":
                 counter - 1
             case "+":
                 counter + 1
     
-    msg = old_msg
+    old_msg = msg
 def mqtt_connect():
     client = MQTTClient(client_id, mqtt_server, keepalive=60)
     client.set_callback(sub_cb)
