@@ -47,33 +47,37 @@ def up(pixel_count1, pixel_count2,color1, color2):
 while True:
     x = 0
     user = input("geef een getal 1(groen) 2(oranje) 3(rood):")
-    if user == "1":
-        if(old_user == "2"):
-            down(19, 9, orange, green)
-        elif(old_user == "1"): 
-            pixels.set_pixel_line(0,9 , green)
-            pixels.show()            
-        else:
-            down(30, 20,red, orange)
-            down(19, 9, orange, green)  
-            
-    elif user == "2":
-        if(old_user == "2"):
-            pixels.set_pixel_line(10,19 , orange)
-            pixels.show()
-        elif(old_user == "1"):
-            up(1,10,green,orange)
-        else:
-            down(29, 19, red, orange)
-        
-    else:
-        if(old_user == "2"):
-            up(11,20 ,orange, red)
-        elif(old_user == "1"):
-            up(1,10,green,orange)
-            up(11,20 ,orange, red)
-        else:
-            pixels.set_pixel_line(20,29 , red)
-            pixels.show()
-     
-    old_user = user
+    
+    match user:
+        case "1":
+            if(old_user == "2"):
+                down(19, 9, orange, green)
+            elif(old_user == "1"): 
+                pixels.set_pixel_line(0,9 , green)
+                pixels.show()            
+            else:
+                down(30, 20,red, orange)
+                down(19, 9, orange, green)
+        case "2":
+            if(old_user == "2"):
+                pixels.set_pixel_line(10,19 , orange)
+                pixels.show()
+            elif(old_user == "1"):
+                up(1,10,green,orange)
+            else:
+                down(29, 19, red, orange)
+        case "3":
+            if(old_user == "2"):
+                up(11,20 ,orange, red)
+            elif(old_user == "1"):
+                up(1,10,green,orange)
+                up(11,20 ,orange, red)
+            else:
+                pixels.set_pixel_line(20,29 , red)
+                pixels.show()
+                
+         case _:
+             input("Wrong input try again. press enter to continue.")
+             
+    old_user = user 
+
