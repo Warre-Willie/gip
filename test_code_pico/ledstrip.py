@@ -75,6 +75,8 @@ while True:
             else:
                 pixels.set_pixel_line(20,29 , red)
                 pixels.show()
+
+    
              
     old_user = user 
 
