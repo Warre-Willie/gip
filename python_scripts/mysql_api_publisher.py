@@ -23,26 +23,16 @@ mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing r
 # MQTT settings
 broker_address = "broker.hivemq.com"
 port = 1883
-topic = "queries"
 
 # Callback when the client connects to the broker
-def on_connect(client, userdata, flags, rc):
-    client.subscribe(topic)
+# def on_connect(client, userdata, flags, rc):
+#     print("")
 
 # Callback when a message is received from the broker
 def on_message(client, userdata, msg):
-    mqtt_payload = json.loads(msg.payload.decode())
-    
-    mqtt_payload['query'] = mqtt_payload['query'].replace("%", '"')
-    if mqtt_payload['returnData']:
-        mycursor.execute(mqtt_payload['query'])
-        for row in mycursor:
-            client.publish(mqtt_payload['UUID'], json.dumps(row))
-    else:
-        print(mqtt_payload['UUID'])
-        print(mqtt_payload['returnData'])
-        print(mqtt_payload['query'])
-
+    response = json.loads(msg.payload.decode())
+    print("\nRFID: " + response['RFID'])
+    client.unsubscribe(str(myuuid))
 
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
@@ -53,7 +43,7 @@ will_message = "Connection lost unexpectedly"
 client.will_set(will_topic, will_message, 2, False)
 
 # Set callback functions
-client.on_connect = on_connect
+# client.on_connect = on_connect
 client.on_message = on_message
 
 # Connect to the broker
@@ -62,3 +52,9 @@ client.connect(broker_address, port, 60)
 # Start the network loop
 while True:
     client.loop_start()
+    barcode = input("Enter barcode:")
+    print("")
+    myuuid = uuid.uuid4()
+    msg = '{"UUID": "' + str(myuuid) + '", "returnData": true, "query": "SELECT * FROM tickets WHERE barcode=%' + barcode + '%"}'
+    client.subscribe(str(myuuid))
+    client.publish("queries", msg)
