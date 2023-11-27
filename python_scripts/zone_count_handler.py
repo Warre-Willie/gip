@@ -1,6 +1,6 @@
 import network
 import time
-from machine import Pin
+import json
 from umqtt.simple import MQTTClient
 
 wlan = network.WLAN(network.STA_IF)
@@ -9,27 +9,30 @@ wlan.connect("TP-LINK_EE42","29487868")
 time.sleep(5)
 print(wlan.ifconfig())
 
-LED = Pin(0, Pin.OUT)
-
 mqtt_server = '192.168.0.101'
 client_id = 'test2'
 topic_sub = b'led'
 counter = 0
 old_msg = ""
 
-
+# If message recieved there will be a decision
 def sub_cb(topic, msg):
     print("New message on topic {}".format(topic.decode('utf-8')))
     msg = msg.decode('utf-8')
     
-    if msg != old_msg:
-        match msg:
-            case "-":
-                counter - 1
-            case "+":
-                counter + 1
-    
-    old_msg = msg
+    match topic:
+        case "data_update":
+            #def check the database for change 
+            print()
+        case "count_update":
+            counter_update(msg)
+
+def counter_update(msg):
+
+
+
+
+        
 def mqtt_connect():
     client = MQTTClient(client_id, mqtt_server, keepalive=60)
     client.set_callback(sub_cb)
