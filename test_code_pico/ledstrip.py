@@ -75,9 +75,6 @@ while True:
             else:
                 pixels.set_pixel_line(20,29 , red)
                 pixels.show()
-                
-         case _:
-             input("Wrong input try again. press enter to continue.")
              
     old_user = user 
 
