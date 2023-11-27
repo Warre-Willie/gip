@@ -4,13 +4,13 @@ import mysql.connector
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="",
-    database="demo school"
+    passwd="gip-WJ",
+    database="crowd_management"
     )
 
 mycursor = db.cursor(dictionary=True)
 
-mycursor.execute("SELECT * FROM persoongegens1")
+mycursor.execute("SELECT * FROM zones WHERE id=1")
 
 for row in mycursor:
     for key, value in row.items():
