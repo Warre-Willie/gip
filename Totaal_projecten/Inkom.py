@@ -6,8 +6,8 @@ from umqtt.simple import MQTTClient
 # start-up laser
 laser = Pin(21, Pin.IN)
 led = machine.Pin('LED', machine.Pin.OUT)
-laser_state = True
-global last_laser = False
+laser_state = bool()
+last_laser = bool()
 
 # start-up MQTT
 # connection WiFi
