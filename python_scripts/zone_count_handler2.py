@@ -1,46 +1,61 @@
-# python3.6
+#  MQTT publish example
+# {
+#   "UUID": "34df97b8-9b47-4cdd-b11b-09b18e32dbd7",
+#   "returnData": true,
+#   "query": "SELECT * FROM tickets WHERE barcode=\"123456789\";"
+# }
 
-import random
+import paho.mqtt.client as mqtt
+import mysql.connector
+import json
+import uuid
 
-from paho.mqtt import client as mqtt_client
+# Global varible
+counter = 0
+threshold_green = 2
+threshold_orange = 3
+threshold_red = 5
 
 
-broker = 'broker.emqx.io'
+# Make connection with database
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     passwd="gip-WJ",
+#     database="crowd_management"
+#     )
+# mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+
+# MQTT settings
+broker_address = "broker.hivemq.com"
 port = 1883
-topic = "python/mqtt"
-# Generate a Client ID with the subscribe prefix.
-client_id = f'subscribe-{random.randint(0, 100)}'
-# username = 'emqx'
-# password = 'public'
 
 
-def connect_mqtt() -> mqtt_client:
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
-
-    client = mqtt_client.Client(client_id)
-    # client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
-
-
-def subscribe(client: mqtt_client):
-    def on_message(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-
-    client.subscribe(topic)
-    client.on_message = on_message
+# Callback when a message is received from the broker
+def on_message(client, userdata, msg):
+    global counter
+    response = int(msg.payload.decode())
+    counter += response
+    print(counter)
+    if counter < threshold_green:
+        client.publish("Led_state", "green")
+    elif counter < threshold_orange:
+        client.publish("Led_state", "orange")
+    else:
+        client.publish("Led_state", "red")
+        
+# Create MQTT client instance with no client_id
+client = mqtt.Client(client_id="", clean_session=True)
 
 
-def run():
-    client = connect_mqtt()
-    subscribe(client)
-    client.loop_forever()
+# Set callback functions
+# client.on_connect = on_connect
+client.on_message = on_message
 
+# Connect to the broker
+client.connect(broker_address, port, 60)
 
-if __name__ == '__main__':
-    run()
+# Start the network loop
+while True:
+    client.loop_start()
+    client.subscribe("Count_update")
