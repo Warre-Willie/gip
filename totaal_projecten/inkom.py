@@ -1,17 +1,14 @@
 from mfrc522 import MFRC522
-import utime
-
-from machine import Pin, I2C, PWM
+from machine import Pin, I2C, PWM, UART
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
-
-from machine import Pin,UART
 import time
 
 led_red_pin = Pin(10, Pin.OUT)
 led_green_pin = Pin(11, machine.Pin.OUT)
-buzzer_pin = PWM(Pin(18))
-buzzer_pin.freq(1000)
+
+buzzer_pin = machine.Pin(18)
+buzzer_pwm = machine.PWM(buzzer_pin)
 
 uart = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 uart.init(bits=8, parity=None, stop=1)
@@ -27,20 +24,37 @@ lcd = I2cLcd(i2c, I2C_ADDR, I2C_NUM_ROWS, I2C_NUM_COLS)
 lcd.backlight_on()
 lcd.putstr("Scan barcode")
  
-def buzz(frequency, duration):
-    buzzer_pin.freq(frequency)
-    buzzer_pin.duty_u16(32767)
-    utime.sleep_ms(duration)
-    buzzer_pin.duty_u16(0)
+def play_confirmation_sound():
+    buzzer_pwm.freq(1200)
+    buzzer_pwm.duty_u16(16383)
+    time.sleep(0.1)
+    buzzer_pwm.duty_u16(0)
+
+    buzzer_pwm.freq(1300)
+    buzzer_pwm.duty_u16(16383)
+    time.sleep(0.1)
+    buzzer_pwm.duty_u16(0)
+
+    buzzer_pwm.freq(1400)
+    buzzer_pwm.duty_u16(16383)
+    time.sleep(0.1)
+    buzzer_pwm.duty_u16(0)
  
+def play_error_sound():
+    buzzer_pwm.freq(300)
+    buzzer_pwm.duty_u16(16383)
+    time.sleep(0.6)
+    buzzer_pwm.duty_u16(0)
+    
+    
 barcode = "8720017991611"
 while True:
-    buzzer_pin.duty_u16(65535)
     if uart.any(): 
         data = uart.read()
         if data != "":
             data = data.decode()
             if data.startswith(barcode):
+                play_confirmation_sound()
                 lcd.clear()
                 lcd.move_to(0,0)
                 lcd.putstr("Scan RFID badge")
@@ -53,6 +67,7 @@ while True:
                         if stat == reader.OK:
                             card = int.from_bytes(bytes(uid),"little",False)
                             barcode_scanned = False
+                            play_confirmation_sound()
                             lcd.clear()
                             lcd.move_to(0,0)
                             lcd.putstr("Sycronisatie")
@@ -60,12 +75,13 @@ while True:
                             lcd.putstr("Succesvol")
                 print(f"Barcode: {barcode} is sync to RFID-badge: {str(card)}")
             else:
+                play_error_sound()
                 lcd.clear()
                 lcd.move_to(0,0)
                 lcd.putstr("Barcode niet")
                 lcd.move_to(0,1)
                 lcd.putstr("gevonden")
-utime.sleep_ms(500) 
+
 
 
 
