@@ -38,11 +38,12 @@ def on_message(client, userdata, msg):
     counter += response
     print(counter)
     if counter < threshold_green:
-        client.publish("Led_state", "green")
+        client.publish("jesse", "green")
     elif counter < threshold_orange:
-        client.publish("Led_state", "orange")
+        client.publish("jesse", "orange")
+        print("test")
     else:
-        client.publish("Led_state", "red")
+        client.publish("jesse", "red")
         
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
@@ -55,7 +56,9 @@ client.on_message = on_message
 # Connect to the broker
 client.connect(broker_address, port, 60)
 
+client.subscribe("Count_update")
 # Start the network loop
 while True:
     client.loop_start()
-    client.subscribe("Count_update")
+    
+    client.publish("Led_state","test")
