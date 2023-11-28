@@ -1,6 +1,6 @@
 import network
 from machine import Pin
-from time import sleep
+import time
 from umqtt.simple import MQTTClient
 from neopixel import Neopixel
 
@@ -79,9 +79,45 @@ def up(pixel_count1, pixel_count2,color1, color2):
          x += 1
          y += 1
 
+def sub_cb(topic, msg):
+    global old_user
+    print("New message on topic {}".format(topic.decode('utf-8')))
+    msg = msg.decode('utf-8')
+    if msg == "green":
+        if(old_user == "orange"):
+            down(19, 9, orange, green)
+        elif(old_user == "green"): 
+            pixels.set_pixel_line(0,9 , green)
+            pixels.show()            
+        else:
+            down(30, 20,red, orange)
+            down(19, 9, orange, green)  
+
+    elif msg == "orange":
+        if(old_user == "orange"):
+            pixels.set_pixel_line(10,19 , orange)
+            pixels.show()
+        elif(old_user == "green"):
+            up(1,10,green,orange)
+        else:
+            down(29, 19, red, orange)
+
+    else:
+        if(old_user == "orange"):
+            up(11,20 ,orange, red)
+        elif(old_user == "green"):
+            up(1,10,green,orange)
+            up(11,20 ,orange, red)
+        else:
+            pixels.set_pixel_line(20,29 , red)
+            pixels.show()
+
+    old_user = msg
+    
 #make connection mqtt    
 def mqtt_connect():
     client = MQTTClient(client_id, mqtt_server, keepalive=3600)
+    client.set_callback(sub_cb)
     client.connect()
     client.subscribe("Led_state")
     print('Connected to %s MQTT Broker'%(mqtt_server))
@@ -97,10 +133,7 @@ try:
 except OSError as e:
     reconnect()
 
-def sub_cb(topic, msg):
-    print("New message on topic {}".format(topic.decode('utf-8')))
-    msg = msg.decode('utf-8')
-    print(msg)
+
     
 
 while(True):
