@@ -3,6 +3,19 @@ from machine import Pin, I2C, PWM, UART
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import time
+import network
+from umqtt.simple import MQTTClient
+import ubinascii
+import urandom
+import json
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect("TP-LINK_EE42","29487868")
+while wlan.isconnected() == False:
+        print('Waiting for connection...')
+        time.sleep(1)
+print(wlan.ifconfig())
 
 led_red_pin = Pin(10, Pin.OUT)
 led_green_pin = Pin(11, machine.Pin.OUT)
@@ -23,7 +36,27 @@ lcd = I2cLcd(i2c, I2C_ADDR, I2C_NUM_ROWS, I2C_NUM_COLS)
 
 lcd.backlight_on()
 lcd.putstr("Scan barcode")
- 
+
+db_response = {}
+
+def callback(topic, msg):
+    response = msg.decode('utf-8')
+    response_dict = json.loads(response)
+    global db_response
+    db_response = response_dict
+
+def gen_uuid():
+     uuid = ""
+     x = 4
+     while x != 0:
+        random_bytes = urandom.getrandbits(8 * 4).to_bytes(4, 'big')
+        random_hex_string = ubinascii.hexlify(random_bytes).decode('utf-8')
+        uuid += random_hex_string
+        x -= 1
+        if(x != 0):
+             uuid += "-"
+     return uuid
+
 def play_confirmation_sound():
     buzzer_pwm.freq(1200)
     buzzer_pwm.duty_u16(16383)
@@ -45,43 +78,107 @@ def play_error_sound():
     buzzer_pwm.duty_u16(16383)
     time.sleep(0.6)
     buzzer_pwm.duty_u16(0)
-    
-    
-barcode = "8720017991611"
-while True:
-    if uart.any(): 
-        data = uart.read()
-        if data != "":
-            data = data.decode()
-            if data.startswith(barcode):
-                play_confirmation_sound()
-                lcd.clear()
-                lcd.move_to(0,0)
-                lcd.putstr("Scan RFID badge")
-                barcode_scanned = True
-                while barcode_scanned:
-                    reader.init()
-                    (stat, tag_type) = reader.request(reader.REQIDL)
-                    if stat == reader.OK:
-                        (stat, uid) = reader.SelectTagSN()
-                        if stat == reader.OK:
-                            card = int.from_bytes(bytes(uid),"little",False)
-                            barcode_scanned = False
-                            play_confirmation_sound()
-                            lcd.clear()
-                            lcd.move_to(0,0)
-                            lcd.putstr("Sycronisatie")
-                            lcd.move_to(0,1)
-                            lcd.putstr("Succesvol")
-                print(f"Barcode: {barcode} is sync to RFID-badge: {str(card)}")
-            else:
-                play_error_sound()
-                lcd.clear()
-                lcd.move_to(0,0)
-                lcd.putstr("Barcode niet")
-                lcd.move_to(0,1)
-                lcd.putstr("gevonden")
 
+def execute_query(query, returnData):
+    mqtt_msg_dict = {}
+    uuid = gen_uuid()
+    mqtt_msg_dict['UUID'] = uuid
+    mqtt_msg_dict['returnData'] = returnData
+    mqtt_msg_dict['query'] = query
+    json_string = json.dumps(mqtt_msg_dict)
+    if returnData:
+        client.subscribe(uuid)
+    client.publish("queries", json_string)
+
+def synching_process(barcode):
+    global db_response    
+    if bool(db_response):
+        if db_response['RFID'] == "" and db_response['barcode'] == str(int(barcode)):
+            play_confirmation_sound()
+            lcd.clear()
+            lcd.move_to(0, 0)
+            lcd.putstr("Scan RFID badge")
+            led_green_pin.on()
+
+            while True:
+                reader.init()
+                (stat, tag_type) = reader.request(reader.REQIDL)
+
+                if stat == reader.OK:
+                    (stat, uid) = reader.SelectTagSN()
+                    if stat == reader.OK:
+                        badge = int.from_bytes(bytes(uid),"little",False)
+                        play_confirmation_sound()
+
+                        lcd.clear()
+                        lcd.move_to(0, 0)
+                        lcd.putstr("Synchronisatie")
+                        lcd.move_to(0, 1)
+                        lcd.putstr("Succesvol")
+
+                        query = f"UPDATE tickets SET RFID=%{str(badge)}% WHERE barcode=%{db_response['barcode']}%;"
+                        execute_query(query, False)
+                        db_response = {}
+                        led_green_pin.off()
+                        break
+
+                if uart.any():
+                    barcode = uart.read().decode()
+                    if barcode != "" and barcode != db_response['barcode']:
+                        db_response = {}
+                        query = f'SELECT * FROM tickets WHERE barcode="{str(int(barcode))}";'
+                        execute_query(query, True)
+                        client.wait_msg()
+                        led_green_pin.off()
+                        synching_process(str(int(barcode)))
+        else:
+            play_error_sound()
+            lcd.clear()
+            lcd.move_to(0, 0)
+            lcd.putstr("Ticket al")
+            lcd.move_to(0, 1)
+            lcd.putstr("gescand")
+            x = 7
+            while x > 0:
+                led_red_pin.on()
+                time.sleep(0.1)
+                led_red_pin.off()
+                time.sleep(0.07)
+                x -= 1
+    else:
+        play_error_sound()
+        lcd.clear()
+        lcd.move_to(0, 0)
+        lcd.putstr("Ticket niet")
+        lcd.move_to(0, 1)
+        lcd.putstr("gevonden")
+        x = 7
+        while x > 0:
+            led_red_pin.on()
+            time.sleep(0.1)
+            led_red_pin.off()
+            time.sleep(0.07)
+            x -= 1
+
+
+            
+
+
+client = MQTTClient(b"", "broker.hivemq.com")
+client.set_callback(callback)
+client.connect()
+
+while True:
+    if uart.any():
+        barcode = uart.read().decode()
+        if barcode != "":
+            query = f'SELECT * FROM tickets WHERE barcode=%{str(int(barcode))}%;'
+            execute_query(query, True)
+            client.wait_msg()
+            synching_process(str(int(barcode)))
+
+
+            
 
 
 
