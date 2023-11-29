@@ -32,16 +32,20 @@ def on_connect(client, userdata, flags, rc):
 # Callback when a message is received from the broker
 def on_message(client, userdata, msg):
     mqtt_payload = json.loads(msg.payload.decode())
-    
     mqtt_payload['query'] = mqtt_payload['query'].replace("%", '"')
+
+    db.reconnect()
     if mqtt_payload['returnData']:
         mycursor.execute(mqtt_payload['query'])
-        for row in mycursor:
-            client.publish(mqtt_payload['UUID'], json.dumps(row))
+        myresult = mycursor.fetchall()
+        if myresult:
+            for row in myresult:
+                client.publish(mqtt_payload['UUID'], json.dumps(row))
+        else:
+            client.publish(mqtt_payload['UUID'], "{}")
     else:
-        print(mqtt_payload['UUID'])
-        print(mqtt_payload['returnData'])
-        print(mqtt_payload['query'])
+        mycursor.execute(mqtt_payload['query'])
+        db.commit()
 
 
 # Create MQTT client instance with no client_id
