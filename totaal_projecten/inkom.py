@@ -8,6 +8,8 @@ from umqtt.simple import MQTTClient
 import ubinascii
 import urandom
 import json
+import uasyncio
+
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -57,26 +59,26 @@ def gen_uuid():
              uuid += "-"
      return uuid
 
-def play_confirmation_sound():
+async def play_confirmation_sound():
     buzzer_pwm.freq(1200)
     buzzer_pwm.duty_u16(16383)
-    time.sleep(0.1)
+    await uasyncio.sleep(0.1)
     buzzer_pwm.duty_u16(0)
 
     buzzer_pwm.freq(1300)
     buzzer_pwm.duty_u16(16383)
-    time.sleep(0.1)
+    await uasyncio.sleep(0.1)
     buzzer_pwm.duty_u16(0)
 
     buzzer_pwm.freq(1400)
     buzzer_pwm.duty_u16(16383)
-    time.sleep(0.1)
+    await uasyncio.sleep(0.1)
     buzzer_pwm.duty_u16(0)
  
-def play_error_sound():
+async def play_error_sound():
     buzzer_pwm.freq(300)
     buzzer_pwm.duty_u16(16383)
-    time.sleep(0.6)
+    await uasyncio.sleep_ms(600)
     buzzer_pwm.duty_u16(0)
 
 def execute_query(query, returnData):
@@ -90,11 +92,21 @@ def execute_query(query, returnData):
         client.subscribe(uuid)
     client.publish("queries", json_string)
 
-def synching_process(barcode):
+async def red_led_error():
+    print("test1")
+    x = 7
+    while x > 0:
+        led_red_pin.on()
+        await uasyncio.sleep(0.1)
+        led_red_pin.off()
+        await uasyncio.sleep(0.07)
+        x -= 1
+
+async def synching_process(barcode):
     global db_response    
     if bool(db_response):
         if db_response['RFID'] == "" and db_response['barcode'] == str(int(barcode)):
-            play_confirmation_sound()
+            uasyncio.create_task(play_confirmation_sound())
             lcd.clear()
             lcd.move_to(0, 0)
             lcd.putstr("Scan RFID badge")
@@ -108,19 +120,32 @@ def synching_process(barcode):
                     (stat, uid) = reader.SelectTagSN()
                     if stat == reader.OK:
                         badge = int.from_bytes(bytes(uid),"little",False)
-                        play_confirmation_sound()
 
-                        lcd.clear()
-                        lcd.move_to(0, 0)
-                        lcd.putstr("Synchronisatie")
-                        lcd.move_to(0, 1)
-                        lcd.putstr("Succesvol")
+                        query = f'SELECT * FROM tickets WHERE RFID="{str(badge)}";'
+                        execute_query(query, True)
+                        client.wait_msg()
+                        if not bool(db_response):
+                            uasyncio.create_task(play_confirmation_sound())
 
-                        query = f"UPDATE tickets SET RFID=%{str(badge)}% WHERE barcode=%{db_response['barcode']}%;"
-                        execute_query(query, False)
-                        db_response = {}
-                        led_green_pin.off()
-                        break
+                            lcd.clear()
+                            lcd.move_to(0, 0)
+                            lcd.putstr("Synchronisatie")
+                            lcd.move_to(0, 1)
+                            lcd.putstr("Succesvol")
+
+                            query = f"UPDATE tickets SET RFID=%{str(badge)}% WHERE barcode=%{str(int(barcode))}%;"
+                            execute_query(query, False)
+                            db_response = {}
+                            led_green_pin.off()
+                            break
+                        else:
+                            uasyncio.create_task(play_error_sound())
+                            lcd.clear()
+                            lcd.move_to(0, 0)
+                            lcd.putstr("Badge al")
+                            lcd.move_to(0, 1)
+                            lcd.putstr("gekoppeld")
+                            uasyncio.create_task(red_led_error())
 
                 if uart.any():
                     barcode = uart.read().decode()
@@ -130,57 +155,47 @@ def synching_process(barcode):
                         execute_query(query, True)
                         client.wait_msg()
                         led_green_pin.off()
-                        synching_process(str(int(barcode)))
+                        await synching_process(str(int(barcode)))
         else:
-            play_error_sound()
-            lcd.clear()
-            lcd.move_to(0, 0)
-            lcd.putstr("Ticket al")
-            lcd.move_to(0, 1)
-            lcd.putstr("gescand")
-            x = 7
-            while x > 0:
-                led_red_pin.on()
-                time.sleep(0.1)
-                led_red_pin.off()
-                time.sleep(0.07)
-                x -= 1
+            uasyncio.create_task(play_error_sound())
+            await uasyncio.sleep_ms(10)
+            return
+            # lcd.clear()
+            # lcd.move_to(0, 0)
+            # lcd.putstr("Ticket al")
+            # lcd.move_to(0, 1)
+            # lcd.putstr("gescand")
+            # loop.create_task(red_led_error())
     else:
-        play_error_sound()
+        uasyncio.create_task(play_error_sound())
         lcd.clear()
         lcd.move_to(0, 0)
         lcd.putstr("Ticket niet")
         lcd.move_to(0, 1)
         lcd.putstr("gevonden")
-        x = 7
-        while x > 0:
-            led_red_pin.on()
-            time.sleep(0.1)
-            led_red_pin.off()
-            time.sleep(0.07)
-            x -= 1
+        uasyncio.create_task(red_led_error())
 
-
-            
 
 
 client = MQTTClient(b"", "broker.hivemq.com")
 client.set_callback(callback)
 client.connect()
 
-while True:
-    if uart.any():
-        barcode = uart.read().decode()
-        if barcode != "":
-            query = f'SELECT * FROM tickets WHERE barcode=%{str(int(barcode))}%;'
-            execute_query(query, True)
-            client.wait_msg()
-            synching_process(str(int(barcode)))
+
+async def main():
+    while True:
+        if uart.any():
+            barcode = uart.read().decode()
+            if barcode != "":
+                query = f'SELECT * FROM tickets WHERE barcode=%{str(int(barcode))}%;'
+                execute_query(query, True)
+                client.wait_msg()
+                await synching_process(str(int(barcode)))
+                await uasyncio.sleep_ms(10)
+                
 
 
-            
-
-
-
-
-
+# loop = uasyncio.get_event_loop()
+uasyncio.run(main())
+# uasyncio.create_task(play_confirmation_sound())
+# loop.run_forever()
