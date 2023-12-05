@@ -6,7 +6,7 @@
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <title>Crowd management</title>
 
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
@@ -69,13 +69,13 @@
                     </div>
                 </div>
 
-                <div id="info-panel" class="tile is-parent">
+                <div ID="divInfoPanel" runat="server" class="tile is-parent">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
                             <b>{Zone}</b> info
-                            <button class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings()">
+                            <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-gear"></i>
-                            </button>
+                            </asp:LinkButton>
                         </p>
 
                         <div class="card">
@@ -174,16 +174,17 @@
                     </article>
                 </div>
 
-                <div id="settings-panel" class="tile is-parent hide">
+                <div id="divSettingsPanel" class="tile is-parent hide">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
                             <b>{Zone} </b>instellingen
-                    <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings()">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                            <button class="button is-warning is-rounded is-small panel-1-button">
+                           
+                            <asp:LinkButton ID="btnExitZoneSettings" runat="server" class="button is-rounded is-small panel-2-button" OnClientClick="toggleSettings(); return false;">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="btnSaveZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button">
                                 <i class="fa-solid fa-floppy-disk"></i>
-                            </button>
+                            </asp:LinkButton>
                         </p>
                         <div class="card">
                             <header class="card-header">
@@ -206,21 +207,21 @@
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThrGreen" runat="server" class="input is-success" Text="10"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresGreen" runat="server" class="input is-success" Text="10" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThrYellow" runat="server" class="input is-warning" Text="20"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresYellow" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThrRed" runat="server" class="input is-danger" Text="30"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresRed" runat="server" class="input is-danger" Text="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -245,7 +246,7 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <asp:TextBox ID="tbZoneName" runat="server" class="input is-link" placeholder="Bv. Mainstage"></asp:TextBox>
+                                    <asp:TextBox ID="tbZoneName" runat="server" class="input is-link" placeholder="Bv. Mainstage" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +265,7 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <asp:Button ID="btnZoneReset" runat="server" class="button is-danger" Text="Reset" />
+                                    <asp:Button ID="btnResetZone" runat="server" class="button is-danger" Text="Reset" />
                                 </div>
                             </div>
                         </div>

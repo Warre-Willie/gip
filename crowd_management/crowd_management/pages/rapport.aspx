@@ -63,7 +63,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport01" runat="server" />
                                             <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen tijden</span>
                                         </label>
                                     </td>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport02" runat="server" />
                                             <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen zones </span>
                                         </label>
                                     </td>
@@ -79,7 +79,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport03" runat="server" />
                                             Aantal tickets
                                         </label>
                                     </td>
@@ -87,9 +87,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="button is-success" style="width: 100%">
-                        Genereer PDF
-                    </button>
+                    <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth"/>
                 </div>
             </div>
             <div class="tile is-vertical is-parent fit-tile-content">

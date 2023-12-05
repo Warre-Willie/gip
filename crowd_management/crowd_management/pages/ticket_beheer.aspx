@@ -94,23 +94,22 @@
                             <div class="content">
                                 <nav class="panel">
                                     <span class="panel-heading ticket-panel-container">Tickets zoeken
-                  <div class="select is-small ticket-dropdown">
-                      <select>
-                          <option>Barcode</option>
-                          <option>Badgerechten</option>
-                      </select>
-                  </div>
+                                        <div class="select is-small ticket-dropdown">
+                                            <select>
+                                                <option>Barcode</option>
+                                                <option>Badgerechten</option>
+                                            </select>
+                                        </div>
                                     </span>
                                     <div class="panel-block">
                                         <p class="control has-icons-left">
-                                            <input id="search-input" class="input" type="text" placeholder="Ticket zoeken"
-                                                onkeyup="searchTicket()" />
+                                            <asp:TextBox ID="tbTicketFilter" runat="server" class="input"  placeholder="Ticket zoeken" onkeydown="return (event.keyCode!=13);" onkeyup="searchTicket();"></asp:TextBox>
                                             <span class="icon is-left">
                                                 <i class="fas fa-search" aria-hidden="true"></i>
                                             </span>
                                         </p>
                                     </div>
-                                    <div id="ticket-list" class="ticket-list">
+                                    <div id="divTicketList" class="ticket-list">
                                         <a class="panel-block is-active">
                                             <span class="panel-icon">
                                                 <i class="fa-solid fa-ticket"></i>
@@ -167,9 +166,7 @@
                                         </a>
                                     </div>
                                     <div class="panel-block">
-                                        <button class="button is-link is-outlined is-fullwidth" onclick="clearInput()">
-                                            Verwijder filter
-                                        </button>
+                                        <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;"/>
                                     </div>
                                 </nav>
                             </div>
@@ -197,9 +194,7 @@
                                     </header>
                                     <div class="card-content">
                                         <div class="content">
-                                            <button class="button is-danger js-modal-trigger" data-target="modal-js-example">
-                                                Opnieuw
-                      koppelen</button>
+                                            <asp:Button ID="btnConnectTicket" runat="server" Text="Opnieuw koppelen" class="button is-danger js-modal-trigger" data-target="modal-js-example"  OnClientClick="return false;"/>
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +217,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight01" runat="server" />
                                                             Kamping
                                                         </label>
                                                     </td>
@@ -230,7 +225,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight02" runat="server" />
                                                             VIP
                                                         </label>
                                                     </td>
@@ -238,7 +233,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight03" runat="server" />
                                                             Backstage
                                                         </label>
                                                     </td>
@@ -246,7 +241,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight04" runat="server" />
                                                             Artiest
                                                         </label>
                                                     </td>
