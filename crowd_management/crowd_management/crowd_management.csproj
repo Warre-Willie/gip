@@ -75,6 +75,10 @@
     <Content Include="image\favicon.png" />
     <Content Include="image\logo_navbar.png" />
     <Content Include="image\logo_print.png" />
+    <Content Include="js\navbar.js" />
+    <Content Include="js\search_ticket.js" />
+    <Content Include="js\settings_panel.js" />
+    <Content Include="js\ticket_modal.js" />
     <Content Include="pages\index.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
@@ -109,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="rapports\main preview doc.pdf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
