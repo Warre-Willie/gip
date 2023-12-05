@@ -4,14 +4,17 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
+    <title>Crowd management</title>
+
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/bulma-tooltip.css">
-
-    <title></title>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -69,9 +72,8 @@
                 <div id="info-panel" class="tile is-parent">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b>{Zone} </b>info
-                            <!-- <asp:Button ID="btnZoneSettings" runat="server" Text="<i class='fa-solid fa-gear'></i>" CssClass="button is-warning is-rounded is-small" /> -->
-                            <button onserverclick="test" runat="server" id="btnZoneSettings1" class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings('settings')">
+                            <b>{Zone}</b> info
+                            <button class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings()">
                                 <i class="fa-solid fa-gear"></i>
                             </button>
                         </p>
@@ -94,9 +96,9 @@
                                         <label class="label">Manueel wijzigen</label>
                                         <div class="control">
                                             <div class="buttons has-addons">
-                                                <button class="button is-success">Groen</button>
-                                                <button class="button is-warning">Geel</button>
-                                                <button class="button is-danger">Rood</button>
+                                                <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success"/>
+                                                <asp:Button ID="btnBarManYellow" runat="server" Text="Geel" class="button is-warning"/>
+                                                <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger"/>
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +178,7 @@
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
                             <b>{Zone} </b>instellingen
-                    <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings('info')">
+                    <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings()">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                             <button class="button is-warning is-rounded is-small panel-1-button">
@@ -204,21 +206,21 @@
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <input class="input is-success" type="text" value="10">
+                                                            <asp:TextBox ID="tbBarThrGreen" runat="server" class="input is-success" Text="10"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <input class="input is-warning" type="text" value="20">
+                                                            <asp:TextBox ID="tbBarThrYellow" runat="server" class="input is-warning" Text="20"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <input class="input is-danger" type="text" value="30">
+                                                            <asp:TextBox ID="tbBarThrRed" runat="server" class="input is-danger" Text="30"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -243,7 +245,7 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <input class="input is-link" type="text" placeholder="Bv. Mainstage">
+                                    <asp:TextBox ID="tbZoneName" runat="server" class="input is-link" placeholder="Bv. Mainstage"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -262,7 +264,7 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <button class="button is-danger">Reset</button>
+                                    <asp:Button ID="btnZoneReset" runat="server" class="button is-danger" Text="Reset" />
                                 </div>
                             </div>
                         </div>
@@ -276,10 +278,10 @@
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="js/navbar.js"></script>
-        <script src="js/settings_panel.js"></script>
-        <script src="js/search_ticket.js"></script>
-        <script src="js/ticket_modal.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/settings_panel.js"></script>
+        <script src="../js/search_ticket.js"></script>
+        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>

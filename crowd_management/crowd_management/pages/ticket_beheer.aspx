@@ -4,7 +4,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
+    <title>Ticket beheer</title>
 
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
@@ -263,10 +266,10 @@
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="js/navbar.js"></script>
-        <script src="js/settings_panel.js"></script>
-        <script src="js/search_ticket.js"></script>
-        <script src="js/ticket_modal.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/settings_panel.js"></script>
+        <script src="../js/search_ticket.js"></script>
+        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>

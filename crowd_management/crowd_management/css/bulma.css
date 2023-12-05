@@ -3455,6 +3455,8 @@ fieldset[disabled] .select select:-ms-input-placeholder,
 
 .is-warning.input, .is-warning.textarea {
   border-color: #ffe08a;
+    top: 0px;
+    left: 0px;
 }
 
 .is-warning.input:focus, .is-warning.textarea:focus, .is-warning.is-focused.input, .is-warning.is-focused.textarea, .is-warning.input:active, .is-warning.textarea:active, .is-warning.is-active.input, .is-warning.is-active.textarea {
