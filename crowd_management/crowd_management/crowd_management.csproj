@@ -73,8 +73,10 @@
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
     <Content Include="image\favicon.png" />
+    <Content Include="image\foor_plan.png" />
     <Content Include="image\logo_navbar.png" />
     <Content Include="image\logo_print.png" />
+    <Content Include="js\image_map.js" />
     <Content Include="js\navbar.js" />
     <Content Include="js\search_ticket.js" />
     <Content Include="js\settings_panel.js" />
