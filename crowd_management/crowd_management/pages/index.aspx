@@ -4,27 +4,24 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <title>Crowd management</title>
 
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bulma.css"/>
-    <link rel="stylesheet" href="../css/style.css"/>
-    <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
+    <link rel="stylesheet" href="../css/bulma.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bulma-tooltip.css">
 </head>
 <body>
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -65,22 +62,7 @@
                             <article class="tile is-child box">
                                 <p class="subtitle"><b>Heat map</b></p>
                                 <figure class="image">
-                                    <asp:imageMap id="imgheatmap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack">
-                                        <asp:rectanglehotspot
-                                            top="13"
-                                            left="16"
-                                            bottom="260"
-                                            right="510"
-                                            postbackvalue="zone1">
-                                        </asp:rectanglehotspot>
-                                        <asp:rectanglehotspot
-                                            top="13"
-                                            left="548"
-                                            bottom="260"
-                                            right="1157"
-                                            postbackvalue="zone2">
-                                        </asp:rectanglehotspot>
-                                    </asp:imageMap>
+                                    <div class="has-background-link" style="height: 530px;"></div>
                                 </figure>
                             </article>
                         </div>
@@ -297,7 +279,6 @@
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="../js/image_map.js"></script>
         <script src="../js/navbar.js"></script>
         <script src="../js/settings_panel.js"></script>
         <script src="../js/search_ticket.js"></script>
