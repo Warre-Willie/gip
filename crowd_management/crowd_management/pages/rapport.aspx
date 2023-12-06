@@ -4,23 +4,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Rapport maken</title>
 
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bulma.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bulma-tooltip.css">
+    <link rel="stylesheet" href="../css/bulma.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -98,7 +98,7 @@
                             data="../rapports/main preview doc.pdf"
                             type="application/pdf"
                             width="100%"
-                            height="700px">
+                            height="700px"/>
                             <p>
                                 Unable to display PDF file.
                 <a href="../rapports/main preview doc.pdf">Download</a> instead.
