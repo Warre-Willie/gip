@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
     <title>Ticket beheer</title>
@@ -12,16 +12,16 @@
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bulma.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bulma-tooltip.css">
+    <link rel="stylesheet" href="../css/bulma.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -69,7 +69,7 @@
                     </header>
                     <section class="modal-card-body">
                         <figure class="image is-128x128 ticket-barcode-center">
-                            <img src="https://bulma.io/images/placeholders/128x128.png">
+                            <img src="https://bulma.io/images/placeholders/128x128.png"/>
                         </figure>
                     </section>
                     <footer class="modal-card-foot">
@@ -84,7 +84,7 @@
                         <article class="tile is-child box">
                             <p class="subtitle"><b>Ticket teller</b></p>
                             <div class="content">
-                                <progress class="progress is-link" value="50" max="100"></progress>
+                                <progress runat="server" ID="progBarTickets" class="progress is-link" value="50" max="100"></progress>
                                 500/1000
                             </div>
                         </article>
@@ -109,7 +109,7 @@
                                             </span>
                                         </p>
                                     </div>
-                                    <div id="divTicketList" class="ticket-list">
+                                    <div ID="divTicketList" class="ticket-list">
                                         <a class="panel-block is-active">
                                             <span class="panel-icon">
                                                 <i class="fa-solid fa-ticket"></i>
@@ -198,7 +198,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
                                 <div class="card">
                                     <header class="card-header">
                                         <p class="card-header-title">
@@ -250,10 +250,11 @@
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     </article>
                 </div>
             </div>
-            </article>
         </div>
 
         <div class="footer has-background-white ">
