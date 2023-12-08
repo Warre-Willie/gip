@@ -1,3 +1,3 @@
 ﻿$(document).ready(function () {
-    $('img[usemap]').rwdImageMaps(); // Initialize the plugin
+    $('img[usemap]').rwdImageMaps();
 });

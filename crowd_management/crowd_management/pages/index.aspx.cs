@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,9 +11,44 @@ namespace crowd_management.pages
 {
     public partial class index : System.Web.UI.Page
     {
+        public string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        protected void imgheatmap_Click(object sender, ImageMapEventArgs e)
+        {
+            string zoneID = e.PostBackValue.ToString();
+
+            MySqlConnection conn = new MySqlConnection(constring);
+            try
+            {
+                conn.Open();
+                string query = $"SELECT * FROM zones WHERE id='{zoneID}';";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    lblZoneName.InnerText = reader["name"].ToString();
+                    lblZoneNameSettings.InnerText = reader["name"].ToString();
+
+                    tbBarThresGreen.Text = reader["threshold_green"].ToString();
+                    tbBarThresOragne.Text = reader["threshold_orange"].ToString();
+                    tbBarThresRed.Text = reader["threshold_red"].ToString();
+
+                    tbZoneName.Text = reader["name"].ToString();
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log or display an error message)
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

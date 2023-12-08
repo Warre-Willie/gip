@@ -42,6 +42,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoPanel;
 
         /// <summary>
+        /// lblZoneName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblZoneName;
+
+        /// <summary>
         /// btnZoneSettings control.
         /// </summary>
         /// <remarks>
@@ -60,13 +69,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnBarManGreen;
 
         /// <summary>
-        /// btnBarManYellow control.
+        /// btnBarManOragne control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBarManYellow;
+        protected global::System.Web.UI.WebControls.Button btnBarManOragne;
 
         /// <summary>
         /// btnBarManRed control.
@@ -76,6 +85,15 @@ namespace crowd_management.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBarManRed;
+
+        /// <summary>
+        /// lblZoneNameSettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblZoneNameSettings;
 
         /// <summary>
         /// btnExitZoneSettings control.
@@ -105,13 +123,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.TextBox tbBarThresGreen;
 
         /// <summary>
-        /// tbBarThresYellow control.
+        /// tbBarThresOragne control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbBarThresYellow;
+        protected global::System.Web.UI.WebControls.TextBox tbBarThresOragne;
 
         /// <summary>
         /// tbBarThresRed control.

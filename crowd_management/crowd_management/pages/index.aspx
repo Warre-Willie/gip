@@ -65,20 +65,20 @@
                             <article class="tile is-child box">
                                 <p class="subtitle"><b>Heat map</b></p>
                                 <figure class="image">
-                                    <asp:imageMap id="imgheatmap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack">
+                                    <asp:imageMap id="imgheatmap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgheatmap_Click">
                                         <asp:rectanglehotspot
                                             top="13"
                                             left="16"
                                             bottom="260"
                                             right="510"
-                                            postbackvalue="zone1">
+                                            postbackvalue="1">
                                         </asp:rectanglehotspot>
                                         <asp:rectanglehotspot
                                             top="13"
                                             left="548"
                                             bottom="260"
                                             right="1157"
-                                            postbackvalue="zone2">
+                                            postbackvalue="2">
                                         </asp:rectanglehotspot>
                                     </asp:imageMap>
                                 </figure>
@@ -90,7 +90,7 @@
                 <div ID="divInfoPanel" runat="server" class="tile is-parent">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b>{Zone}</b> info
+                            <b runat="server" ID="lblZoneName">{Zone}</b> info
                             <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-gear"></i>
                             </asp:LinkButton>
@@ -115,7 +115,7 @@
                                         <div class="control">
                                             <div class="buttons has-addons">
                                                 <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success"/>
-                                                <asp:Button ID="btnBarManYellow" runat="server" Text="Geel" class="button is-warning"/>
+                                                <asp:Button ID="btnBarManOragne" runat="server" Text="Geel" class="button is-warning"/>
                                                 <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger"/>
                                             </div>
                                         </div>
@@ -195,7 +195,7 @@
                 <div id="divSettingsPanel" class="tile is-parent hide">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b>{Zone} </b>instellingen
+                            <b runat="server" ID="lblZoneNameSettings">{Zone}</b> instellingen
                            
                             <asp:LinkButton ID="btnExitZoneSettings" runat="server" class="button is-rounded is-small panel-2-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-arrow-left"></i>
@@ -232,7 +232,7 @@
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThresYellow" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresOragne" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
