@@ -11,8 +11,8 @@ namespace crowd_management.pages
 {
     public partial class index : System.Web.UI.Page
     {
-        public string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
-
+        const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
+        MySqlConnection conn = new MySqlConnection(constring);
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -22,7 +22,7 @@ namespace crowd_management.pages
         {
             string zoneID = e.PostBackValue.ToString();
 
-            MySqlConnection conn = new MySqlConnection(constring);
+            
             try
             {
                 conn.Open();
@@ -40,6 +40,22 @@ namespace crowd_management.pages
                     tbBarThresRed.Text = reader["threshold_red"].ToString();
 
                     tbZoneName.Text = reader["name"].ToString();
+
+                    switch (reader["current_status"])
+                    {
+                        case "green":
+                            tagCurrentStatus.Attributes["class"] = "tag is-success is-light";
+                            tagCurrentStatusSettings.Attributes["class"] = "tag is-success is-light";
+                            break;
+                        case "orange":
+                            tagCurrentStatus.Attributes["class"] = "tag is-warning is-light";
+                            tagCurrentStatusSettings.Attributes["class"] = "tag is-warning is-light";
+                            break;
+                        case "red":
+                            tagCurrentStatus.Attributes["class"] = "tag is-danger is-light";
+                            tagCurrentStatusSettings.Attributes["class"] = "tag is-danger is-light";
+                            break;
+                    }
                 }
 
                 conn.Close();

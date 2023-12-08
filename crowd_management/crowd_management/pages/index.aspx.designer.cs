@@ -60,6 +60,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.LinkButton btnZoneSettings;
 
         /// <summary>
+        /// tagCurrentStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatus;
+
+        /// <summary>
         /// btnBarManGreen control.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace crowd_management.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSaveZoneSettings;
+
+        /// <summary>
+        /// tagCurrentStatusSettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatusSettings;
 
         /// <summary>
         /// tbBarThresGreen control.

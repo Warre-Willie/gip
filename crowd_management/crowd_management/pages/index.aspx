@@ -104,7 +104,8 @@
                                             <i class="fa-solid fa-traffic-light"></i>
                                         </span>
                                     </span>
-                                    <span>Druktebarometer <span class="tag is-success is-light">Huidige kleur</span>
+                                    <span>Druktebarometer 
+                                        <span runat="server" ID="tagCurrentStatus" class="tag is-success is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
@@ -212,7 +213,8 @@
                                             <i class="fa-solid fa-traffic-light"></i>
                                         </span>
                                     </span>
-                                    <span>Druktebarometer <span class="tag is-success is-light">Huidig</span>
+                                    <span>Druktebarometer 
+                                        <span runat="server" ID="tagCurrentStatusSettings" class="tag is-success is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
