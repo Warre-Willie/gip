@@ -78,13 +78,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnBarManGreen;
 
         /// <summary>
-        /// btnBarManOragne control.
+        /// btnBarManOrange control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBarManOragne;
+        protected global::System.Web.UI.WebControls.Button btnBarManOrange;
 
         /// <summary>
         /// btnBarManRed control.
@@ -94,6 +94,15 @@ namespace crowd_management.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBarManRed;
+
+        /// <summary>
+        /// divSettingsPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsPanel;
 
         /// <summary>
         /// lblZoneNameSettings control.
@@ -141,13 +150,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.TextBox tbBarThresGreen;
 
         /// <summary>
-        /// tbBarThresOragne control.
+        /// tbBarThresOrange control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbBarThresOragne;
+        protected global::System.Web.UI.WebControls.TextBox tbBarThresOrange;
 
         /// <summary>
         /// tbBarThresRed control.

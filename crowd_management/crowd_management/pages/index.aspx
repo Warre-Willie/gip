@@ -65,7 +65,7 @@
                             <article class="tile is-child box">
                                 <p class="subtitle"><b>Heat map</b></p>
                                 <figure class="image">
-                                    <asp:imageMap id="imgheatmap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgheatmap_Click">
+                                    <asp:imageMap ID="imgheatmap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgheatmap_Click">
                                         <asp:rectanglehotspot
                                             top="13"
                                             left="16"
@@ -90,7 +90,7 @@
                 <div ID="divInfoPanel" runat="server" class="tile is-parent">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b runat="server" ID="lblZoneName">{Zone}</b> info
+                            <b ID="lblZoneName" runat="server">{Zone}</b> info
                             <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-gear"></i>
                             </asp:LinkButton>
@@ -105,7 +105,7 @@
                                         </span>
                                     </span>
                                     <span>Druktebarometer 
-                                        <span runat="server" ID="tagCurrentStatus" class="tag is-success is-light">Huidige kleur</span>
+                                        <span ID="tagCurrentStatus" runat="server" class="tag is-success is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
@@ -116,7 +116,7 @@
                                         <div class="control">
                                             <div class="buttons has-addons">
                                                 <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success"/>
-                                                <asp:Button ID="btnBarManOragne" runat="server" Text="Geel" class="button is-warning"/>
+                                                <asp:Button ID="btnBarManOrange" runat="server" Text="Geel" class="button is-warning"/>
                                                 <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger"/>
                                             </div>
                                         </div>
@@ -193,15 +193,15 @@
                     </article>
                 </div>
 
-                <div id="divSettingsPanel" class="tile is-parent hide">
+                <div ID="divSettingsPanel" runat="server" class="tile is-parent hide">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b runat="server" ID="lblZoneNameSettings">{Zone}</b> instellingen
+                            <b ID="lblZoneNameSettings" runat="server">{Zone}</b> instellingen
                            
                             <asp:LinkButton ID="btnExitZoneSettings" runat="server" class="button is-rounded is-small panel-2-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-arrow-left"></i>
                             </asp:LinkButton>
-                            <asp:LinkButton ID="btnSaveZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button">
+                            <asp:LinkButton ID="btnSaveZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClick="btnSaveZoneSettings_Click">
                                 <i class="fa-solid fa-floppy-disk"></i>
                             </asp:LinkButton>
                         </p>
@@ -214,7 +214,7 @@
                                         </span>
                                     </span>
                                     <span>Druktebarometer 
-                                        <span runat="server" ID="tagCurrentStatusSettings" class="tag is-success is-light">Huidige kleur</span>
+                                        <span ID="tagCurrentStatusSettings" runat="server" class="tag is-success is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
@@ -234,7 +234,7 @@
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThresOragne" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresOrange" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
+                        <br />
                         <div class="card">
                             <header class="card-header">
                                 <p class="card-header-title">

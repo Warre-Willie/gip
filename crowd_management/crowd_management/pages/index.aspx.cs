@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -21,7 +23,7 @@ namespace crowd_management.pages
         protected void imgheatmap_Click(object sender, ImageMapEventArgs e)
         {
             string zoneID = e.PostBackValue.ToString();
-
+            Session["activeZoneID"] = zoneID;
             
             try
             {
@@ -36,7 +38,7 @@ namespace crowd_management.pages
                     lblZoneNameSettings.InnerText = reader["name"].ToString();
 
                     tbBarThresGreen.Text = reader["threshold_green"].ToString();
-                    tbBarThresOragne.Text = reader["threshold_orange"].ToString();
+                    tbBarThresOrange.Text = reader["threshold_orange"].ToString();
                     tbBarThresRed.Text = reader["threshold_red"].ToString();
 
                     tbZoneName.Text = reader["name"].ToString();
@@ -63,7 +65,33 @@ namespace crowd_management.pages
             catch (Exception ex)
             {
                 // Handle exceptions (log or display an error message)
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        protected void btnSaveZoneSettings_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbBarThresGreen.Text) && !string.IsNullOrEmpty(tbBarThresOrange.Text) && !string.IsNullOrEmpty(tbBarThresRed.Text) && !string.IsNullOrEmpty(tbZoneName.Text))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = $"UPDATE zones SET name = '{tbZoneName.Text}', threshold_green = '{tbBarThresGreen.Text}', threshold_orange = '{tbBarThresOrange.Text}', threshold_red = '{tbBarThresRed.Text}' WHERE id = '{Session["activeZoneID"]}';";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (log or display an error message)
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Empty field");
+                divInfoPanel.Attributes["class"] = "tile is-parent hide";
+                divSettingsPanel.Attributes["class"] = "tile is-parent";
             }
         }
     }
