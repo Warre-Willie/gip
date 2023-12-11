@@ -46,15 +46,15 @@
                     </a>
                 </div>
 
-                 <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-warning">
-                        <strong>Login</strong>
-                    </a>
-                </div>
-            </div>
-        </div> 
+                <%--<div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-warning">
+                                <strong>Login</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>--%>
             </div>
         </nav>
 
