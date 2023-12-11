@@ -142,7 +142,7 @@
                                         <div class="pt-2 pr-2">
                                             <div class="select is-small">
                                                 <select>
-                                                    <option>5 min</option>
+                                                    <option>10 min</option>
                                                     <option>15 min</option>
                                                     <option>30 min</option>
                                                     <option>1 uur</option>
@@ -160,7 +160,7 @@
                                                 <th>Tijd</th>
                                                 <th>Aantal mensen</th>
                                             </thead>
-                                            <tbody>
+                                            <tbody ID="tbodyLogbook" runat="server">
                                                 <tr>
                                                     <td colspan="2" class="has-text-centered">Geen zone geselecteerd</td>
                                                 </tr>

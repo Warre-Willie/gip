@@ -1,8 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
@@ -96,10 +98,39 @@ namespace crowd_management.pages
 
                 }
                 conn.Close();
-
-                // Code for loading logbook but firts check wich zone type is active
             }
             catch (Exception ex)
+            {
+                // Message: connection with db lost
+            }
+
+            try
+            {
+                if (Session["activeZoneType"].ToString() == "count")
+                {
+                    tbodyLogbook.InnerHtml = "";
+
+                    string query = $"SELECT * FROM zone_population_data WHERE zone_id = '{Session["activeZoneID"]}'";
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Debug.WriteLine(reader["timestamp"].ToString() + " " + reader["people_count"].ToString());
+
+                            DateTime timestamp = DateTime.Parse(reader["timestamp"].ToString());
+                            tbodyLogbook.InnerHtml += $"<tr><td>{timestamp.ToString("yyyy-MM-dd HH:mm")}</td><td>{reader["people_count"]}</td></tr>";
+                        }
+                    }
+                    else
+                    {
+                        // Message: no log book yet
+                    }
+                }
+            } catch (Exception ex)
             {
                 // Message: connection with db lost
             }
