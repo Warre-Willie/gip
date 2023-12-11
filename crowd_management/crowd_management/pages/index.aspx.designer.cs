@@ -42,13 +42,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoPanel;
 
         /// <summary>
-        /// lblZoneName control.
+        /// spanZoneName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblZoneName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneName;
 
         /// <summary>
         /// btnZoneSettings control.
@@ -96,6 +96,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnBarManRed;
 
         /// <summary>
+        /// chBarLock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chBarLock;
+
+        /// <summary>
         /// divSettingsPanel control.
         /// </summary>
         /// <remarks>
@@ -105,13 +114,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsPanel;
 
         /// <summary>
-        /// lblZoneNameSettings control.
+        /// spanZoneNameSettings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblZoneNameSettings;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneNameSettings;
 
         /// <summary>
         /// btnExitZoneSettings control.
@@ -177,12 +186,12 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.TextBox tbZoneName;
 
         /// <summary>
-        /// btnResetZone control.
+        /// tbEditPeopleCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnResetZone;
+        protected global::System.Web.UI.WebControls.TextBox tbEditPeopleCount;
     }
 }

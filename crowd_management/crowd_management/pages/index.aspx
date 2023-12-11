@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../css/bulma.css"/>
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
+    <link rel="stylesheet" href="../css/bulma-switch.min.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -87,11 +88,11 @@
                     </div>
                 </div>
 
-                <div ID="divInfoPanel" runat="server" class="tile is-parent">
+                <div ID="divInfoPanel" runat="server" class="tile is-parent column-disabled">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b ID="lblZoneName" runat="server">{Zone}</b> info
-                            <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClientClick="toggleSettings(); return false;">
+                            <span ID="spanZoneName" runat="server"><b>Geen zone geselecteerd</b></span>
+                            <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button is-static" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-gear"></i>
                             </asp:LinkButton>
                         </p>
@@ -105,7 +106,7 @@
                                         </span>
                                     </span>
                                     <span>Druktebarometer 
-                                        <span ID="tagCurrentStatus" runat="server" class="tag is-success is-light">Huidige kleur</span>
+                                        <span ID="tagCurrentStatus" runat="server" class="tag is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
@@ -115,10 +116,14 @@
                                         <label class="label">Manueel wijzigen</label>
                                         <div class="control">
                                             <div class="buttons has-addons">
-                                                <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success"/>
-                                                <asp:Button ID="btnBarManOrange" runat="server" Text="Geel" class="button is-warning"/>
-                                                <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger"/>
+                                                <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success is-static"/>
+                                                <asp:Button ID="btnBarManOrange" runat="server" Text="Geel" class="button is-warning is-static"/>
+                                                <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger is-static"/>
                                             </div>
+                                        </div>
+                                        <div class="field">
+                                            <asp:CheckBox ID="chBarLock" runat="server" name="barLock" AutoPostBack="True" OnCheckedChanged="chBarLock_CheckedChanged" />
+                                            <label for="barLock">Barometer slot</label>
                                         </div>
                                     </div>
                                 </div>
@@ -158,6 +163,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td colspan="2" class="has-text-centered">Geen zone geselecteerd</td>
+                                            </tr>
+                                            <%--<tr>
                                                 <td>13:00</td>
                                                 <td>100</td>
                                             </tr>
@@ -184,7 +192,7 @@
                                             <tr>
                                                 <td>13:15</td>
                                                 <td>98</td>
-                                            </tr>
+                                            </tr>--%>
                                         </tbody>
                                     </table>
                                 </div>
@@ -196,8 +204,7 @@
                 <div ID="divSettingsPanel" runat="server" class="tile is-parent hide">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b ID="lblZoneNameSettings" runat="server">{Zone}</b> instellingen
-                           
+                            <span ID="spanZoneNameSettings" runat="server"><b>Geen zone geselecteerd</b></span>                           
                             <asp:LinkButton ID="btnExitZoneSettings" runat="server" class="button is-rounded is-small panel-2-button" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-arrow-left"></i>
                             </asp:LinkButton>
@@ -214,7 +221,7 @@
                                         </span>
                                     </span>
                                     <span>Druktebarometer 
-                                        <span ID="tagCurrentStatusSettings" runat="server" class="tag is-success is-light">Huidige kleur</span>
+                                        <span ID="tagCurrentStatusSettings" runat="server" class="tag is-light">Huidige kleur</span>
                                     </span>
                                 </p>
                             </header>
@@ -227,21 +234,21 @@
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThresGreen" runat="server" class="input is-success" Text="10" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresGreen" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThresOrange" runat="server" class="input is-warning" Text="20" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresOrange" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="column">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbBarThresRed" runat="server" class="input is-danger" Text="30" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbBarThresRed" runat="server" class="input is-danger" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,16 +283,16 @@
                                 <p class="card-header-title">
                                     <span class="icon-text ">
                                         <span class="icon">
-                                            <i class="fa-regular fa-trash-can"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                         </span>
                                     </span>
-                                    <span>Reset aantal mensen
+                                    <span>Wijwig aantal mensen
                                     </span>
                                 </p>
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <asp:Button ID="btnResetZone" runat="server" class="button is-danger" Text="Reset" />
+                                    <asp:TextBox ID="tbEditPeopleCount" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                 </div>
                             </div>
                         </div>

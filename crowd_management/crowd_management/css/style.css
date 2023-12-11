@@ -85,9 +85,7 @@ body {
   padding-top: 0px;
 }
 
-
-/* Tabel van gip site omzeep hierdoor!!! */
-/* table, th, td {
-border: 1px solid black;
-border-collapse: collapse;
-} */
+.column-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
