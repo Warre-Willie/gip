@@ -118,7 +118,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\bulma-switch.min.css" />
     <Content Include="css\bulma-tooltip.css" />
     <Content Include="css\bulma.css" />
     <Content Include="css\printstyle.css" />

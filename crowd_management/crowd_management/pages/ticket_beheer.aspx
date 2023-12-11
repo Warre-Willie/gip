@@ -207,12 +207,11 @@
                                                     <i class="fa-regular fa-id-badge"></i>
                                                 </span>
                                             </span>
-                                            <span>Badgerechten
-                                            </span>
+                                            <span>Badgerechten</span>
                                         </p>
                                     </header>
                                     <div class="card-content">
-                                        <table class="table">
+                                        <table class="table is-fullwidth">
                                             <tbody>
                                                 <tr>
                                                     <td>

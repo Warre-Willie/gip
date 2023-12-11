@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.index" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.index" %>
 
 <!DOCTYPE html>
 
@@ -95,7 +95,7 @@
                                 <i class="fa-solid fa-gear"></i>
                             </asp:LinkButton>
                         </p>
-                        <div ID="divInfoZoneCardsCount" runat="server">
+                        <div ID="divInfoZoneCardsInfo" runat="server">
                             <div class="card">
                                 <header class="card-header">
                                     <p class="card-header-title">
@@ -214,7 +214,7 @@
                                 <div class="card-content">
                                     <div class="content">
                                         <label class="checkbox">
-                                            <asp:CheckBox ID="chAccessLock" runat="server" AutoPostBack="True" OnCheckedChanged="chAccessLock_CheckedChanged"/>
+                                            <asp:CheckBox ID="chAccessLock" runat="server" />
                                             Ingang afsluiten
                                         </label>
                                     </div>
@@ -238,7 +238,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight01" runat="server" Enabled="False" Checked="true"/>
+                                                        <asp:CheckBox ID="cbBadgeRight01" runat="server" />
                                                         Kamping
                                                     </label>
                                                 </td>
@@ -246,7 +246,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight02" runat="server" Enabled="False"/>
+                                                        <asp:CheckBox ID="cbBadgeRight02" runat="server" />
                                                         VIP
                                                     </label>
                                                 </td>
@@ -254,7 +254,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight03" runat="server" Enabled="False"/>
+                                                        <asp:CheckBox ID="cbBadgeRight03" runat="server" />
                                                         Backstage
                                                     </label>
                                                 </td>
@@ -262,7 +262,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight04" runat="server" Enabled="False"/>
+                                                        <asp:CheckBox ID="cbBadgeRight04" runat="server" />
                                                         Artiest
                                                     </label>
                                                 </td>
@@ -373,56 +373,7 @@
                             </div>
                         </div>
                         <div ID="divSettingsZoneCardsAccess" runat="server" visible="False">
-                            <div class="card">
-                                <header class="card-header">
-                                    <p class="card-header-title">
-                                        <span class="icon-text ">
-                                            <span class="icon">
-                                                <i class="fa-regular fa-id-badge"></i>
-                                            </span>
-                                        </span>
-                                        <span>Badgerechten</span>
-                                    </p>
-                                </header>
-                                <div class="card-content">
-                                    <table class="table is-fullwidth">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox1" runat="server" Checked="true"/>
-                                                        Kamping
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox2" runat="server"/>
-                                                        VIP
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox3" runat="server"/>
-                                                        Backstage
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox4" runat="server"/>
-                                                        Artiest
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
                         </div>
                     </article>
                 </div>

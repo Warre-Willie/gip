@@ -1,7 +1,7 @@
 function toggleSettings() {
-  var infoPanel = document.getElementById("divInfoPanel");
-  var settingsPanel = document.getElementById("divSettingsPanel");
+    var divInfoPanel = document.getElementById("divInfoPanel");
+    var divSettingsPanel = document.getElementById("divSettingsPanel");
 
-  infoPanel.classList.toggle("hide");
-  settingsPanel.classList.toggle("hide");
+    divInfoPanel.classList.toggle("hide");
+    divSettingsPanel.classList.toggle("hide");
 }
