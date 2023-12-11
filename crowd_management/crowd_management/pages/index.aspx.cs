@@ -108,7 +108,7 @@ namespace crowd_management.pages
                 divInfoPanel.Attributes["class"] = "tile is-parent hide";
                 divSettingsPanel.Attributes["class"] = "tile is-parent";
             }
-            loadZoneInfo() ;
+            loadZoneInfo();
         }
 
         protected void chBarLock_CheckedChanged(object sender, EventArgs e)
