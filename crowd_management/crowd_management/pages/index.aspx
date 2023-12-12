@@ -141,19 +141,31 @@
                                         </span>
                                         <div class="pt-2 pr-2">
                                             <div class="select is-small">
+                                                <asp:DropDownList ID="dbZoneLogbookFilter" runat="server" AutoPostBack="True" OnSelectedIndexChanged="dbZoneLogbookFilter_SelectedIndexChanged">
+                                                    <asp:ListItem Selected="True" Value="5">5 min</asp:ListItem>
+                                                    <asp:ListItem Value="15">15 min</asp:ListItem>
+                                                    <asp:ListItem Value="30">30 min</asp:ListItem>
+                                                    <asp:ListItem Value="60">1 uur</asp:ListItem>
+                                                    <asp:ListItem Value="120">2 uur</asp:ListItem>
+                                                    <asp:ListItem Value="180">3 uur</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+
+
+                                            <%--<div class="select is-small">
                                                 <select>
-                                                    <option>10 min</option>
+                                                    <option>5 min</option>
                                                     <option>15 min</option>
                                                     <option>30 min</option>
                                                     <option>1 uur</option>
                                                     <option>2 uur</option>
                                                     <option>5 uur</option>
                                                 </select>
-                                            </div>
+                                            </div>--%>
                                         </div>
                                     </p>
                                 </header>
-                                <div class="card-content">
+                                <div id="dbLogbookFilter" class="card-content">
                                     <div class="content table-container logbook">
                                         <table class="table is-fullwidth is-striped">
                                             <thead>
@@ -164,34 +176,6 @@
                                                 <tr>
                                                     <td colspan="2" class="has-text-centered">Geen zone geselecteerd</td>
                                                 </tr>
-                                                <%--<tr>
-                                                    <td>13:00</td>
-                                                    <td>100</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:05</td>
-                                                    <td>122</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:10</td>
-                                                    <td>143</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:15</td>
-                                                    <td>98</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:05</td>
-                                                    <td>122</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:10</td>
-                                                    <td>143</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13:15</td>
-                                                    <td>98</td>
-                                                </tr>--%>
                                             </tbody>
                                         </table>
                                     </div>

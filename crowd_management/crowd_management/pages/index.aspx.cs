@@ -21,7 +21,7 @@ namespace crowd_management.pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         void loadZonePanel()
@@ -34,68 +34,74 @@ namespace crowd_management.pages
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 // Check firt if zone exist if not show messages
-
-                while (reader.Read())
+                if (reader.HasRows)
                 {
-                    if (!string.IsNullOrEmpty(reader["people_count"].ToString()))
+                    while (reader.Read())
                     {
-                        Session["ActiveZoneType"] = "count";
-
-                        // Show the right card for info and settings panel
-                        divInfoZoneCardsCount.Visible = true;
-                        divSettingsZoneCardsCount.Visible = true;
-                        divInfoZoneCardsAccess.Visible = false;
-                        divSettingsZoneCardsAccess.Visible = false;
-
-                        spanZoneName.InnerHtml = "<b>" + reader["name"].ToString() + "</b> info";
-                        spanZoneNameSettings.InnerHtml = "<b>" + reader["name"].ToString() + "</b> instellingen";
-                        
-                        // Fill zone data from db in
-                        tbBarThresGreen.Text = reader["threshold_green"].ToString();
-                        tbBarThresOrange.Text = reader["threshold_orange"].ToString();
-                        tbBarThresRed.Text = reader["threshold_red"].ToString();
-
-                        tbZoneName.Text = reader["name"].ToString();
-                        tbEditPeopleCount.Text = reader["people_count"].ToString();
-
-                        chBarLock.Checked = Convert.ToBoolean(reader["barometer_lock"]);
-
-                        string colorClass = "";
-                        switch (reader["barometer_color"])
+                        if (!string.IsNullOrEmpty(reader["people_count"].ToString()))
                         {
-                            case "green":
-                                colorClass = "success";
-                                break;
-                            case "orange":
-                                colorClass = "warning";
-                                break;
-                            case "red":
-                                colorClass = "danger";
-                                break;
+                            Session["activeZoneType"] = "count";
+
+                            // Show the right card for info and settings panel
+                            divInfoZoneCardsCount.Visible = true;
+                            divSettingsZoneCardsCount.Visible = true;
+                            divInfoZoneCardsAccess.Visible = false;
+                            divSettingsZoneCardsAccess.Visible = false;
+
+                            spanZoneName.InnerHtml = "<b>" + reader["name"].ToString() + "</b> info";
+                            spanZoneNameSettings.InnerHtml = "<b>" + reader["name"].ToString() + "</b> instellingen";
+
+                            // Fill zone data from db in
+                            tbBarThresGreen.Text = reader["threshold_green"].ToString();
+                            tbBarThresOrange.Text = reader["threshold_orange"].ToString();
+                            tbBarThresRed.Text = reader["threshold_red"].ToString();
+
+                            tbZoneName.Text = reader["name"].ToString();
+                            tbEditPeopleCount.Text = reader["people_count"].ToString();
+
+                            chBarLock.Checked = Convert.ToBoolean(reader["barometer_lock"]);
+
+                            // Get color for barometer tag
+                            string colorClass = "";
+                            switch (reader["barometer_color"])
+                            {
+                                case "green":
+                                    colorClass = "success";
+                                    break;
+                                case "orange":
+                                    colorClass = "warning";
+                                    break;
+                                case "red":
+                                    colorClass = "danger";
+                                    break;
+                            }
+                            tagCurrentStatus.Attributes["class"] = $"tag is-{colorClass} is-light";
+                            tagCurrentStatusSettings.Attributes["class"] = $"tag is-{colorClass} is-light";
+
                         }
-                        tagCurrentStatus.Attributes["class"] = $"tag is-{colorClass} is-light";
-                        tagCurrentStatusSettings.Attributes["class"] = $"tag is-{colorClass} is-light";
+                        else
+                        {
+                            Session["activeZoneType"] = "access";
+
+                            // Show the right card for info and settings panel
+                            divInfoZoneCardsCount.Visible = false;
+                            divSettingsZoneCardsCount.Visible = false;
+                            divInfoZoneCardsAccess.Visible = true;
+                            divSettingsZoneCardsAccess.Visible = true;
+
+                            spanZoneName.InnerHtml = "<b>" + reader["name"].ToString() + "</b> info";
+                            spanZoneNameSettings.InnerHtml = "<b>" + reader["name"].ToString() + "</b> instellingen";
+
+                            // Fill zone data from db in
+                            tbZoneName.Text = reader["name"].ToString();
+
+                            chAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
+                        }
 
                     }
-                    else
-                    {
-                        Session["ActiveZoneType"] = "access";
-
-                        // Show the right card for info and settings panel
-                        divInfoZoneCardsCount.Visible = false;
-                        divSettingsZoneCardsCount.Visible = false;
-                        divInfoZoneCardsAccess.Visible = true;
-                        divSettingsZoneCardsAccess.Visible = true;
-
-                        spanZoneName.InnerHtml = "<b>" + reader["name"].ToString() + "</b> info";
-                        spanZoneNameSettings.InnerHtml = "<b>" + reader["name"].ToString() + "</b> instellingen";
-
-                        // Fill zone data from db in
-                        tbZoneName.Text = reader["name"].ToString();
-
-                        chAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
-                    }
-
+                } else
+                {
+                    // Message: zone not found
                 }
                 conn.Close();
             }
@@ -104,36 +110,62 @@ namespace crowd_management.pages
                 // Message: connection with db lost
             }
 
+            // Logbook
             try
             {
+                // Check if zone type is 'count' and load logbook if not show messages
                 if (Session["activeZoneType"].ToString() == "count")
-                {
-                    tbodyLogbook.InnerHtml = "";
-
-                    string query = $"SELECT * FROM zone_population_data WHERE zone_id = '{Session["activeZoneID"]}'";
+                { 
+                    // Get latest timestamp from db
+                    string query = $"SELECT MAX(timestamp) AS latestTimeStamp FROM zone_population_data WHERE zone_id = '{Session["activeZoneID"]}'";
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
+                    DateTime nextTimeStamp = DateTime.Now;
+                    while (reader.Read())
+                    {
+                        nextTimeStamp = DateTime.Parse(reader["latestTimeStamp"].ToString());
+                    }
+                    conn.Close();
+
+                    // Get logbook from db
+                    query = $"SELECT * FROM zone_population_data WHERE zone_id = '{Session["activeZoneID"]}' ORDER BY timestamp DESC;";
+                    conn.Open();
+                    cmd.CommandText = query;
+                    reader = cmd.ExecuteReader();
+
                     if (reader.HasRows)
                     {
+                        tbodyLogbook.InnerHtml = "";
                         while (reader.Read())
                         {
-                            Debug.WriteLine(reader["timestamp"].ToString() + " " + reader["people_count"].ToString());
+                            // Check if currentTimestamp is equale to the nextTimestamp
+                            DateTime currentTimestamp = DateTime.Parse(reader["timestamp"].ToString());
+                            if (ignoreSeconds(nextTimeStamp) == ignoreSeconds(currentTimestamp))
+                            {
+                                tbodyLogbook.InnerHtml += $"<tr><td>{currentTimestamp.ToString("MM-dd HH:mm")}</td><td>{reader["people_count"]}</td></tr>";
 
-                            DateTime timestamp = DateTime.Parse(reader["timestamp"].ToString());
-                            tbodyLogbook.InnerHtml += $"<tr><td>{timestamp.ToString("yyyy-MM-dd HH:mm")}</td><td>{reader["people_count"]}</td></tr>";
+                                // Update nextTimestamp by distracting the time interval from the currentTimeStamp
+                                nextTimeStamp = currentTimestamp.AddMinutes(-Convert.ToInt16(dbZoneLogbookFilter.SelectedValue));
+                            }
                         }
                     }
                     else
                     {
                         // Message: no log book yet
                     }
+                    conn.Close();
                 }
             } catch (Exception ex)
             {
                 // Message: connection with db lost
             }
+        }
+
+        static DateTime ignoreSeconds(DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0, 0);
         }
 
         protected void imgHeatMap_Click(object sender, ImageMapEventArgs e)
@@ -248,6 +280,11 @@ namespace crowd_management.pages
             {
                 // Message: connection with db lost
             }
+            loadZonePanel();
+        }
+
+        protected void dbZoneLogbookFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
             loadZonePanel();
         }
     }

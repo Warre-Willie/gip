@@ -114,6 +114,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.CheckBox chBarLock;
 
         /// <summary>
+        /// dbZoneLogbookFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dbZoneLogbookFilter;
+
+        /// <summary>
         /// tbodyLogbook control.
         /// </summary>
         /// <remarks>
