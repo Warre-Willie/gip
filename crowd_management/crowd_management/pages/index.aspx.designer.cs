@@ -150,40 +150,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.CheckBox chAccessLock;
 
         /// <summary>
-        /// cbBadgeRight01 control.
+        /// tbodyBadgeRights control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight01;
-
-        /// <summary>
-        /// cbBadgeRight02 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight02;
-
-        /// <summary>
-        /// cbBadgeRight03 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight03;
-
-        /// <summary>
-        /// cbBadgeRight04 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight04;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbodyBadgeRights;
 
         /// <summary>
         /// divSettingsPanel control.

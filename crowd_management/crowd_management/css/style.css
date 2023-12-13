@@ -89,3 +89,16 @@ body {
     opacity: 0.5;
     pointer-events: none;
 }
+
+.imageMapContainer {
+    position: relative;
+    text-align: center;
+}
+
+.heatMapZone {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

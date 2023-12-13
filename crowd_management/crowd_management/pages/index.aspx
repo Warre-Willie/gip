@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
 </head>
-<body>
+<body onresize = "checkCoordsChange()">
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -64,24 +64,27 @@
                         <div class="tile is-parent">
                             <article class="tile is-child box">
                                 <p class="subtitle"><b>Heat map</b></p>
-                                <figure class="image">
-                                    <asp:imageMap ID="imgHeatMap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgHeatMap_Click">
+                                <div class="imageMapContainer">
+                                    <!-- Visible imageMap with id for adjusting the heatmap text -->
+                                    <img src="../image/foor_plan.png" usemap="#heatMap" alt="Floor Plan" />
+                                    <div id="divHeatMapZone1" class="heatMapZone">Zone1</div>
+                                    <div id="divHeatMapZone2" class="heatMapZone">Zone2</div>
+                                    <map name="heatMap" id="heatMap">
+                                        <area id="HeatMapZone1" shape="rect" coords="16,13,510,260" onclick="__doPostBack('imgHeatMap','0')"/>
+                                        <area id="HeatMapZone2" shape="rect" coords="548,13,1157,260" onclick="__doPostBack('imgHeatMap','1')"/>
+                                    </map>
+
+                                    <!-- Hidden imageMap for triggering the backend -->
+                                    <asp:imageMap ID="imgHeatMap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgHeatMap_Click" class="hide">
                                         <asp:rectanglehotspot
-                                            top="13"
-                                            left="16"
-                                            bottom="260"
-                                            right="510"
                                             postbackvalue="1">
                                         </asp:rectanglehotspot>
                                         <asp:rectanglehotspot
-                                            top="13"
-                                            left="548"
-                                            bottom="260"
-                                            right="1157"
                                             postbackvalue="2">
                                         </asp:rectanglehotspot>
                                     </asp:imageMap>
-                                </figure>
+                                    
+                                </div>
                             </article>
                         </div>
                     </div>
@@ -120,10 +123,10 @@
                                                     <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger is-static" OnClick="barManChange_Click" data-color="red"/>
                                                 </div>
                                             </div>
-                                            <div class="checkbox">
+                                            <label class="checkbox">
                                                 <asp:CheckBox ID="chBarLock" runat="server" AutoPostBack="True" OnCheckedChanged="chBarLock_CheckedChanged" />
                                                 Barometer slot
-                                            </div>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -150,18 +153,6 @@
                                                     <asp:ListItem Value="180">3 uur</asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
-
-
-                                            <%--<div class="select is-small">
-                                                <select>
-                                                    <option>5 min</option>
-                                                    <option>15 min</option>
-                                                    <option>30 min</option>
-                                                    <option>1 uur</option>
-                                                    <option>2 uur</option>
-                                                    <option>5 uur</option>
-                                                </select>
-                                            </div>--%>
                                         </div>
                                     </p>
                                 </header>
@@ -217,38 +208,27 @@
                                     </p>
                                 </header>
                                 <div class="card-content">
+                                    <label class="label">Rechten met toegang:</label>
                                     <table class="table is-fullwidth">
-                                        <tbody>
+                                        <tbody ID="tbodyBadgeRights" runat="server">
                                             <tr>
                                                 <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight01" runat="server" Enabled="False" Checked="true"/>
-                                                        Kamping
-                                                    </label>
+                                                    Kamping
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight02" runat="server" Enabled="False"/>
-                                                        VIP
-                                                    </label>
+                                                    VIP
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight03" runat="server" Enabled="False"/>
-                                                        Backstage
-                                                    </label>
+                                                    Backstage
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="cbBadgeRight04" runat="server" Enabled="False"/>
-                                                        Artiest
-                                                    </label>
+                                                    Artiest
                                                 </td>
                                             </tr>
                                         </tbody>

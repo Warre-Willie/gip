@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace crowd_management.pages
@@ -96,6 +98,7 @@ namespace crowd_management.pages
                             tbZoneName.Text = reader["name"].ToString();
 
                             chAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
+
                         }
 
                     }
@@ -122,10 +125,10 @@ namespace crowd_management.pages
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
-                    DateTime nextTimeStamp = DateTime.Now;
+                    DateTime nextTimestamp = DateTime.Now;
                     while (reader.Read())
                     {
-                        nextTimeStamp = DateTime.Parse(reader["latestTimeStamp"].ToString());
+                        nextTimestamp = DateTime.Parse(reader["latestTimeStamp"].ToString());
                     }
                     conn.Close();
 
@@ -142,12 +145,12 @@ namespace crowd_management.pages
                         {
                             // Check if currentTimestamp is equale to the nextTimestamp
                             DateTime currentTimestamp = DateTime.Parse(reader["timestamp"].ToString());
-                            if (ignoreSeconds(nextTimeStamp) == ignoreSeconds(currentTimestamp))
+                            if (ignoreSeconds(nextTimestamp) == ignoreSeconds(currentTimestamp))
                             {
                                 tbodyLogbook.InnerHtml += $"<tr><td>{currentTimestamp.ToString("MM-dd HH:mm")}</td><td>{reader["people_count"]}</td></tr>";
 
                                 // Update nextTimestamp by distracting the time interval from the currentTimeStamp
-                                nextTimeStamp = currentTimestamp.AddMinutes(-Convert.ToInt16(dbZoneLogbookFilter.SelectedValue));
+                                nextTimestamp = currentTimestamp.AddMinutes(-Convert.ToInt16(dbZoneLogbookFilter.SelectedValue));
                             }
                         }
                     }
@@ -170,8 +173,8 @@ namespace crowd_management.pages
 
         protected void imgHeatMap_Click(object sender, ImageMapEventArgs e)
         {
-            // Only execute this once to activate the right panel
-            if (Session["activeZoneID"] == null)
+            // Only execute this if column is disabled
+            if (divInfoPanel.Attributes["class"].IndexOf("column-disabled") != -1)
             {
                 divInfoPanel.Attributes["class"] = divInfoPanel.Attributes["class"].Replace(" column-disabled", "");
                 btnZoneSettings.Attributes["class"] = btnZoneSettings.Attributes["class"].Replace("is-static", "");
