@@ -20,8 +20,8 @@
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+               <a class="navbar-item navbar-brand-container" href="index.aspx">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">

@@ -6,21 +6,12 @@ window.onload = function () {
     checkCoordsChange();
 };
 
-// Function to check for coordinate changes
 function checkCoordsChange() {
     var heatMap = document.getElementById("heatMap");
     var areas = heatMap.getElementsByTagName('area');
     for (var i = 0; i < areas.length; i++) {
         var area = areas[i];
         handleCoordsChange(area.id, area.coords);
-        //var coords = area.coords;
-        //var currentcoords = area.getAttribute('data-rwdimagemaps-coords') || '';
-
-        //if (coords !== currentcoords) {
-        //    // coordinates have changed
-        //    handleCoordsChange(area.id, area.coords);
-        //    area.setAttribute('data-rwdimagemaps-coords', coords);
-        //}
     }
 }
 
@@ -36,4 +27,10 @@ function handleCoordsChange(id, coords) {
     heatMapZone.style.height = coordArray[3] - coordArray[1] + 'px';
     heatMapZone.style.left = coordArray[0] + 'px';
     heatMapZone.style.top = coordArray[1] + 'px';
+
+    if (heatMapZone.hasAttribute("data-first_load")) {
+        heatMapZone.removeAttribute("data-first_load")
+    } else {
+        heatMapZone.classList.remove("hide")
+    }
 }

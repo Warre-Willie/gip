@@ -23,7 +23,7 @@
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container">
+                <a class="navbar-item navbar-brand-container" href="index.aspx">
                     <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
@@ -67,8 +67,8 @@
                                 <div class="imageMapContainer">
                                     <!-- Visible imageMap with id for adjusting the heatmap text -->
                                     <img src="../image/foor_plan.png" usemap="#heatMap" alt="Floor Plan" />
-                                    <div id="divHeatMapZone1" class="heatMapZone">Zone1</div>
-                                    <div id="divHeatMapZone2" class="heatMapZone">Zone2</div>
+                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>Zone1</div>
+                                    <div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>Zone2</div>
                                     <map name="heatMap" id="heatMap">
                                         <area id="HeatMapZone1" shape="rect" coords="16,13,510,260" onclick="__doPostBack('imgHeatMap','0')"/>
                                         <area id="HeatMapZone2" shape="rect" coords="548,13,1157,260" onclick="__doPostBack('imgHeatMap','1')"/>
