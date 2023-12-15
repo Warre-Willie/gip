@@ -45,16 +45,15 @@
                     </a>
                 </div>
 
-                <%--<div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-warning">
-                                <strong>Login</strong>
-                            </a>
-                        </div>
-                    </div>
-                </div>--%>
+                <!-- <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-warning">
+                        <strong>Login</strong>
+                    </a>
+                </div>
             </div>
+        </div> -->
         </nav>
 
         <div class="page-content">
@@ -124,7 +123,7 @@
                                                 </div>
                                             </div>
                                             <label class="checkbox">
-                                                <asp:CheckBox ID="chBarLock" runat="server" AutoPostBack="True" OnCheckedChanged="chBarLock_CheckedChanged" />
+                                                <asp:CheckBox ID="cbBarLock" runat="server" AutoPostBack="True" OnCheckedChanged="cbBarLock_CheckedChanged" />
                                                 Barometer slot
                                             </label>
                                         </div>
@@ -189,7 +188,7 @@
                                 <div class="card-content">
                                     <div class="content">
                                         <label class="checkbox">
-                                            <asp:CheckBox ID="chAccessLock" runat="server" AutoPostBack="True" OnCheckedChanged="chAccessLock_CheckedChanged"/>
+                                            <asp:CheckBox ID="cbAccessLock" runat="server" AutoPostBack="True" OnCheckedChanged="cbAccessLock_CheckedChanged"/>
                                             Ingang afsluiten
                                         </label>
                                     </div>
@@ -210,28 +209,26 @@
                                 <div class="card-content">
                                     <label class="label">Rechten met toegang:</label>
                                     <table class="table is-fullwidth">
-                                        <tbody ID="tbodyBadgeRights" runat="server">
-                                            <tr>
-                                                <td>
-                                                    Kamping
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    VIP
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Backstage
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Artiest
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        <tr ID="brkamping" runat="server">
+                                            <td>
+                                                kamping
+                                            </td>
+                                        </tr>
+                                        <tr ID="brVIP" runat="server">
+                                            <td>
+                                                VIP
+                                            </td>
+                                        </tr>
+                                        <tr ID="brbackstage" runat="server">
+                                            <td>
+                                                Backstage
+                                            </td>
+                                        </tr>
+                                        <tr ID="brartiest" runat="server">
+                                            <td>
+                                                Artiest
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -350,40 +347,32 @@
                                 </header>
                                 <div class="card-content">
                                     <table class="table is-fullwidth">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox1" runat="server" Checked="true"/>
-                                                        Kamping
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox2" runat="server"/>
-                                                        VIP
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox3" runat="server"/>
-                                                        Backstage
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <asp:CheckBox ID="CheckBox4" runat="server"/>
-                                                        Artiest
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <asp:CheckBox ID="cbkamping" runat="server" />
+                                                    Kamping
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbVIP" runat="server" />
+                                                VIP
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbbackstage" runat="server" />
+                                                Backstage
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbartiest" runat="server" />
+                                                Artiest
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>

@@ -105,13 +105,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnBarManRed;
 
         /// <summary>
-        /// chBarLock control.
+        /// cbBarLock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chBarLock;
+        protected global::System.Web.UI.WebControls.CheckBox cbBarLock;
 
         /// <summary>
         /// dbZoneLogbookFilter control.
@@ -141,22 +141,49 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoZoneCardsAccess;
 
         /// <summary>
-        /// chAccessLock control.
+        /// cbAccessLock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chAccessLock;
+        protected global::System.Web.UI.WebControls.CheckBox cbAccessLock;
 
         /// <summary>
-        /// tbodyBadgeRights control.
+        /// brkamping control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbodyBadgeRights;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow brkamping;
+
+        /// <summary>
+        /// brVIP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow brVIP;
+
+        /// <summary>
+        /// brbackstage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow brbackstage;
+
+        /// <summary>
+        /// brartiest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow brartiest;
 
         /// <summary>
         /// divSettingsPanel control.
@@ -267,39 +294,39 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsAccess;
 
         /// <summary>
-        /// CheckBox1 control.
+        /// cbkamping control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox1;
+        protected global::System.Web.UI.WebControls.CheckBox cbkamping;
 
         /// <summary>
-        /// CheckBox2 control.
+        /// cbVIP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox2;
+        protected global::System.Web.UI.WebControls.CheckBox cbVIP;
 
         /// <summary>
-        /// CheckBox3 control.
+        /// cbbackstage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox3;
+        protected global::System.Web.UI.WebControls.CheckBox cbbackstage;
 
         /// <summary>
-        /// CheckBox4 control.
+        /// cbartiest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox4;
+        protected global::System.Web.UI.WebControls.CheckBox cbartiest;
     }
 }

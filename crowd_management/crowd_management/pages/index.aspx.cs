@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
+using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace crowd_management.pages
         const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
         MySqlConnection conn = new MySqlConnection(constring);
 
+        public string[] badgeRights = { "kamping", "VIP", "backstage", "artiest" };
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -61,7 +63,7 @@ namespace crowd_management.pages
                             tbZoneName.Text = reader["name"].ToString();
                             tbEditPeopleCount.Text = reader["people_count"].ToString();
 
-                            chBarLock.Checked = Convert.ToBoolean(reader["barometer_lock"]);
+                            cbBarLock.Checked = Convert.ToBoolean(reader["barometer_lock"]);
 
                             // Get color for barometer tag
                             string colorClass = "";
@@ -97,12 +99,21 @@ namespace crowd_management.pages
                             // Fill zone data from db in
                             tbZoneName.Text = reader["name"].ToString();
 
-                            chAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
+                            cbAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
 
+                            // Load badgeRights
+                            foreach (string right in badgeRights)
+                            {
+                                Control tr = FindControl("br" + right);
+                                tr.Visible = Convert.ToBoolean(reader[right]);
+
+                                CheckBox checkBox = (CheckBox)FindControl("cb" + right);
+                                checkBox.Checked = Convert.ToBoolean(reader[right]);
+                            }
                         }
-
                     }
-                } else
+                } 
+                else
                 {
                     // Message: zone not found
                 }
@@ -202,16 +213,23 @@ namespace crowd_management.pages
                     // Message: not all fields are filled
                 }
             }
-            else
+            else if (Session["activeZoneType"].ToString() == "access")
             {
                 if (!string.IsNullOrEmpty(tbZoneName.Text))
                 {
-                    query = $"UPDATE zones SET name = '{tbZoneName.Text}' WHERE id = '{Session["activeZoneID"]}';";
+                    query = $"UPDATE zones SET name = '{tbZoneName.Text}'";
+
+                    foreach (string right in badgeRights)
+                    {
+                        CheckBox checkBox = (CheckBox)FindControl("cb" + right);
+                        query += $", {right} = {Convert.ToInt16(checkBox.Checked)}";
+                    }
                 }
                 else
                 {
                     // Message: not all fields are filled
                 }
+                query += $" WHERE id = '{Session["activeZoneID"]}';";
             }
 
             try
@@ -228,11 +246,11 @@ namespace crowd_management.pages
             loadZonePanel();
         }
 
-        protected void chBarLock_CheckedChanged(object sender, EventArgs e)
+        protected void cbBarLock_CheckedChanged(object sender, EventArgs e)
         {
             try
             {
-                string query = $"UPDATE zones SET barometer_lock = '{Convert.ToInt16(chBarLock.Checked)}' WHERE id = '{Session["activeZoneID"]}';";
+                string query = $"UPDATE zones SET barometer_lock = '{Convert.ToInt16(cbBarLock.Checked)}' WHERE id = '{Session["activeZoneID"]}';";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
@@ -247,11 +265,11 @@ namespace crowd_management.pages
             loadZonePanel();
         }
         
-        protected void chAccessLock_CheckedChanged(object sender, EventArgs e)
+        protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)
         {
             try
             {
-                string query = $"UPDATE zones SET access_lock = '{Convert.ToInt16(chAccessLock.Checked)}' WHERE id = '{Session["activeZoneID"]}';";
+                string query = $"UPDATE zones SET access_lock = '{Convert.ToInt16(cbAccessLock.Checked)}' WHERE id = '{Session["activeZoneID"]}';";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
