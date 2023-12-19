@@ -66,13 +66,10 @@
                                 <div class="imageMapContainer">
                                     <!-- Visible imageMap with id for adjusting the heatmap text -->
                                     <img src="../image/foor_plan.png" usemap="#heatMap" alt="Floor Plan" />
-                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>Zone1</div>
-                                    <div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>Zone2</div>
                                     <map name="heatMap" id="heatMap">
                                         <area id="HeatMapZone1" shape="rect" coords="16,13,510,260" onclick="__doPostBack('imgHeatMap','0')"/>
                                         <area id="HeatMapZone2" shape="rect" coords="548,13,1157,260" onclick="__doPostBack('imgHeatMap','1')"/>
                                     </map>
-
                                     <!-- Hidden imageMap for triggering the backend -->
                                     <asp:imageMap ID="imgHeatMap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgHeatMap_Click" class="hide">
                                         <asp:rectanglehotspot
@@ -83,6 +80,14 @@
                                         </asp:rectanglehotspot>
                                     </asp:imageMap>
                                     
+                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>
+                                        Zone1
+
+                                    </div>
+                                    <div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>
+                                        Zone2
+
+                                    </div>
                                 </div>
                             </article>
                         </div>
