@@ -26,7 +26,7 @@ namespace crowd_management.pages
                 {
                     divTicketList.InnerHtml += $"<a class='panel-block is-active'><span class='panel-icon'><i class='fa-solid fa-ticket'></i></span>{reader["barcode"]}</a>";
                 }
-                query = "test2";
+                query = "";
 
             }
             catch (Exception ex)
