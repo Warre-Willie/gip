@@ -109,60 +109,12 @@
                                             </span>
                                         </p>
                                     </div>
-                                    <div id="divTicketList" class="ticket-list">
+                                    <div ID="divTicketList" runat="server" class="ticket-list">
                                         <a class="panel-block is-active">
                                             <span class="panel-icon">
                                                 <i class="fa-solid fa-ticket"></i>
                                             </span>
                                             1000002556
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002557
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002558
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002559
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002561
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002562
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002563
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002564
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002565
                                         </a>
                                     </div>
                                     <div class="panel-block">
