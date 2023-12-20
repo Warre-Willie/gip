@@ -110,15 +110,21 @@
                                         </p>
                                     </div>
                                     <div ID="divTicketList" runat="server" class="ticket-list">
-                                        <a class="panel-block is-active">
+                                        <%--<a class="panel-block is-active">
                                             <span class="panel-icon">
                                                 <i class="fa-solid fa-ticket"></i>
                                             </span>
                                             1000002556
-                                        </a>
+                                        </a>--%>
+                                        <asp:LinkButton ID="LinkButton1" runat="server" class="panel-block is-active" OnClientClick="">
+                                            <span class="panel-icon">
+                                                <class="fa-solid fa-ticket"></>
+                                            </span>
+                                            1000002556
+                                        </asp:LinkButton>
                                     </div>
                                     <div class="panel-block">
-                                        <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;"/>
+                                        <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;" />
                                     </div>
                                 </nav>
                             </div>
