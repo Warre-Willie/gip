@@ -85,9 +85,20 @@ body {
   padding-top: 0px;
 }
 
+.column-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 
-/* Tabel van gip site omzeep hierdoor!!! */
-/* table, th, td {
-border: 1px solid black;
-border-collapse: collapse;
-} */
+.imageMapContainer {
+    position: relative;
+    text-align: center;
+}
+
+.heatMapZone {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

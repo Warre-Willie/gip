@@ -4,21 +4,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport maken</title>
+
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/bulma-tooltip.css">
-
-    <title></title>
 </head>
 <body>
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+                <a class="navbar-item navbar-brand-container" href="index.aspx">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -61,7 +63,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport01" runat="server" />
                                             <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen tijden</span>
                                         </label>
                                     </td>
@@ -69,7 +71,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport02" runat="server" />
                                             <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen zones </span>
                                         </label>
                                     </td>
@@ -77,7 +79,7 @@
                                 <tr>
                                     <td>
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <asp:CheckBox ID="cbRapport03" runat="server" />
                                             Aantal tickets
                                         </label>
                                     </td>
@@ -85,9 +87,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="button is-success" style="width: 100%">
-                        Genereer PDF
-                    </button>
+                    <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth"/>
                 </div>
             </div>
             <div class="tile is-vertical is-parent fit-tile-content">
@@ -95,13 +95,13 @@
                     <p class="subtitle"><b>Voorstelling</b></p>
                     <div class="is-hidden-touch">
                         <object
-                            data="preview_doc/main preview doc.pdf"
+                            data="../rapports/main preview doc.pdf"
                             type="application/pdf"
                             width="100%"
                             height="700px">
                             <p>
                                 Unable to display PDF file.
-                <a href="preview_doc/main preview doc.pdf">Download</a> instead.
+                <a href="../rapports/main preview doc.pdf">Download</a> instead.
                             </p>
                         </object>
                     </div>
@@ -120,10 +120,10 @@
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="js/navbar.js"></script>
-        <script src="js/settings_panel.js"></script>
-        <script src="js/search_ticket.js"></script>
-        <script src="js/ticket_modal.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/settings_panel.js"></script>
+        <script src="../js/search_ticket.js"></script>
+        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>

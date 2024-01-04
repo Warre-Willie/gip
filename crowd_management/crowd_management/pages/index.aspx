@@ -4,21 +4,27 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
+    <title>Crowd management</title>
+
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bulma.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bulma-tooltip.css">
-
-    <title></title>
+    <link rel="stylesheet" href="../css/bulma.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/bulma-tooltip.css"/>
 </head>
-<body>
+<body onresize = "checkCoordsChange()">
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+                <a class="navbar-item navbar-brand-container" href="index.aspx">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -48,7 +54,6 @@
                 </div>
             </div>
         </div> -->
-            </div>
         </nav>
 
         <div class="page-content">
@@ -58,113 +63,177 @@
                         <div class="tile is-parent">
                             <article class="tile is-child box">
                                 <p class="subtitle"><b>Heat map</b></p>
-                                <figure class="image">
-                                    <div class="has-background-link" style="height: 530px;"></div>
-                                </figure>
+                                <div class="imageMapContainer">
+                                    <!-- Visible imageMap with id for adjusting the heatmap text -->
+                                    <img src="../image/foor_plan.png" usemap="#heatMap" alt="Floor Plan" />
+                                    <map name="heatMap" id="heatMap">
+                                        <area id="HeatMapZone1" shape="rect" coords="16,13,510,260" onclick="__doPostBack('imgHeatMap','0')"/>
+                                        <area id="HeatMapZone2" shape="rect" coords="548,13,1157,260" onclick="__doPostBack('imgHeatMap','1')"/>
+                                    </map>
+                                    <!-- Hidden imageMap for triggering the backend -->
+                                    <asp:imageMap ID="imgHeatMap" imageurl="~/image/foor_plan.png" runat="server" hotspotmode="PostBack" OnClick="imgHeatMap_Click" class="hide">
+                                        <asp:rectanglehotspot
+                                            postbackvalue="1">
+                                        </asp:rectanglehotspot>
+                                        <asp:rectanglehotspot
+                                            postbackvalue="2">
+                                        </asp:rectanglehotspot>
+                                    </asp:imageMap>
+                                    
+                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>
+                                        Zone1
+
+                                    </div>
+                                    <div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>
+                                        Zone2
+
+                                    </div>
+                                </div>
                             </article>
                         </div>
                     </div>
                 </div>
 
-                <div id="info-panel" class="tile is-parent">
+                <div ID="divInfoPanel" runat="server" class="tile is-parent column-disabled">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b>{Zone} </b>info
-                            <!-- <asp:Button ID="btnZoneSettings" runat="server" Text="<i class='fa-solid fa-gear'></i>" CssClass="button is-warning is-rounded is-small" /> -->
-                            <button onserverclick="test" runat="server" id="btnZoneSettings1" class="button is-warning is-rounded is-small panel-1-button" onclick="toggleSettings('settings')">
+                            <span ID="spanZoneName" runat="server"><b>Geen zone geselecteerd</b></span>
+                            <asp:LinkButton ID="btnZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button is-static" OnClientClick="toggleSettings(); return false;">
                                 <i class="fa-solid fa-gear"></i>
-                            </button>
+                            </asp:LinkButton>
                         </p>
-
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    <span class="icon-text ">
-                                        <span class="icon">
-                                            <i class="fa-solid fa-traffic-light"></i>
+                        <div ID="divInfoZoneCardsCount" runat="server">
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-traffic-light"></i>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span>Druktebarometer <span class="tag is-success is-light">Huidige kleur</span>
-                                    </span>
-                                </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
-                                    <div class="field">
-                                        <label class="label">Manueel wijzigen</label>
-                                        <div class="control">
-                                            <div class="buttons has-addons">
-                                                <button class="button is-success">Groen</button>
-                                                <button class="button is-warning">Geel</button>
-                                                <button class="button is-danger">Rood</button>
+                                        <span>Druktebarometer 
+                                            <span ID="tagCurrentStatus" runat="server" class="tag is-light">Huidige kleur</span>
+                                        </span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <div class="field">
+                                            <label class="label">Manueel wijzigen</label>
+                                            <div class="control">
+                                                <div class="buttons has-addons">
+                                                    <asp:Button ID="btnBarManGreen" runat="server" Text="Groen" class="button is-success is-static" OnClick="barManChange_Click" data-color="green"/>
+                                                    <asp:Button ID="btnBarManOrange" runat="server" Text="Geel" class="button is-warning is-static" OnClick="barManChange_Click" data-color="orange"/>
+                                                    <asp:Button ID="btnBarManRed" runat="server" Text="Rood" class="button is-danger is-static" OnClick="barManChange_Click" data-color="red"/>
+                                                </div>
                                             </div>
+                                            <label class="checkbox">
+                                                <asp:CheckBox ID="cbBarLock" runat="server" AutoPostBack="True" OnCheckedChanged="cbBarLock_CheckedChanged" />
+                                                Barometer slot
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    <span class="icon-text ">
-                                        <span class="icon">
-                                            <i class="fa-solid fa-table"></i>
+                            <br />
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-table"></i>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span>Logboek
-                                    </span>
-                                    <div class="pt-2 pr-2">
-                                        <div class="select is-small">
-                                            <select>
-                                                <option>5 min</option>
-                                                <option>15 min</option>
-                                                <option>30 min</option>
-                                                <option>1 uur</option>
-                                                <option>2 uur</option>
-                                                <option>5 uur</option>
-                                            </select>
+                                        <span>Logboek
+                                        </span>
+                                        <div class="pt-2 pr-2">
+                                            <div class="select is-small">
+                                                <asp:DropDownList ID="dbZoneLogbookFilter" runat="server" AutoPostBack="True" OnSelectedIndexChanged="dbZoneLogbookFilter_SelectedIndexChanged">
+                                                    <asp:ListItem Selected="True" Value="5">5 min</asp:ListItem>
+                                                    <asp:ListItem Value="15">15 min</asp:ListItem>
+                                                    <asp:ListItem Value="30">30 min</asp:ListItem>
+                                                    <asp:ListItem Value="60">1 uur</asp:ListItem>
+                                                    <asp:ListItem Value="120">2 uur</asp:ListItem>
+                                                    <asp:ListItem Value="180">3 uur</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
                                         </div>
+                                    </p>
+                                </header>
+                                <div id="dbLogbookFilter" class="card-content">
+                                    <div class="content table-container logbook">
+                                        <table class="table is-fullwidth is-striped">
+                                            <thead>
+                                                <th>Tijd</th>
+                                                <th>Aantal mensen</th>
+                                            </thead>
+                                            <tbody ID="tbodyLogbook" runat="server">
+                                                <tr>
+                                                    <td colspan="2" class="has-text-centered">Geen zone geselecteerd</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content table-container logbook">
-                                    <table class="table is-fullwidth is-striped">
-                                        <thead>
-                                            <th>Tijd</th>
-                                            <th>Aantal mensen</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>13:00</td>
-                                                <td>100</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:05</td>
-                                                <td>122</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:10</td>
-                                                <td>143</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:15</td>
-                                                <td>98</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:05</td>
-                                                <td>122</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:10</td>
-                                                <td>143</td>
-                                            </tr>
-                                            <tr>
-                                                <td>13:15</td>
-                                                <td>98</td>
-                                            </tr>
-                                        </tbody>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ID="divInfoZoneCardsAccess" runat="server" visible="False">
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-arrow-down-up-lock"></i>
+                                            </span>
+                                        </span>
+                                        <span>Blokeer toegang</span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <label class="checkbox">
+                                            <asp:CheckBox ID="cbAccessLock" runat="server" AutoPostBack="True" OnCheckedChanged="cbAccessLock_CheckedChanged"/>
+                                            Ingang afsluiten
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-regular fa-id-badge"></i>
+                                            </span>
+                                        </span>
+                                        <span>Badgerechten</span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <label class="label">Rechten met toegang:</label>
+                                    <table class="table is-fullwidth">
+                                        <tr ID="brkamping" runat="server">
+                                            <td>
+                                                kamping
+                                            </td>
+                                        </tr>
+                                        <tr ID="brVIP" runat="server">
+                                            <td>
+                                                VIP
+                                            </td>
+                                        </tr>
+                                        <tr ID="brbackstage" runat="server">
+                                            <td>
+                                                Backstage
+                                            </td>
+                                        </tr>
+                                        <tr ID="brartiest" runat="server">
+                                            <td>
+                                                Artiest
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -172,63 +241,17 @@
                     </article>
                 </div>
 
-                <div id="settings-panel" class="tile is-parent hide">
+                <div ID="divSettingsPanel" runat="server" class="tile is-parent hide">
                     <article class="tile is-child box">
                         <p class="subtitle panel-button-container">
-                            <b>{Zone} </b>instellingen
-                    <button class="button is-rounded is-small panel-2-button" onclick="toggleSettings('info')">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                            <button class="button is-warning is-rounded is-small panel-1-button">
+                            <span ID="spanZoneNameSettings" runat="server"><b>Geen zone geselecteerd</b></span>                           
+                            <asp:LinkButton ID="btnExitZoneSettings" runat="server" class="button is-rounded is-small panel-2-button" OnClientClick="toggleSettings(); return false;">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="btnSaveZoneSettings" runat="server" class="button is-warning is-rounded is-small panel-1-button" OnClick="btnSaveZoneSettings_Click">
                                 <i class="fa-solid fa-floppy-disk"></i>
-                            </button>
+                            </asp:LinkButton>
                         </p>
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    <span class="icon-text ">
-                                        <span class="icon">
-                                            <i class="fa-solid fa-traffic-light"></i>
-                                        </span>
-                                    </span>
-                                    <span>Druktebarometer <span class="tag is-success is-light">Huidig</span>
-                                    </span>
-                                </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
-                                    <div class="field">
-                                        <label class="label">Drempelwaarde wijzigen</label>
-                                        <div class="control">
-                                            <div class="columns is-desktop">
-                                                <div class="column">
-                                                    <div class="field">
-                                                        <div class="control">
-                                                            <input class="input is-success" type="text" value="10">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div class="field">
-                                                        <div class="control">
-                                                            <input class="input is-warning" type="text" value="20">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div class="field">
-                                                        <div class="control">
-                                                            <input class="input is-danger" type="text" value="30">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
                         <div class="card">
                             <header class="card-header">
                                 <p class="card-header-title">
@@ -243,26 +266,119 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <input class="input is-link" type="text" placeholder="Bv. Mainstage">
+                                    <asp:TextBox ID="tbZoneName" runat="server" class="input is-link" placeholder="Bv. Mainstage" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    <span class="icon-text ">
-                                        <span class="icon">
-                                            <i class="fa-regular fa-trash-can"></i>
+                        <br />
+                        <div ID="divSettingsZoneCardsCount" runat="server">
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-traffic-light"></i>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span>Reset aantal mensen
-                                    </span>
-                                </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
-                                    <button class="button is-danger">Reset</button>
+                                        <span>Druktebarometer 
+                                            <span ID="tagCurrentStatusSettings" runat="server" class="tag is-light">Huidige kleur</span>
+                                        </span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <div class="field">
+                                            <label class="label">Drempelwaarde wijzigen</label>
+                                            <div class="control">
+                                                <div class="columns is-desktop">
+                                                    <div class="column">
+                                                        <div class="field">
+                                                            <div class="control">
+                                                                <asp:TextBox ID="tbBarThresGreen" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="column">
+                                                        <div class="field">
+                                                            <div class="control">
+                                                                <asp:TextBox ID="tbBarThresOrange" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="column">
+                                                        <div class="field">
+                                                            <div class="control">
+                                                                <asp:TextBox ID="tbBarThresRed" runat="server" class="input is-danger" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                            <br />
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </span>
+                                        </span>
+                                        <span>Wijwig aantal mensen
+                                        </span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <asp:TextBox ID="tbEditPeopleCount" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ID="divSettingsZoneCardsAccess" runat="server" visible="False">
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span class="icon-text ">
+                                            <span class="icon">
+                                                <i class="fa-regular fa-id-badge"></i>
+                                            </span>
+                                        </span>
+                                        <span>Badgerechten</span>
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <table class="table is-fullwidth">
+                                        <tr>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <asp:CheckBox ID="cbkamping" runat="server" />
+                                                    Kamping
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbVIP" runat="server" />
+                                                VIP
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbbackstage" runat="server" />
+                                                Backstage
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:CheckBox ID="cbartiest" runat="server" />
+                                                Artiest
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -270,16 +386,16 @@
                 </div>
             </div>
         </div>
-
         <div class="footer has-background-white ">
             Ontworpen door Warre Willeme & Jesse UijtdeHaag
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="js/navbar.js"></script>
-        <script src="js/settings_panel.js"></script>
-        <script src="js/search_ticket.js"></script>
-        <script src="js/ticket_modal.js"></script>
+        <script src="../js/image_map.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/settings_panel.js"></script>
+        <script src="../js/search_ticket.js"></script>
+        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>

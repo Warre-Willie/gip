@@ -4,7 +4,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
+    <title>Ticket beheer</title>
 
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
@@ -17,8 +20,8 @@
     <form id="form1" runat="server">
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png">
+               <a class="navbar-item navbar-brand-container" href="index.aspx">
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -91,82 +94,37 @@
                             <div class="content">
                                 <nav class="panel">
                                     <span class="panel-heading ticket-panel-container">Tickets zoeken
-                  <div class="select is-small ticket-dropdown">
-                      <select>
-                          <option>Barcode</option>
-                          <option>Badgerechten</option>
-                      </select>
-                  </div>
+                                        <div class="select is-small ticket-dropdown">
+                                            <select>
+                                                <option>Barcode</option>
+                                                <option>Badgerechten</option>
+                                            </select>
+                                        </div>
                                     </span>
                                     <div class="panel-block">
                                         <p class="control has-icons-left">
-                                            <input id="search-input" class="input" type="text" placeholder="Ticket zoeken"
-                                                onkeyup="searchTicket()" />
+                                            <asp:TextBox ID="tbTicketFilter" runat="server" class="input"  placeholder="Ticket zoeken" onkeydown="return (event.keyCode!=13);" onkeyup="searchTicket();"></asp:TextBox>
                                             <span class="icon is-left">
                                                 <i class="fas fa-search" aria-hidden="true"></i>
                                             </span>
                                         </p>
                                     </div>
-                                    <div id="ticket-list" class="ticket-list">
-                                        <a class="panel-block is-active">
+                                    <div ID="divTicketList" runat="server" class="ticket-list">
+                                        <%--<a class="panel-block is-active">
                                             <span class="panel-icon">
                                                 <i class="fa-solid fa-ticket"></i>
                                             </span>
                                             1000002556
-                                        </a>
-                                        <a class="panel-block is-active">
+                                        </a>--%>
+                                        <asp:LinkButton ID="LinkButton1" runat="server" class="panel-block is-active" OnClientClick="">
                                             <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
+                                                <class="fa-solid fa-ticket"></>
                                             </span>
-                                            1000002557
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002558
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002559
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002561
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002562
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002563
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002564
-                                        </a>
-                                        <a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002565
-                                        </a>
+                                            1000002556
+                                        </asp:LinkButton>
                                     </div>
                                     <div class="panel-block">
-                                        <button class="button is-link is-outlined is-fullwidth" onclick="clearInput()">
-                                            Verwijder filter
-                                        </button>
+                                        <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;" />
                                     </div>
                                 </nav>
                             </div>
@@ -194,9 +152,7 @@
                                     </header>
                                     <div class="card-content">
                                         <div class="content">
-                                            <button class="button is-danger js-modal-trigger" data-target="modal-js-example">
-                                                Opnieuw
-                      koppelen</button>
+                                            <asp:Button ID="btnConnectTicket" runat="server" Text="Opnieuw koppelen" class="button is-danger js-modal-trigger" data-target="modal-js-example"  OnClientClick="return false;"/>
                                         </div>
                                     </div>
                                 </div>
@@ -209,17 +165,16 @@
                                                     <i class="fa-regular fa-id-badge"></i>
                                                 </span>
                                             </span>
-                                            <span>Badgerechten
-                                            </span>
+                                            <span>Badgerechten</span>
                                         </p>
                                     </header>
                                     <div class="card-content">
-                                        <table class="table">
+                                        <table class="table is-fullwidth">
                                             <tbody>
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight01" runat="server" />
                                                             Kamping
                                                         </label>
                                                     </td>
@@ -227,7 +182,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight02" runat="server" />
                                                             VIP
                                                         </label>
                                                     </td>
@@ -235,7 +190,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight03" runat="server" />
                                                             Backstage
                                                         </label>
                                                     </td>
@@ -243,7 +198,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <input type="checkbox">
+                                                            <asp:CheckBox ID="cbBadgeRight04" runat="server" />
                                                             Artiest
                                                         </label>
                                                     </td>
@@ -263,10 +218,10 @@
         </div>
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="js/navbar.js"></script>
-        <script src="js/settings_panel.js"></script>
-        <script src="js/search_ticket.js"></script>
-        <script src="js/ticket_modal.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/settings_panel.js"></script>
+        <script src="../js/search_ticket.js"></script>
+        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>
