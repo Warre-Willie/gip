@@ -36,6 +36,7 @@ def on_message(client, userdata, msg):
 
     db.reconnect()
     if mqtt_payload['returnData']:
+        
         mycursor.execute(mqtt_payload['query'])
         myresult = mycursor.fetchall()
         if myresult:
