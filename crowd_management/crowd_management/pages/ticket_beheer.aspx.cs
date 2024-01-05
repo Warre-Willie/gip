@@ -52,7 +52,7 @@ namespace crowd_management.pages
                 }
                 conn.Close();
             }
-            catch
+            catch(Exception ex1)
             {
             }
         }

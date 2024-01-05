@@ -112,7 +112,6 @@
                                         </p>
                                     </div>
                                     <div ID="divTicketList" runat="server" class="ticket-list">
-                                        <!--> The barcodes will be added here from the cs code-->
                                     </div>
                                     <div class="panel-block">
                                         <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;" />
