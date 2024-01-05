@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,9 +25,9 @@ namespace crowd_management.pages
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    divTicketList.InnerHtml += $"<a class='panel-block is-active'><span class='panel-icon'><i class='fa-solid fa-ticket'></i></span>{reader["barcode"]}</a>";
+                    divTicketList.InnerHtml += $"<asp:LinkButton ID='LinkButton1' runat='server' class='panel-block is-active' OnClientClick='' data-barcode={reader["barcode"]}><span class='panel-icon'><class='fa-solid fa-ticket'></></span>{reader["barcode"]}</asp:LinkButton>";
                 }
-                query = "";
+                conn.Close();
 
             }
             catch (Exception ex)
@@ -34,7 +35,26 @@ namespace crowd_management.pages
                 //Message: no respond
             }
 
+            // Load the progressbar
+            try
+            {
+                string query = "";
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
 
+                while(reader.Read())
+                {
+                    progress.Attributes["value"] = progress.Attributes["value"].Replace("1",reader["value"].ToString());
+                    progress.Attributes["max"] = progress.Attributes["max"].Replace("10", reader["max"].ToString());
+
+                    progressValue.InnerHtml = $"{reader["value"]} / {reader["max"]}";
+                }
+                conn.Close();
+            }
+            catch
+            {
+            }
         }
     }
 }
