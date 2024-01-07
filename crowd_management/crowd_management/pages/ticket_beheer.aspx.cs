@@ -43,10 +43,11 @@ namespace crowd_management.pages
                     }
                 
                     LinkButton ticket = new LinkButton();
-                    ticket.Text = reader["barcode"].ToString();
+                    ticket.Text = "<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>" + reader["barcode"].ToString();
                     ticket.ID = reader["barcode"].ToString();
                     ticket.CssClass = "panel-block is-active";
                     ticket.Click += test;
+                    //divTicketList.InnerHtml =("<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>");
                     divTicketList.Controls.Add(ticket);
                     //divTicketList.InnerHtml += $"<asp:LinkButton ID='LinkButton1' runat='server' class='panel-block is-active' OnClientClick='test' data-barcode={reader["barcode"]}><span class='panel-icon'><class='fa-solid fa-ticket'></></span>{reader["barcode"]}</asp:LinkButton>";
                 }
