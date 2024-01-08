@@ -84,8 +84,10 @@
                         <article class="tile is-child box">
                             <p class="subtitle"><b>Ticket teller</b></p>
                             <div class="content">
-                                <progress class="progress is-link" value="50" max="100"></progress>
-                                500/1000
+                                <progress id="progress" class="progress is-link" runat="server" value="1" max="10"></progress>
+                                <div id="progressValue" runat="server">
+                                    
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -110,18 +112,6 @@
                                         </p>
                                     </div>
                                     <div ID="divTicketList" runat="server" class="ticket-list">
-                                        <%--<a class="panel-block is-active">
-                                            <span class="panel-icon">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </span>
-                                            1000002556
-                                        </a>--%>
-                                        <asp:LinkButton ID="LinkButton1" runat="server" class="panel-block is-active" OnClientClick="">
-                                            <span class="panel-icon">
-                                                <class="fa-solid fa-ticket"></>
-                                            </span>
-                                            1000002556
-                                        </asp:LinkButton>
                                     </div>
                                     <div class="panel-block">
                                         <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;" />
