@@ -8,8 +8,6 @@
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
-import uuid
-
 
 # Make connection with database
 db = mysql.connector.connect(
@@ -23,7 +21,7 @@ mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing r
 # MQTT settings
 broker_address = "broker.hivemq.com"
 port = 1883
-topic = "queries"
+topic = "gip/queries"
 
 # Callback when the client connects to the broker
 def on_connect(client, userdata, flags, rc):
@@ -36,11 +34,14 @@ def on_message(client, userdata, msg):
 
     db.reconnect()
     if mqtt_payload['returnData']:
+        
         mycursor.execute(mqtt_payload['query'])
         myresult = mycursor.fetchall()
         if myresult:
+            response = []
             for row in myresult:
-                client.publish(mqtt_payload['UUID'], json.dumps(row))
+                response.append(row)
+            client.publish(mqtt_payload['UUID'], json.dumps(response))
         else:
             client.publish(mqtt_payload['UUID'], "{}")
     else:

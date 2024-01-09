@@ -6,19 +6,9 @@
 # }
 
 import paho.mqtt.client as mqtt
-import mysql.connector
 import json
 import uuid
 
-
-# Make connection with database
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="gip-WJ",
-    database="crowd_management"
-    )
-mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
 
 # MQTT settings
 broker_address = "broker.hivemq.com"
@@ -26,13 +16,25 @@ port = 1883
 
 # Callback when the client connects to the broker
 # def on_connect(client, userdata, flags, rc):
-#     print("")
+#     print("Connected to broker")
+
+
+message_send = False
 
 # Callback when a message is received from the broker
 def on_message(client, userdata, msg):
+    global message_send
     response = json.loads(msg.payload.decode())
-    print("\nRFID: " + response['RFID'])
+    for row in response:
+        print(row)
+    
+    # if len(response) == 0:
+    #     print("No ticket found")
+    # else:
+    #     print("RFID: " + response['RFID'])
+    
     client.unsubscribe(str(myuuid))
+    message_send = False
 
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
@@ -52,9 +54,10 @@ client.connect(broker_address, port, 60)
 # Start the network loop
 while True:
     client.loop_start()
-    barcode = input("Enter barcode:")
-    print("")
-    myuuid = uuid.uuid4()
-    msg = '{"UUID": "' + str(myuuid) + '", "returnData": true, "query": "SELECT * FROM tickets WHERE barcode=%' + barcode + '%"}'
-    client.subscribe(str(myuuid))
-    client.publish("queries", msg)
+    if not message_send:
+        message_send = True
+        barcode = input("Enter barcode:") 
+        myuuid = uuid.uuid4()
+        msg = '{"UUID": "' + str(myuuid) + '", "returnData": true, "query": "SELECT * FROM tickets"}'
+        client.subscribe(str(myuuid))
+        client.publish("gip/queries", msg)
