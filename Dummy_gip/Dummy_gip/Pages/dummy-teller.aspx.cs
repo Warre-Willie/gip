@@ -19,8 +19,8 @@ namespace Dummy_gip.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            if(Page.IsPostBack)
+
+            if (Page.IsPostBack)
             {
                 lblCount.Text = "";
             }
@@ -34,21 +34,19 @@ namespace Dummy_gip.Pages
                 try
                 {
                     string id = tbId.Text;
-                    if(id == "")
+                    if (id == "")
                     {
                         throw new Exception("wrong input: ID");
                     }
                     update(1, Convert.ToInt32(tbId.Text));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     lblError.Text = ex.ToString();
                 }
-                
+                lblCount.Text = count.ToString();
+                Session["counter"] = count;
             }
-            
-            lblCount.Text = count.ToString();
-            Session["counter"] = count;
         }
 
         protected void btnOut_Click(object sender, EventArgs e)
@@ -70,10 +68,9 @@ namespace Dummy_gip.Pages
                 {
                     lblError.Text = ex.ToString();
                 }
+                lblCount.Text = count.ToString();
+                Session["counter"] = count;
             }
-
-            lblCount.Text = count.ToString();
-            Session["counter"] = count;
         }
 
         protected void btnTime_Click(object sender, EventArgs e)
@@ -81,20 +78,22 @@ namespace Dummy_gip.Pages
             try
             {
                 int id = Convert.ToInt32(tbId.Text);
-                int session =Convert.ToInt32(Session["counter"]);
+                int session = Convert.ToInt32(Session["counter"]);
                 string query = $"INSERT INTO `zone_population_data`(`zone_id`, `people_count`) VALUES ({id},{Session["counter"]})";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
+
+                lblCount.Text = Session["counter"].ToString();
             }
-            catch 
+            catch
             {
-                lblError.Text = "there was a error";
+                lblError.Text = "Can't make logbook";
             }
         }
 
-        void update (int value, int id)
+        void update(int value, int id)
         {
             //variables
             int db = 0;
@@ -102,17 +101,17 @@ namespace Dummy_gip.Pages
             //select the value from the database
             string query = $"SELECT `people_count` FROM `zones` WHERE id = {id}";
             conn.Open();
-            MySqlCommand cmd = new MySqlCommand( query, conn);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read()) 
+            while (reader.Read())
             {
                 db = Convert.ToInt32(reader["people_count"]) + value;
             }
             conn.Close();
-            query = $"UPDATE `zones` SET `people_count`={db} WHERE id = {id}"; 
+            query = $"UPDATE `zones` SET `people_count`={db} WHERE id = {id}";
             conn.Open();
-            MySqlCommand cmd2 = new MySqlCommand( query, conn);
+            MySqlCommand cmd2 = new MySqlCommand(query, conn);
             cmd2.ExecuteNonQuery();
             conn.Close();
         }
@@ -129,7 +128,19 @@ namespace Dummy_gip.Pages
 
                 while (reader.Read())
                 {
-                    Session["counter"] = reader["people_count"];
+                    if (reader["people_count"] == DBNull.Value)
+                    {
+                        Session["counter"] = null;
+                        lblError.Text = "This is not a coutable zone";
+                        lblCount.Visible = false;
+                    }
+                    else
+                    {
+                        Session["counter"] = reader["people_count"];
+                        lblError.Text = "";
+                        lblCount.Visible = true;
+                    }
+
                 }
                 conn.Close();
             }

@@ -47,9 +47,9 @@ namespace Dummy_gip.Pages
         void getTicket (string ticketNr)
         {
             //variables
-            string RFID, kamping, VIP, backstage, artiest;
+            string RFID, camping, VIP, backstage, artiest;
 
-            string query = $"SELECT `RFID`,`kamping`, `VIP`, `backstage`, `artiest` FROM `tickets` WHERE `barcode` = '{ticketNr}'";
+            string query = $"SELECT `RFID`,`camping`, `VIP`, `backstage`, `artiest` FROM `tickets` WHERE `barcode` = '{ticketNr}'";
             conn.Open();
             MySqlCommand cmd = new MySqlCommand(query, conn);
             MySqlDataReader reader = cmd.ExecuteReader();
@@ -59,10 +59,6 @@ namespace Dummy_gip.Pages
                 while (reader.Read())
                 {
                     RFID = reader["RFID"].ToString();
-                    kamping = reader["kamping"].ToString();
-                    VIP = reader["VIP"].ToString();
-                    backstage = reader["backstage"].ToString();
-                    artiest = reader["artiest"].ToString();
 
                     if (RFID == "")
                     {
@@ -70,7 +66,7 @@ namespace Dummy_gip.Pages
                     }
                     else
                     {
-                        tbOutput.Text += $"{ticketNr}: gescand --> kamping:{reader["kamping"]}, VIP:{reader["VIP"]}, backstage:{reader["backstage"]}, artiest:{reader["artiest"]}\n";
+                        tbOutput.Text += $"{ticketNr}: gescand --> camping:{reader["camping"]}, VIP:{reader["VIP"]}, backstage:{reader["backstage"]}, artiest:{reader["artiest"]}\n";
                     }
 
                 }

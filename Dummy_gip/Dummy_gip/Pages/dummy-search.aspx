@@ -35,7 +35,7 @@ h1{
                 <asp:Label ID="lblError" runat="server"></asp:Label>
             </p>
             <p>
-                <asp:TextBox ID="tbOutput" runat="server" Height="142px" TextMode="MultiLine" Width="726px"></asp:TextBox>
+                <asp:TextBox ID="tbOutput" runat="server" Height="142px" TextMode="MultiLine" Width="726px" ReadOnly="True"></asp:TextBox>
             </p>
         </div>
     </form>
