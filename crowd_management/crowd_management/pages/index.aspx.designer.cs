@@ -150,13 +150,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.CheckBox cbAccessLock;
 
         /// <summary>
-        /// brkamping control.
+        /// brcamping control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow brkamping;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow brcamping;
 
         /// <summary>
         /// brVIP control.
@@ -294,13 +294,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsAccess;
 
         /// <summary>
-        /// cbkamping control.
+        /// cbcamping control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbkamping;
+        protected global::System.Web.UI.WebControls.CheckBox cbcamping;
 
         /// <summary>
         /// cbVIP control.

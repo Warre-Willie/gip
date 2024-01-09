@@ -214,9 +214,9 @@
                                 <div class="card-content">
                                     <label class="label">Rechten met toegang:</label>
                                     <table class="table is-fullwidth">
-                                        <tr ID="brkamping" runat="server">
+                                        <tr ID="brcamping" runat="server">
                                             <td>
-                                                kamping
+                                                camping
                                             </td>
                                         </tr>
                                         <tr ID="brVIP" runat="server">
@@ -355,8 +355,8 @@
                                         <tr>
                                             <td>
                                                 <label class="checkbox">
-                                                    <asp:CheckBox ID="cbkamping" runat="server" />
-                                                    Kamping
+                                                    <asp:CheckBox ID="cbcamping" runat="server" />
+                                                    camping
                                                 </label>
                                             </td>
                                         </tr>

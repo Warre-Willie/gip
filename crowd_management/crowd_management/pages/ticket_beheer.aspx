@@ -165,7 +165,7 @@
                                                     <td>
                                                         <label class="checkbox">
                                                             <asp:CheckBox ID="cbBadgeRight01" runat="server" />
-                                                            Kamping
+                                                            Camping
                                                         </label>
                                                     </td>
                                                 </tr>

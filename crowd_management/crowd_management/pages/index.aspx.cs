@@ -22,7 +22,7 @@ namespace crowd_management.pages
         const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
         MySqlConnection conn = new MySqlConnection(constring);
 
-        public string[] badgeRights = { "kamping", "VIP", "backstage", "artiest" };
+        public string[] badgeRights = { "camping", "VIP", "backstage", "artiest" };
         protected void Page_Load(object sender, EventArgs e)
         {
 
