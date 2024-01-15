@@ -12,19 +12,31 @@ import uuid
 
 # Global varible
 counter = 0
-threshold_green = 2
-threshold_orange = 3
-threshold_red = 5
+threshold_green = 0
+threshold_orange = 0
+threshold_red = 0
 
 
 # Make connection with database
-# db = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     passwd="gip-WJ",
-#     database="crowd_management"
-#     )
-# mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="gip-WJ",
+    database="crowd_management"
+    )
+mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+mycursor.execute("SELECT `threshold_green`, `threshold_orange`, `threshold_red` FROM `zones`")
+
+# Set thresholds
+for row in mycursor:
+    threshold_green = int(row["threshold_green"])
+    threshold_orange = int(row["threshold_orange"])
+    threshold_red = int(row["threshold_red"])
+    
+
+
+
+
 
 # MQTT settings
 broker_address = "broker.hivemq.com"
