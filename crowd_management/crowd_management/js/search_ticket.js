@@ -5,14 +5,29 @@ function searchTicket() {
     input = document.getElementById("tbTicketFilter");
     filter = input.value.toUpperCase();
     tickets = document.getElementById("divTicketList");
+
     a = tickets.getElementsByTagName("a");
+
     for (i = 0; i < a.length; i++) {
         txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
+        dataAttribute = a[i].getAttribute("data-badgerights");
+
+        ddTicketSearch = document.getElementById("ddTicketSearch");
+        if (ddTicketSearch.value == "barcode") {
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        } else if (ddTicketSearch.value == "badgerights") {
+            if (dataAttribute && dataAttribute.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
         }
+
+
     }
 }
 

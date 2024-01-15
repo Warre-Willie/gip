@@ -27,7 +27,7 @@ namespace crowd_management.pages
             try
             {
                 //Load the barcode search
-                string query = $"SELECT barcode, RFID FROM tickets;";
+                string query = $"SELECT * FROM tickets;";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -46,10 +46,19 @@ namespace crowd_management.pages
                     ticket.Text = "<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>" + reader["barcode"].ToString();
                     ticket.ID = reader["barcode"].ToString();
                     ticket.CssClass = "panel-block is-active";
+
+                    string[] badgerights = { "camping", "VIP", "backstage", "artiest" };
+
+                    foreach (string right in badgerights)
+                    {
+                        if (Convert.ToBoolean(reader[right]))
+                        {
+                            ticket.Attributes["data-badgerights"] += right + " ";
+                        }
+                    }
+
                     ticket.Click += test;
-                    //divTicketList.InnerHtml =("<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>");
                     divTicketList.Controls.Add(ticket);
-                    //divTicketList.InnerHtml += $"<asp:LinkButton ID='LinkButton1' runat='server' class='panel-block is-active' OnClientClick='test' data-barcode={reader["barcode"]}><span class='panel-icon'><class='fa-solid fa-ticket'></></span>{reader["barcode"]}</asp:LinkButton>";
                 }
                 conn.Close();
 

@@ -97,9 +97,9 @@
                                 <nav class="panel">
                                     <span class="panel-heading ticket-panel-container">Tickets zoeken
                                         <div class="select is-small ticket-dropdown">
-                                            <select>
-                                                <option>Barcode</option>
-                                                <option>Badgerechten</option>
+                                            <select ID="ddTicketSearch">
+                                                <option value="barcode">Barcode</option>
+                                                <option value="badgerights">Badgerechten</option>
                                             </select>
                                         </div>
                                     </span>
