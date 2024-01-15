@@ -132,6 +132,9 @@
     <Content Include="js\search_ticket.js" />
     <Content Include="js\settings_panel.js" />
     <Content Include="js\ticket_modal.js" />
+    <Content Include="pages\dummy\dummy-search.aspx" />
+    <Content Include="pages\dummy\dummy-teller.aspx" />
+    <Content Include="pages\dummy\images\logo_print.png" />
     <Content Include="pages\index.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
@@ -140,6 +143,20 @@
   <ItemGroup>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="pages\dummy\dummy-search.aspx.cs">
+      <DependentUpon>dummy-search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\dummy\dummy-search.aspx.designer.cs">
+      <DependentUpon>dummy-search.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\dummy\dummy-teller.aspx.cs">
+      <DependentUpon>dummy-teller.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\dummy\dummy-teller.aspx.designer.cs">
+      <DependentUpon>dummy-teller.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
