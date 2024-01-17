@@ -43,22 +43,23 @@ port = 1883
 
 
 # Callback when a message is received from the broker
-# The incomming data will be in the format of: "zone id"; int
+# The incomming data will be in the format of json: {"id": 1,"people": -1}
 def on_message(client, userdata, msg):
     counter = 0
-    response = msg.payload.decode().split(";")
-    
+    response = json.loads(msg.payload.decode())
+
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT `people_count` FROM `zones` WHERE `id` = '{response[0]}'")
+    mycursor.execute(f"SELECT `people_count` FROM `zones` WHERE `id` = '{response['id']}'")
     for row in mycursor:
         if row["people_count"] != None:
             counter = int(row["people_count"])
-            counter += int(response[1])
-            mycursor.execute(f"UPDATE `zones` SET `people_count`= '{counter}' WHERE `id` = '{response[0]}'")
-            
+            counter += int(response['people'])
+
+            mycursor.execute(f"UPDATE `zones` SET `people_count`= '{counter}' WHERE `id` = '{response['id']}'")
+            print(counter)
         else:
             print("No data")
-    print(counter)    
+        
     
     
         
