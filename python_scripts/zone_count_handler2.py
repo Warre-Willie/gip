@@ -32,8 +32,9 @@ for row in mycursor:
         threshold = {"green": row["threshold_green"], "orange": row["threshold_orange"], "red": row["threshold_red"]}
         thresholds[row["id"]] = (threshold)
 
-print(thresholds[1]['red'])
-exit()
+mycursor.close()
+#print(thresholds[1]['green'])
+
 
 
 # MQTT settings
@@ -42,18 +43,24 @@ port = 1883
 
 
 # Callback when a message is received from the broker
+# The incomming data will be in the format of: "zone id"; int
 def on_message(client, userdata, msg):
-    global counter
-    response = int(msg.payload.decode())
-    counter += response
-    print(counter)
-    if counter < threshold_green:
-        client.publish("jesse", "green")
-    elif counter < threshold_orange:
-        client.publish("jesse", "orange")
-        print("test")
-    else:
-        client.publish("jesse", "red")
+    counter = 0
+    response = msg.payload.decode().split(";")
+    
+    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+    mycursor.execute(f"SELECT `people_count` FROM `zones` WHERE `id` = '{response[0]}'")
+    for row in mycursor:
+        if row["people_count"] != None:
+            counter = int(row["people_count"])
+            counter += int(response[1])
+            mycursor.execute(f"UPDATE `zones` SET `people_count`= '{counter}' WHERE `id` = '{response[0]}'")
+            
+        else:
+            print("No data")
+    print(counter)    
+    
+    
         
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
@@ -66,9 +73,8 @@ client.on_message = on_message
 # Connect to the broker
 client.connect(broker_address, port, 60)
 
-client.subscribe("Count_update")
+client.subscribe("Jesse")
 # Start the network loop
 while True:
     client.loop_start()
     
-    client.publish("Led_state","test")
