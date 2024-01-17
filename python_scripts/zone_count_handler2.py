@@ -8,10 +8,8 @@
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
-import uuid
 
 # Global varible
-counter = 0
 thresholds = {}
 
 
