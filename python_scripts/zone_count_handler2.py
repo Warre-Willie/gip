@@ -49,10 +49,9 @@ def on_message(client, userdata, msg):
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
     mycursor.execute(f"SELECT `people_count`, `barometer_lock` FROM `zones` WHERE `id` = '{response['id']}'")
     for row in mycursor:
-        if row["people_count"] != None:
+        if row["people_count"] != None or row["people_count"] != 0:
             counter = int(row["people_count"])
-            counter += int(response['people'])
-
+            counter += response["people"]
             mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
             db.commit()
             print(counter)
@@ -60,26 +59,21 @@ def on_message(client, userdata, msg):
             print("No data")
 
         if row["barometer_lock"] == 0 and row["people_count"] != None:
-            client.subscribe("barometer")
             if counter <= thresholds[response['id']]['green']:
-                client.publish(f"barometer", '{"id": '{str(response['id'])}', "color": "green"}')
+                client.publish(f"barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
                 mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'green' WHERE `id` = '{response['id']}'")
                 db.commit()
             elif counter <= thresholds[response['id']]['orange']:
-                client.publish(f"barometer", '{"id": '{str(response['id'])}', "color": "orange"}')
+                client.publish(f"barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
                 mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'orange' WHERE `id` = '{response['id']}'")
                 db.commit()
-            elif counter <= thresholds[response['id']]['red']:
-                client.publish(f"barometer", '{"id": '{str(response['id'])}', "color": "red"}')
+            elif counter >= thresholds[response['id']]['red']:
+                client.publish(f"barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
                 mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'red' WHERE `id` = '{response['id']}'")
                 db.commit()
         else:
             print("Barometer locked")
-    
-        
-    
-    
-        
+      
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
 
