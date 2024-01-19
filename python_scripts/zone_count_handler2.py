@@ -39,6 +39,7 @@ def count_request(msg):
     mycursor.execute(f"SELECT `people_count`, `barometer_lock` FROM `zones` WHERE `id` = '{response['id']}'")
     for row in mycursor:
         if row["people_count"] != None:
+        if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
             if counter < 0:
