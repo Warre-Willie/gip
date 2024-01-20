@@ -56,11 +56,15 @@ def laser_check():
         laser_state = True
     else:
         laser_state = False
-        
-    if(last_laser == True and laser_state == False):
-        
-        
+
     last_laser = laser_state 
+
+    if(last_laser == True and laser_state == False):
+        if(switch.value() == True):
+            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': 1}")
+        else:
+            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': -1}")    
+    
 
 # MQTT connection
 def mqtt_connect():
@@ -80,11 +84,11 @@ except OSError as e:
     reconnect()
 
 
-client.publish("Jesse", topic_msg)
+
 
 while True:
     client.subscribe("barometer")
-    laser()
+    laser_check()
 
     
     
