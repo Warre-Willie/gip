@@ -31,45 +31,94 @@ none = (0,0,0)
 
 pixels.brightness(100)
 
+# def for LED-pixles
+def down(pixel_count1, pixel_count2,color1, color2):
+
+    x = pixel_count1
+    y = pixel_count2
+    while (x != pixel_count1-10):
+        pixels.set_pixel_line(0, 29, none)
+        pixels.set_pixel_line(pixel_count2, x-1, color1)
+        pixels.set_pixel_line(y, pixel_count2, color2)
+        time.sleep_ms(70)
+        pixels.show()
+
+        x -= 1
+        y -= 1
+
+def up(pixel_count1, pixel_count2,color1, color2):
+
+    x = pixel_count1
+    y = pixel_count2
+    while (x != pixel_count1+10):
+         pixels.set_pixel_line(0, 29, none)
+         pixels.set_pixel_line(x , pixel_count2, color1)
+         pixels.set_pixel_line(pixel_count2  , y  , color2)
+         time.sleep_ms(70)
+         pixels.show()
+
+         x += 1
+         y += 1
+
+
 # start-up MQTT
 # connection WiFi
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect("JUWiFi","pasword")
-time.sleep(5)
-print(wlan.isconnected())
+wlan.connect("TP-LINK_EE42","29487868")
+while wlan.isconnected() == False:
+        print('Waiting for connection...')
+        time.sleep(1)
+print(wlan.ifconfig())
 
 # conection server
-mqtt_server = 'broker.hivemq.com'
-client_id = 'Laser'
+client = MQTTClient(b"", "broker.hivemq.com")
+client.connect()
 
 #Incoming messages subscriptions
-def sub_cb(topic, msg):
-    print("New message on topic {}".format(topic.decode('utf-8')))
-    msg = msg.decode('utf-8')
-    print(msg)
+def callback(topic, msg):
+    response = msg.decode('utf-8')
+    response_dict = json.loads(response)
+    if(response_dict['id'] == zone_id):
+        x = 0
+    user = input("geef een getal 1(groen) 2(oranje) 3(rood):")
+    if user == "1":
+        if(old_user == "2"):
+            down(19, 9, orange, green)
+        elif(old_user == "1"): 
+            pixels.set_pixel_line(0,9 , green)
+            pixels.show()            
+        else:
+            down(30, 20,red, orange)
+            down(19, 9, orange, green)  
 
+    elif user == "2":
+        if(old_user == "2"):
+            pixels.set_pixel_line(10,19 , orange)
+            pixels.show()
+        elif(old_user == "1"):
+            up(1,10,green,orange)
+        else:
+            down(29, 19, red, orange)
 
-#check laser
-def laser_check(): 
+    else:
+        if(old_user == "2"):
+            up(11,20 ,orange, red)
+        elif(old_user == "1"):
+            up(1,10,green,orange)
+            up(11,20 ,orange, red)
+        else:
+            pixels.set_pixel_line(20,29 , red)
+            pixels.show()
+
+    old_user = user
+
     
-
-# MQTT connection
-def mqtt_connect():
-    client = MQTTClient(client_id, mqtt_server, keepalive=3600)
-    client.connect()
-    print('Connected to %s MQTT Broker'%(mqtt_server))
-    return client
 
 def reconnect():
     print('Failed to connect to the MQTT Broker. Reconnecting...')
     time.sleep(5)
     machine.reset()
-
-try:
-    client = mqtt_connect()
-except OSError as e:
-    reconnect()
 
 
 client.subscribe("barometer")
