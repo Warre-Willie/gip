@@ -7,7 +7,7 @@ from umqtt.simple import MQTTClient
 from neopixel import Neopixel
 
 # set zone id
-zone_id = "1"
+zone_id = str("1")
 
 # start-up switch
 switch = Pin(20, Pin.IN)
@@ -15,7 +15,7 @@ switch = Pin(20, Pin.IN)
 # start-up Laser
 laser = Pin(21, Pin.IN)
 laser_state = False
-last_laser = False
+last_laser_state = False
 
 # start-up LED
 numpix = 30
@@ -80,9 +80,14 @@ def callback(topic, msg):
     response = msg.decode('utf-8')
     response_dict = json.loads(response)
     if(response_dict['id'] == zone_id):
-        x = 0
-    user = input("geef een getal 1(groen) 2(oranje) 3(rood):")
-    if user == "1":
+        color_barometer(response_dict)
+
+# set barometer        
+def color_barometer(response_dict):
+    global old_user
+    x = 0
+    #green
+    if response_dict["color"] == "green":
         if(old_user == "2"):
             down(19, 9, orange, green)
         elif(old_user == "1"): 
@@ -91,8 +96,8 @@ def callback(topic, msg):
         else:
             down(30, 20,red, orange)
             down(19, 9, orange, green)  
-
-    elif user == "2":
+    #orange
+    elif response_dict["color"] == "orange":
         if(old_user == "2"):
             pixels.set_pixel_line(10,19 , orange)
             pixels.show()
@@ -100,7 +105,7 @@ def callback(topic, msg):
             up(1,10,green,orange)
         else:
             down(29, 19, red, orange)
-
+    #red
     else:
         if(old_user == "2"):
             up(11,20 ,orange, red)
@@ -111,10 +116,9 @@ def callback(topic, msg):
             pixels.set_pixel_line(20,29 , red)
             pixels.show()
 
-    old_user = user
+    old_user = response_dict["color"]
 
-    
-
+#reconnects if connection is lost MQTT
 def reconnect():
     print('Failed to connect to the MQTT Broker. Reconnecting...')
     time.sleep(5)
@@ -124,17 +128,12 @@ def reconnect():
 client.subscribe("barometer")
 
 while True:
-
     laser_state = not(laser.value())
 
-    if(last_laser == True and laser_state == False):
+    if(last_laser_state == True and laser_state == False):
         if(switch.value() == True):
             client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': 1}")
         else:
             client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': -1}")    
 
     last_laser_state = laser_state 
-
-    
-    
-
