@@ -52,18 +52,6 @@ def sub_cb(topic, msg):
 
 #check laser
 def laser_check(): 
-    if(laser.value() == False):
-        laser_state = True
-    else:
-        laser_state = False
-
-    last_laser = laser_state 
-
-    if(last_laser == True and laser_state == False):
-        if(switch.value() == True):
-            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': 1}")
-        else:
-            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': -1}")    
     
 
 # MQTT connection
@@ -84,11 +72,19 @@ except OSError as e:
     reconnect()
 
 
-
+client.subscribe("barometer")
 
 while True:
-    client.subscribe("barometer")
-    laser_check()
+
+    laser_state = not(laser.value())
+
+    if(last_laser == True and laser_state == False):
+        if(switch.value() == True):
+            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': 1}")
+        else:
+            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': -1}")    
+
+    last_laser_state = laser_state 
 
     
     
