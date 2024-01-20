@@ -6,12 +6,18 @@ import json
 from umqtt.simple import MQTTClient
 from neopixel import Neopixel
 
-# start-up laser
-laser = Pin(21, Pin.IN)
-led = machine.Pin('LED', machine.Pin.OUT)
-laser_state = bool()
-last_laser = bool()
+# set zone id
+zone_id = "1"
 
+# start-up switch
+switch = Pin(20, Pin.IN)
+
+# start-up Laser
+laser = Pin(21, Pin.IN)
+laser_state = False
+last_laser = False
+
+# start-up LED
 numpix = 30
 pixels = Neopixel(numpix, 0, 28, "GRB")
 x = int(0)
@@ -37,13 +43,26 @@ print(wlan.isconnected())
 mqtt_server = 'broker.hivemq.com'
 client_id = 'Laser'
 
-
+#Incoming messages subscriptions
 def sub_cb(topic, msg):
     print("New message on topic {}".format(topic.decode('utf-8')))
     msg = msg.decode('utf-8')
     print(msg)
-    
 
+
+#check laser
+def laser_check(): 
+    if(laser.value() == False):
+        laser_state = True
+    else:
+        laser_state = False
+        
+    if(last_laser == True and laser_state == False):
+        
+        
+    last_laser = laser_state 
+
+# MQTT connection
 def mqtt_connect():
     client = MQTTClient(client_id, mqtt_server, keepalive=3600)
     client.connect()
@@ -61,9 +80,12 @@ except OSError as e:
     reconnect()
 
 
+client.publish("Jesse", topic_msg)
 
 while True:
-    client.subscribe(topic_sub)
-    client.publish(topic_pub, topic_msg)
+    client.subscribe("barometer")
+    laser()
+
+    
     
 
