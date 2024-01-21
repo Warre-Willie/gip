@@ -21,9 +21,31 @@ namespace crowd_management.pages
             Debug.WriteLine(linkButton.ID);
         }
 
+        private Dictionary<int, string> GetBadgeRightsID()
+        {
+            Dictionary<int, string> badgeRightsID = new Dictionary<int, string>();
+
+            string query = $"SELECT * FROM badge_rights;";
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Debug.WriteLine(reader["id"].ToString());
+                    badgeRightsID.Add(Convert.ToInt16(reader["id"]), reader["name"].ToString());
+                }
+            }
+            conn.Close();
+
+            return badgeRightsID;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Dictionary<int, string> badgeRightsID = GetBadgeRightsID();
             try
             {
                 //Load the barcode search
@@ -41,19 +63,23 @@ namespace crowd_management.pages
                     {
                         RFIDCounter++;
                     }
-                
+
                     LinkButton ticket = new LinkButton();
                     ticket.Text = "<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>" + reader["barcode"].ToString();
                     ticket.ID = reader["barcode"].ToString();
                     ticket.CssClass = "panel-block is-active";
 
-                    string[] badgerights = { "camping", "VIP", "backstage", "artiest" };
 
-                    foreach (string right in badgerights)
+                    if (reader["badge_rights"].ToString() != "")
                     {
-                        if (Convert.ToBoolean(reader[right]))
+                        int[] zoneBadgeRightsID = reader["badge_rights"].ToString().Split('|').Select(int.Parse).ToArray();
+
+                        foreach (KeyValuePair<int, string> right in badgeRightsID)
                         {
-                            ticket.Attributes["data-badgerights"] += right + " ";
+                            if (zoneBadgeRightsID.Contains(right.Key))
+                            {
+                                ticket.Attributes["data-badgerights"] += right.Value + " ";
+                            }
                         }
                     }
 
@@ -76,17 +102,17 @@ namespace crowd_management.pages
             try
             {
                 string query = "";
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
-            {
-                
+                while (reader.Read())
+                {
+
+                }
+                conn.Close();
             }
-            conn.Close();
-            }
-            catch(Exception ex1)
+            catch (Exception ex1)
             {
             }
         }
