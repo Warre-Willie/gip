@@ -1,16 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Relational;
-using Org.BouncyCastle.Asn1.Crmf;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Security.Policy;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
@@ -22,13 +13,100 @@ namespace crowd_management.pages
         const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
         MySqlConnection conn = new MySqlConnection(constring);
 
-        public string[] badgeRights = { "camping", "VIP", "backstage", "artiest" };
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
 
-        void loadZonePanel()
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            LoadBadgeRights();
+        }
+
+        private Dictionary<int, string> GetBadgeRightsID()
+        {
+            Dictionary<int, string> badgeRightsID = new Dictionary<int, string>();
+
+            string query = $"SELECT * FROM badge_rights;";
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    badgeRightsID.Add(Convert.ToInt16(reader["id"]), reader["name"].ToString());
+                }
+            }
+            conn.Close();
+
+            return badgeRightsID;
+        }
+
+        private void LoadBadgeRights()
+        {
+            if (Session["activeZoneID"] != null)
+            {
+                int[] zoneBadgeRightsID = null;
+
+                string query = $"SELECT * FROM zones WHERE id='{Session["activeZoneID"]}';";
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        zoneBadgeRightsID = reader["badge_rights"].ToString().Split('|').Select(int.Parse).ToArray();
+                    }
+                }
+                conn.Close();
+
+                divBadgeRightsEdit.Controls.Clear();
+                tableBadgeRightsView.Controls.Clear();
+
+                Table dynamicTable = new Table();
+                dynamicTable.ID = "tblDynamic";
+                dynamicTable.CssClass = "table is-fullwidth";
+
+                foreach (KeyValuePair<int, string> righstID in GetBadgeRightsID())
+                {
+                    if (zoneBadgeRightsID.Contains(righstID.Key))
+                    {
+                        HtmlTableRow trView = new HtmlTableRow();
+                        HtmlTableCell tdView = new HtmlTableCell();
+                        tdView.InnerHtml = righstID.Value;
+                        trView.Cells.Add(tdView);
+                        tableBadgeRightsView.Controls.Add(trView);
+                    }
+
+
+                    TableRow trEdit = new TableRow();
+                    TableCell tdEdit = new TableCell();
+
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.ID = "cbBadgeRightID" + righstID.Key.ToString();
+                    checkBox.Checked = zoneBadgeRightsID.Contains(righstID.Key);
+
+                    Label label = new Label();
+                    label.Text = " " + righstID.Value;
+
+                    tdEdit.Controls.Add(checkBox);
+                    tdEdit.Controls.Add(label);
+
+                    trEdit.Cells.Add(tdEdit);
+                    dynamicTable.Rows.Add(trEdit);
+                }
+                divBadgeRightsEdit.Controls.Add(dynamicTable);
+            }
+
+        }
+
+
+        private void loadZonePanel()
         {
             try
             {
@@ -100,24 +178,19 @@ namespace crowd_management.pages
                             tbZoneName.Text = reader["name"].ToString();
 
                             cbAccessLock.Checked = Convert.ToBoolean(reader["access_lock"]);
-
-                            // Load badgeRights
-                            foreach (string right in badgeRights)
-                            {
-                                Control tr = FindControl("br" + right);
-                                tr.Visible = Convert.ToBoolean(reader[right]);
-
-                                CheckBox checkBox = (CheckBox)FindControl("cb" + right);
-                                checkBox.Checked = Convert.ToBoolean(reader[right]);
-                            }
                         }
                     }
-                } 
+                }
                 else
                 {
                     // Message: zone not found
                 }
                 conn.Close();
+
+                if (Session["activeZoneType"].ToString() == "access")
+                {
+                    LoadBadgeRights();
+                }
             }
             catch (Exception ex)
             {
@@ -129,7 +202,7 @@ namespace crowd_management.pages
             {
                 // Check if zone type is 'count' and load logbook if not show messages
                 if (Session["activeZoneType"].ToString() == "count")
-                { 
+                {
                     // Get latest timestamp from db
                     string query = $"SELECT MAX(timestamp) AS latestTimeStamp FROM zone_population_data WHERE zone_id = '{Session["activeZoneID"]}'";
                     conn.Open();
@@ -171,7 +244,8 @@ namespace crowd_management.pages
                     }
                     conn.Close();
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 // Message: connection with db lost
             }
@@ -217,19 +291,30 @@ namespace crowd_management.pages
             {
                 if (!string.IsNullOrEmpty(tbZoneName.Text))
                 {
-                    query = $"UPDATE zones SET name = '{tbZoneName.Text}'";
+                    string DBbadgeRights = "";
 
-                    foreach (string right in badgeRights)
+                    foreach (int rightID in GetBadgeRightsID().Keys)
                     {
-                        CheckBox checkBox = (CheckBox)FindControl("cb" + right);
-                        query += $", {right} = {Convert.ToInt16(checkBox.Checked)}";
+                        CheckBox checkbox = (CheckBox)divBadgeRightsEdit.FindControl($"cbBadgeRightID{rightID}");
+
+                        if (Convert.ToBoolean(checkbox.Checked))
+                        {
+                            DBbadgeRights += $"{rightID}|";
+                        }
+
                     }
+
+                    if (DBbadgeRights.EndsWith("|"))
+                    {
+                        DBbadgeRights = DBbadgeRights.Substring(0, DBbadgeRights.Length - 1);
+                    }
+
+                    query = $"UPDATE zones SET name = '{tbZoneName.Text}', badge_rights = '{DBbadgeRights}' WHERE id = {Session["activeZoneID"]};";
                 }
                 else
                 {
                     // Message: not all fields are filled
                 }
-                query += $" WHERE id = '{Session["activeZoneID"]}';";
             }
 
             try
@@ -264,7 +349,7 @@ namespace crowd_management.pages
             }
             loadZonePanel();
         }
-        
+
         protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)
         {
             try

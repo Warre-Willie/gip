@@ -150,40 +150,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.CheckBox cbAccessLock;
 
         /// <summary>
-        /// brcamping control.
+        /// tableBadgeRightsView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow brcamping;
-
-        /// <summary>
-        /// brVIP control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow brVIP;
-
-        /// <summary>
-        /// brbackstage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow brbackstage;
-
-        /// <summary>
-        /// brartiest control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow brartiest;
+        protected global::System.Web.UI.HtmlControls.HtmlTable tableBadgeRightsView;
 
         /// <summary>
         /// divSettingsPanel control.
@@ -294,39 +267,12 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsAccess;
 
         /// <summary>
-        /// cbcamping control.
+        /// divBadgeRightsEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbcamping;
-
-        /// <summary>
-        /// cbVIP control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbVIP;
-
-        /// <summary>
-        /// cbbackstage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbbackstage;
-
-        /// <summary>
-        /// cbartiest control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbartiest;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBadgeRightsEdit;
     }
 }
