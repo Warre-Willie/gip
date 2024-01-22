@@ -8,8 +8,7 @@ from umqtt.simple import MQTTClient
 import ubinascii
 import urandom
 import json
-import uasyncio
-
+import uasyncio as asyncio
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -45,7 +44,10 @@ def callback(topic, msg):
     response = msg.decode('utf-8')
     response_dict = json.loads(response)
     global db_response
-    db_response = response_dict
+    if (len(response_dict) == 1):
+        db_response = response_dict[0]
+    else:
+        db_response = response_dict
 
 def gen_uuid():
      uuid = ""
@@ -59,27 +61,36 @@ def gen_uuid():
              uuid += "-"
      return uuid
 
-async def play_confirmation_sound():
+def play_confirmation_sound():
     buzzer_pwm.freq(1200)
     buzzer_pwm.duty_u16(16383)
-    await uasyncio.sleep(0.1)
+    time.sleep(0.1)
     buzzer_pwm.duty_u16(0)
 
     buzzer_pwm.freq(1300)
     buzzer_pwm.duty_u16(16383)
-    await uasyncio.sleep(0.1)
+    time.sleep(0.1)
     buzzer_pwm.duty_u16(0)
 
     buzzer_pwm.freq(1400)
     buzzer_pwm.duty_u16(16383)
-    await uasyncio.sleep(0.1)
+    time.sleep(0.1)
     buzzer_pwm.duty_u16(0)
  
 async def play_error_sound():
     buzzer_pwm.freq(300)
     buzzer_pwm.duty_u16(16383)
-    await uasyncio.sleep_ms(600)
+    await asyncio.sleep_ms(600)
     buzzer_pwm.duty_u16(0)
+
+async def red_led_error():
+    x = 7
+    while x > 0:
+        led_red_pin.on()
+        await asyncio.sleep(0.1)
+        led_red_pin.off()
+        await asyncio.sleep(0.07)
+        x -= 1
 
 def execute_query(query, returnData):
     mqtt_msg_dict = {}
@@ -90,23 +101,13 @@ def execute_query(query, returnData):
     json_string = json.dumps(mqtt_msg_dict)
     if returnData:
         client.subscribe(uuid)
-    client.publish("queries", json_string)
-
-async def red_led_error():
-    print("test1")
-    x = 7
-    while x > 0:
-        led_red_pin.on()
-        await uasyncio.sleep(0.1)
-        led_red_pin.off()
-        await uasyncio.sleep(0.07)
-        x -= 1
+    client.publish("gip/queries", json_string)
 
 async def synching_process(barcode):
     global db_response    
     if bool(db_response):
-        if db_response['RFID'] == "" and db_response['barcode'] == str(int(barcode)):
-            uasyncio.create_task(play_confirmation_sound())
+        if db_response['RFID'] == None and db_response['barcode'] == str(int(barcode)):
+            play_confirmation_sound()
             lcd.clear()
             lcd.move_to(0, 0)
             lcd.putstr("Scan RFID badge")
@@ -125,7 +126,7 @@ async def synching_process(barcode):
                         execute_query(query, True)
                         client.wait_msg()
                         if not bool(db_response):
-                            uasyncio.create_task(play_confirmation_sound())
+                            play_confirmation_sound()
 
                             lcd.clear()
                             lcd.move_to(0, 0)
@@ -139,42 +140,38 @@ async def synching_process(barcode):
                             led_green_pin.off()
                             break
                         else:
-                            uasyncio.create_task(play_error_sound())
+                            await asyncio.gather(play_error_sound(), red_led_error())
                             lcd.clear()
                             lcd.move_to(0, 0)
                             lcd.putstr("Badge al")
                             lcd.move_to(0, 1)
                             lcd.putstr("gekoppeld")
-                            uasyncio.create_task(red_led_error())
+                            
 
                 if uart.any():
                     barcode = uart.read().decode()
-                    if barcode != "" and barcode != db_response['barcode']:
+                    if barcode != None and barcode != db_response['barcode']:
                         db_response = {}
                         query = f'SELECT * FROM tickets WHERE barcode="{str(int(barcode))}";'
                         execute_query(query, True)
                         client.wait_msg()
                         led_green_pin.off()
-                        await synching_process(str(int(barcode)))
+                        asyncio.run(synching_process(str(int(barcode))))
         else:
-            uasyncio.create_task(play_error_sound())
-            await uasyncio.sleep_ms(10)
-            return
-            # lcd.clear()
-            # lcd.move_to(0, 0)
-            # lcd.putstr("Ticket al")
-            # lcd.move_to(0, 1)
-            # lcd.putstr("gescand")
-            # loop.create_task(red_led_error())
+            await asyncio.gather(play_error_sound(), red_led_error())
+            lcd.clear()
+            lcd.move_to(0, 0)
+            lcd.putstr("Ticket al")
+            lcd.move_to(0, 1)
+            lcd.putstr("gescand")
+            
     else:
-        uasyncio.create_task(play_error_sound())
+        await asyncio.gather(play_error_sound(), red_led_error())
         lcd.clear()
         lcd.move_to(0, 0)
         lcd.putstr("Ticket niet")
         lcd.move_to(0, 1)
         lcd.putstr("gevonden")
-        uasyncio.create_task(red_led_error())
-
 
 
 client = MQTTClient(b"", "broker.hivemq.com")
@@ -182,7 +179,7 @@ client.set_callback(callback)
 client.connect()
 
 
-async def main():
+def main():
     while True:
         if uart.any():
             barcode = uart.read().decode()
@@ -190,12 +187,8 @@ async def main():
                 query = f'SELECT * FROM tickets WHERE barcode=%{str(int(barcode))}%;'
                 execute_query(query, True)
                 client.wait_msg()
-                await synching_process(str(int(barcode)))
-                await uasyncio.sleep_ms(10)
+                asyncio.run(synching_process(str(int(barcode))))
                 
 
-
-# loop = uasyncio.get_event_loop()
-uasyncio.run(main())
-# uasyncio.create_task(play_confirmation_sound())
-# loop.run_forever()
+if __name__ == "__main__":
+    main()
