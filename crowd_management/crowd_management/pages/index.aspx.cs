@@ -47,7 +47,7 @@ namespace crowd_management.pages
 
         private void LoadBadgeRights()
         {
-            if (Session["activeZoneID"] != null)
+            if (Session["activeZoneID"] != null && Session["activeZoneType"] == "access")
             {
                 int[] zoneBadgeRightsID = null;
 
