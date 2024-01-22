@@ -42,12 +42,8 @@ db_response = {}
 
 def callback(topic, msg):
     response = msg.decode('utf-8')
-    response_dict = json.loads(response)
     global db_response
-    if (len(response_dict) == 1):
-        db_response = response_dict[0]
-    else:
-        db_response = response_dict
+    db_response = json.loads(response)
 
 def gen_uuid():
      uuid = ""
@@ -93,6 +89,9 @@ async def red_led_error():
         x -= 1
 
 def execute_query(query, returnData):
+    lcd.clear()
+    lcd.move_to(0, 0)
+    lcd.putstr("Laden...")
     mqtt_msg_dict = {}
     uuid = gen_uuid()
     mqtt_msg_dict['UUID'] = uuid
@@ -106,7 +105,8 @@ def execute_query(query, returnData):
 async def synching_process(barcode):
     global db_response    
     if bool(db_response):
-        if db_response['RFID'] == None and db_response['barcode'] == str(int(barcode)):
+        if db_response[0]['RFID'] == None and db_response[0]['barcode'] == str(int(barcode)):
+
             play_confirmation_sound()
             lcd.clear()
             lcd.move_to(0, 0)
@@ -128,50 +128,51 @@ async def synching_process(barcode):
                         if not bool(db_response):
                             play_confirmation_sound()
 
+                            query = f'UPDATE tickets SET RFID="{str(badge)}" WHERE barcode="{barcode}";'
+                            execute_query(query, False)
+                            
                             lcd.clear()
                             lcd.move_to(0, 0)
                             lcd.putstr("Synchronisatie")
                             lcd.move_to(0, 1)
                             lcd.putstr("Succesvol")
 
-                            query = f"UPDATE tickets SET RFID=%{str(badge)}% WHERE barcode=%{str(int(barcode))}%;"
-                            execute_query(query, False)
                             db_response = {}
                             led_green_pin.off()
                             break
                         else:
-                            await asyncio.gather(play_error_sound(), red_led_error())
                             lcd.clear()
                             lcd.move_to(0, 0)
                             lcd.putstr("Badge al")
                             lcd.move_to(0, 1)
                             lcd.putstr("gekoppeld")
-                            
+                            await asyncio.gather(play_error_sound(), red_led_error())
 
                 if uart.any():
                     barcode = uart.read().decode()
-                    if barcode != None and barcode != db_response['barcode']:
+                    barcode = ''.join(filter(str.isdigit, barcode)) #remove unwanted characters in the barcode
+                    if barcode and barcode != db_response[0]['barcode']:
                         db_response = {}
-                        query = f'SELECT * FROM tickets WHERE barcode="{str(int(barcode))}";'
+                        query = f'SELECT * FROM tickets WHERE barcode="{barcode}";'
                         execute_query(query, True)
                         client.wait_msg()
                         led_green_pin.off()
                         asyncio.run(synching_process(str(int(barcode))))
         else:
-            await asyncio.gather(play_error_sound(), red_led_error())
             lcd.clear()
             lcd.move_to(0, 0)
             lcd.putstr("Ticket al")
             lcd.move_to(0, 1)
             lcd.putstr("gescand")
-            
+            await asyncio.gather(play_error_sound(), red_led_error())
+
     else:
-        await asyncio.gather(play_error_sound(), red_led_error())
         lcd.clear()
         lcd.move_to(0, 0)
         lcd.putstr("Ticket niet")
         lcd.move_to(0, 1)
         lcd.putstr("gevonden")
+        await asyncio.gather(play_error_sound(), red_led_error())
 
 
 client = MQTTClient(b"", "broker.hivemq.com")
@@ -183,8 +184,9 @@ def main():
     while True:
         if uart.any():
             barcode = uart.read().decode()
-            if barcode != "":
-                query = f'SELECT * FROM tickets WHERE barcode=%{str(int(barcode))}%;'
+            barcode = ''.join(filter(str.isdigit, barcode)) #remove unwanted characters in the barcode
+            if barcode:
+                query = f'SELECT * FROM tickets WHERE barcode="{barcode}";'
                 execute_query(query, True)
                 client.wait_msg()
                 asyncio.run(synching_process(str(int(barcode))))
@@ -192,3 +194,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

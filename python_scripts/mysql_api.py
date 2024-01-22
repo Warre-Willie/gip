@@ -30,7 +30,6 @@ def on_connect(client, userdata, flags, rc):
 # Callback when a message is received from the broker
 def on_message(client, userdata, msg):
     mqtt_payload = json.loads(msg.payload.decode())
-    mqtt_payload['query'] = mqtt_payload['query'].replace("%", '"')
 
     db.reconnect()
     if mqtt_payload['returnData']:
