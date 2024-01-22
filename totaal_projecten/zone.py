@@ -132,8 +132,8 @@ while True:
 
     if(last_laser_state == True and laser_state == False):
         if(switch.value() == True):
-            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': 1}")
+            client.publish("Jesse", "{'id':"+ zone_id + ",'people': 1}")
         else:
-            client.publish("Jesse", "{'id':"+ zone_id + ",'poeple': -1}")    
+            client.publish("Jesse", "{'id':"+ zone_id + ",'people': -1}")    
 
     last_laser_state = laser_state 
