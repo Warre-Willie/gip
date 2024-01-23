@@ -1,0 +1,10 @@
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\bin\Debug\NET Framwork MQTT test.exe.config
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\bin\Debug\NET Framwork MQTT test.exe
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\bin\Debug\NET Framwork MQTT test.pdb
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\bin\Debug\MQTTnet.dll
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\bin\Debug\MQTTnet.xml
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\obj\Debug\NET Framwork MQTT test.csproj.AssemblyReference.cache
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\obj\Debug\NET Framwork MQTT test.csproj.CoreCompileInputs.cache
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\obj\Debug\NET Framwork MQTT test.csproj.CopyComplete
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\obj\Debug\NET Framwork MQTT test.exe
+C:\Users\warre\Documents\Programmeren\gip\NET Framwork MQTT test\NET Framwork MQTT test\obj\Debug\NET Framwork MQTT test.pdb
