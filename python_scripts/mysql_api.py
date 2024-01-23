@@ -1,10 +1,3 @@
-#  MQTT publish example
-# {
-#   "UUID": "34df97b8-9b47-4cdd-b11b-09b18e32dbd7",
-#   "returnData": true,
-#   "query": "SELECT * FROM tickets WHERE barcode=\"123456789\";"
-# }
-
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
