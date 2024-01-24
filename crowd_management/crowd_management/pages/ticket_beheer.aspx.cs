@@ -97,24 +97,8 @@ namespace crowd_management.pages
             {
                 //Message: no respond
             }
-
-            // Load the progressbar
-            try
-            {
-                string query = "";
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-
-                }
-                conn.Close();
-            }
-            catch (Exception ex1)
-            {
-            }
         }
+
+        protected void 
     }
 }

@@ -121,7 +121,7 @@
                         </article>
                     </div>
                 </div>
-                <div class="tile is-parent fit-tile-content">
+                <div class="tile is-parent collumn-disabled">
                     <article class="tile is-child box">
                         <div class="content">
                             <p class="subtitle">
@@ -164,7 +164,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <asp:CheckBox ID="cbBadgeRight01" runat="server" />
+                                                            <asp:CheckBox ID="cbBadgeRight01" runat="server" AutoPostBack="True" OnCheckedChanged=""/>
                                                             Camping
                                                         </label>
                                                     </td>
