@@ -15,9 +15,11 @@ uart.write(trigger_command_bytes)
 
 while True:
     if uart.any():
-        data = uart.read()
-        if data != "":
-            data = data.decode()
+        data = uart.read().decode()
+        data = ''.join(filter(str.isdigit, data)) #remove unwanted characters in the barcode
+        if data != "" and data != "31":
             print(data)
+            print("Sending trigger command...")
             time.sleep(5)
             uart.write(trigger_command_bytes)
+            print("Trigger command sent!")
