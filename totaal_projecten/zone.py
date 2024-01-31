@@ -82,7 +82,7 @@ def callback(topic, msg):
     if(response_dict['id'] == zone_id):
         color_barometer(response_dict)
 
-# set barometer        
+# set barometer         
 def color_barometer(response_dict):
     global old_user
     x = 0
@@ -128,6 +128,7 @@ def reconnect():
 client.subscribe("barometer")
 
 while True:
+    client.check_msg()
     laser_state = not(laser.value())
 
     if(last_laser_state == True and laser_state == False):
