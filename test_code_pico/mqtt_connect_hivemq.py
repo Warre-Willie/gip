@@ -5,14 +5,24 @@ from umqtt.simple import MQTTClient
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
+<<<<<<< HEAD
 wlan.connect("TP-LINK_0FAA", "26378237")
+=======
+wlan.connect("TP-LINK_EE42", "29487868")
+>>>>>>> 9683aa6269ad944d6f7b7876e3f8969cbd26022e
 time.sleep(5)
 print(wlan.ifconfig())
 
 topic_sub = b"my_topic"
+<<<<<<< HEAD
 broker_url= b"093183dc05704f98baf40ada7a0747f0.s2.eu.hivemq.cloud"
 username = b"GitokDSIC"
 password = b"56DSIC@Gitok"
+=======
+broker_url= b""
+username = b""
+password = b""
+>>>>>>> 9683aa6269ad944d6f7b7876e3f8969cbd26022e
 
 
 def on_msg(topic, msg):
