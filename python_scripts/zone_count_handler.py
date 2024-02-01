@@ -1,56 +1,111 @@
-import network
-import time
+#  MQTT publish example
+# {
+#   "UUID": "34df97b8-9b47-4cdd-b11b-09b18e32dbd7",
+#   "returnData": true,
+#   "query": "SELECT * FROM tickets WHERE barcode=\"123456789\";"
+# }
+
+import paho.mqtt.client as mqtt
+import mysql.connector
 import json
-from umqtt.simple import MQTTClient
 
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect("TP-LINK_EE42","29487868")
-time.sleep(5)
-print(wlan.ifconfig())
+# Global varible
+thresholds = {}
 
-mqtt_server = '192.168.0.101'
-client_id = 'test2'
-topic_sub = b'led'
-counter = 0
-old_msg = ""
+# Make connection with database
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="gip-WJ",
+    database="crowd_management"
+    )
 
-# If message recieved there will be a decision
-def sub_cb(topic, msg):
-    print("New message on topic {}".format(topic.decode('utf-8')))
-    msg = msg.decode('utf-8')
-    
-    match topic:
-        case "data_update":
-            #def check the database for change 
-            print()
-        case "count_update":
-            counter_update(msg)
+def database_update():
+    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+    mycursor.execute("SELECT * FROM `zones`")
 
-def counter_update(msg):
+    # Set thresholds
+    for row in mycursor:
+        if row["people_count"] != None:
+            threshold = {"green": row["threshold_green"], "orange": row["threshold_orange"], "red": row["threshold_red"]}
+            thresholds[row["id"]] = (threshold)
 
 
+def count_request(msg):
+    counter = 0
+    response = json.loads(msg.payload.decode())
+
+    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+    mycursor.execute(f"SELECT `people_count`, `barometer_lock` FROM `zones` WHERE `id` = '{response['id']}'")
+    for row in mycursor:
+        if row["people_count"] != None:
+            counter = int(row["people_count"])
+            counter += response["people"]
+            if counter < 0:
+                counter = 0
+                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                db.commit()
+                print(counter)
+            else:
+                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                db.commit()
+                print(counter)
+
+            if row["barometer_lock"] == 0:
+                if counter <= thresholds[response['id']]['green']:
+                    client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
+                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'green' WHERE `id` = '{response['id']}'")
+                    db.commit()
+                elif counter <= thresholds[response['id']]['orange']:
+                    client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
+                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'orange' WHERE `id` = '{response['id']}'")
+                    db.commit()
+                elif counter >= thresholds[response['id']]['red']:
+                    client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
+                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'red' WHERE `id` = '{response['id']}'")
+                    db.commit()
+            else:
+                print("Barometer locked")
+        else:
+            print("No count zone")
+    mycursor.close()
 
 
+# MQTT settings
+broker_address = "broker.hivemq.com"
+port = 1883
+
+
+# Callback when a message is received from the broker
+# The incomming data will be in the format of json: {"id": 1,"people": -1}
+def on_message(client, userdata, msg):
+    match = msg.topic
+    if match == "Jesse":
+        count_request(msg)
+    elif match == "db_update":
+        database_update()
+        print("Database updated")
+    else:
+        print("No match")
         
-def mqtt_connect():
-    client = MQTTClient(client_id, mqtt_server, keepalive=60)
-    client.set_callback(sub_cb)
-    client.connect()
-    print('Connected to %s MQTT Broker'%(mqtt_server))
-    return client
-
-def reconnect():
-    print('Failed to connect to MQTT Broker. Reconnecting...')
-    time.sleep(5)
-    machine.reset()
-    
-try:
-    client = mqtt_connect()
-except OSError as e:
-    reconnect()
+      
+# Create MQTT client instance with no client_id
+client = mqtt.Client(client_id="", clean_session=True)
 
 
+# Set callback functions
+# client.on_connect = on_connect
+client.on_message = on_message
+
+#First database update to get the thresholds
+database_update()
+
+# Connect to the broker
+client.connect(broker_address, port, 60)
+
+client.subscribe("Jesse")
+client.subscribe("db_update")
+# Start the network loop
 while True:
-    client.subscribe(topic_sub)
-    time.sleep(1)
+    client.loop_start()
+    
