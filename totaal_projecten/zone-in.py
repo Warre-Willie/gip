@@ -14,7 +14,8 @@ last_laser = bool()
 # connection WiFi
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect("TP-LINK_EE42","29487868")
+#wlan.connect("TP-LINK_EE42","29487868")
+wlan.connect("WLAN_Gitok","ARbs3928")
 time.sleep(5)
 print(wlan.ifconfig())
 
