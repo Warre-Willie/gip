@@ -6,7 +6,7 @@ from neopixel import Neopixel
 
 # start-up laser
 laser = Pin(21, Pin.IN)
-led = machine.Pin('LED', machine.Pin.OUT)
+led = Pin('LED', Pin.OUT)
 laser_state = bool()
 last_laser = bool()
 
