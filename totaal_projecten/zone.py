@@ -26,6 +26,12 @@ wlan.connect("WLAN_Gitok","ARbs3928")
 time.sleep(5)
 print(wlan.ifconfig())
 
+#reconnects if connection is lost MQTT
+def reconnect():
+    print('Failed to connect to the MQTT Broker. Reconnecting...')
+    time.sleep(5)
+    machine.reset()
+
 # conection server
 mqtt_server = 'broker.hivemq.com'
 client_id = 'Laser_01'
@@ -46,7 +52,6 @@ pixels.brightness(100)
 
 # def for LED-pixles
 def down(pixel_count1, pixel_count2,color1, color2):
-
     x = pixel_count1
     y = pixel_count2
     while (x != pixel_count1-10):
@@ -73,17 +78,6 @@ def up(pixel_count1, pixel_count2,color1, color2):
          x += 1
          y += 1
 
-
-# start-up MQTT
-# connection WiFi
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect("TP-LINK_EE42","29487868")
-while wlan.isconnected() == False:
-        print('Waiting for connection...')
-        time.sleep(1)
-print(wlan.ifconfig())
-
 # conection server
 client = MQTTClient(b"", "broker.hivemq.com")
 client.connect()
@@ -95,10 +89,9 @@ def callback(topic, msg):
     if(response_dict['id'] == zone_id):
         color_barometer(response_dict)
 
-# set barometer         
+# set barometer incomming json: {"id": 1,"color": "{green, orange, red}"}        
 def color_barometer(response_dict):
     global old_user
-    x = 0
     #green
     if response_dict["color"] == "green":
         if(old_user == "2"):
@@ -131,13 +124,7 @@ def color_barometer(response_dict):
 
     old_user = response_dict["color"]
 
-#reconnects if connection is lost MQTT
-def reconnect():
-    print('Failed to connect to the MQTT Broker. Reconnecting...')
-    time.sleep(5)
-    machine.reset()
-
-
+# subscribe to topic
 client.subscribe("barometer")
 
 while True:
