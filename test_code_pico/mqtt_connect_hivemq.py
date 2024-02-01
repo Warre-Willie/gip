@@ -14,7 +14,6 @@ broker_url= b""
 username = b""
 password = b""
 
-
 def on_msg(topic, msg):
     print("New message on topic {}".format(topic.decode('utf-8')))
     msg = msg.decode('utf-8')
