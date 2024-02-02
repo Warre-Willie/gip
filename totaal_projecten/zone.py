@@ -78,7 +78,7 @@ def up(pixel_count1, pixel_count2,color1, color2):
 # connection WiFi
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect("TP-LINK_EE42","29487868")
+wlan.connect("WLAN_Gitok","29487868")
 while wlan.isconnected() == False:
         print('Waiting for connection...')
         time.sleep(1)
