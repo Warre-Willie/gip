@@ -79,9 +79,9 @@ def color_barometer(response_dict):
     global old_user
     #green
     if response_dict["color"] == "green":
-        if(old_user == "2"):
+        if(old_user == "orange"):
             down(19, 9, orange, green)
-        elif(old_user == "1"): 
+        elif(old_user == "green"): 
             pixels.set_pixel_line(0,9 , green)
             pixels.show()            
         else:
@@ -89,18 +89,18 @@ def color_barometer(response_dict):
             down(19, 9, orange, green)  
     #orange
     elif response_dict["color"] == "orange":
-        if(old_user == "2"):
+        if(old_user == "orange"):
             pixels.set_pixel_line(10,19 , orange)
             pixels.show()
-        elif(old_user == "1"):
+        elif(old_user == "green"):
             up(1,10,green,orange)
         else:
             down(29, 19, red, orange)
     #red
     else:
-        if(old_user == "2"):
+        if(old_user == "orange"):
             up(11,20 ,orange, red)
-        elif(old_user == "1"):
+        elif(old_user == "green"):
             up(1,10,green,orange)
             up(11,20 ,orange, red)
         else:
