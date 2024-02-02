@@ -1,0 +1,14 @@
+{
+  "db": {
+    "host": "your_host",
+    "username": "your_username",
+    "password": "your_password",
+    "database": "your_database"
+  },
+  "mqtt": {
+    "broker": "your_broker",
+    "port": 1883,
+    "username": "your_mqtt_username",
+    "password": "your_mqtt_password"
+  }
+}
