@@ -6,7 +6,10 @@ from neopixel import Neopixel
 from network_setup import connect_wifi, connect_mqtt
 
 # set zone id
-zone_id = str("1")
+with open('zone_config.json', 'r') as f:
+    config = json.load(f)
+
+zone_id = config['zone_id']
 
 # start-up switch
 switch = Pin(20, Pin.IN)
