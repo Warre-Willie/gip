@@ -4,9 +4,9 @@
     "password": "29487868"
   },
   "mqtt": {
-    "broker": "mqtt_broker_address",
+    "broker": "broker.hivemq.com",
     "port": 1883,
-    "username": "mqtt_username",
-    "password": "mqtt_password"
+    "username": "",
+    "password": ""
   }
 }
