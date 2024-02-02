@@ -3,20 +3,11 @@ import feedback_alerts
 from machine import Pin, I2C, PWM, UART
 from pico_i2c_lcd import I2cLcd
 import time
-import network
-from umqtt.simple import MQTTClient
 import ubinascii
 import urandom
 import json
 import uasyncio as asyncio
-
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect("TP-LINK_EE42","29487868")
-while wlan.isconnected() == False:
-        print('Waiting for connection...')
-        time.sleep(1)
-print(wlan.ifconfig())
+from network_setup import connect_wifi, connect_mqtt
 
 led_red_pin = Pin(10, Pin.OUT)
 led_green_pin = Pin(11, Pin.OUT)
@@ -138,9 +129,8 @@ async def synching_process():
         await asyncio.gather(feedback_alerts.play_error(buzzer_pwm), feedback_alerts.error_blink(led_red_pin))
         uart.write(trigger_command_bytes)
 
-client = MQTTClient(b"", "broker.hivemq.com")
-client.set_callback(callback)
-client.connect()
+connect_wifi()
+client = connect_mqtt(callback)
 
 def main():
     feedback_alerts.lcd_display(lcd, "Scan barcode...", "")

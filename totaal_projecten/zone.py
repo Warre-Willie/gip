@@ -1,10 +1,9 @@
-import network
 from machine import Pin
 import time
 import machine
 import json
-from umqtt.simple import MQTTClient
 from neopixel import Neopixel
+from network_setup import connect_wifi, connect_mqtt
 
 # set zone id
 zone_id = str("1")
@@ -17,24 +16,11 @@ laser = Pin(21, Pin.IN)
 laser_state = False
 last_laser_state = False
 
-# start-up MQTT
-# connection WiFi
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-#wlan.connect("TP-LINK_EE42","29487868")
-wlan.connect("WLAN_Gitok","ARbs3928")
-time.sleep(5)
-print(wlan.ifconfig())
-
 #reconnects if connection is lost MQTT
 def reconnect():
     print('Failed to connect to the MQTT Broker. Reconnecting...')
     time.sleep(5)
     machine.reset()
-
-# conection server
-mqtt_server = 'broker.hivemq.com'
-client_id = 'Laser_01'
 
 # setup ledstrip
 numpix = 30
@@ -78,10 +64,6 @@ def up(pixel_count1, pixel_count2,color1, color2):
          x += 1
          y += 1
 
-# conection server
-client = MQTTClient(b"", "broker.hivemq.com")
-client.connect()
-
 #Incoming messages subscriptions
 def callback(topic, msg):
     response = msg.decode('utf-8')
@@ -124,6 +106,9 @@ def color_barometer(response_dict):
 
     old_user = response_dict["color"]
 
+
+connect_wifi()
+client = connect_mqtt(callback)
 # subscribe to topic
 client.subscribe("barometer")
 
