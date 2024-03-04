@@ -118,11 +118,10 @@ client.subscribe("barometer")
 while True:
     client.check_msg()
     laser_state = not(laser.value())
-
     if(last_laser_state == True and laser_state == False):
+        
         if(switch.value() == True):
-            client.publish("Jesse", "{'id':"+ zone_id + ",'people': 1}")
+            client.publish("Jesse", '{"id": '+ str(zone_id) + ',"people": 1}')
         else:
-            client.publish("Jesse", "{'id':"+ zone_id + ",'people': -1}")    
-
+            client.publish("Jesse", '{"id": '+ str(zone_id) + ',"people": -1}')
     last_laser_state = laser_state 

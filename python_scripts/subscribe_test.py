@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
     # Subscribe to the topic when connected
-    client.subscribe("Jesse")
+    # client.subscribe("Jesse")
     client.subscribe("barometer")
 
 def on_message(client, userdata, msg):
