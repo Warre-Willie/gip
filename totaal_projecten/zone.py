@@ -12,10 +12,10 @@ with open('zone_config.json', 'r') as f:
 zone_id = config['zone_id']
 
 # start-up switch
-switch = Pin(20, Pin.IN)
+switch = Pin(21, Pin.IN)
 
 # start-up Laser
-laser = Pin(21, Pin.IN)
+laser = Pin(20, Pin.IN)
 laser_state = False
 last_laser_state = False
 
