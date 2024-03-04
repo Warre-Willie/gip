@@ -10,7 +10,6 @@ import uasyncio as asyncio
 from network_setup import connect_wifi, connect_mqtt
 
 #set the zone
-
 zone = "2"
 
 led_red_pin = Pin(10, Pin.OUT)
