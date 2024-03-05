@@ -9,7 +9,7 @@ with open('db_mqtt_config.json', 'r') as f:
 # Make connection with database
 db = mysql.connector.connect(
     host=db_mqtt_settings['db']['host'],
-    user=db_mqtt_settings['db']['user'],
+    user=db_mqtt_settings['db']['username'],
     passwd=db_mqtt_settings['db']['password'],
     database=db_mqtt_settings['db']['database']
     )
