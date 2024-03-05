@@ -98,7 +98,5 @@ namespace crowd_management.pages
                 //Message: no respond
             }
         }
-
-        protected void 
     }
 }

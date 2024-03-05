@@ -1,14 +1,14 @@
 {
   "db": {
-    "host": "your_host",
-    "username": "your_username",
-    "password": "your_password",
-    "database": "your_database"
+    "host": "localhost",
+    "username": "root",
+    "password": "gip-WJ",
+    "database": "crowd_management"
   },
   "mqtt": {
-    "broker": "your_broker",
+    "broker": "broker.hivemq.com",
     "port": 1883,
-    "username": "your_mqtt_username",
-    "password": "your_mqtt_password"
+    "username": "",
+    "password": ""
   }
 }
