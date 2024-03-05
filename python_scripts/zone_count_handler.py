@@ -11,6 +11,7 @@ import json
 
 # Global varible
 thresholds = {}
+current_color = "green"
 
 # Make connection with database
 db = mysql.connector.connect(
@@ -52,18 +53,21 @@ def count_request(msg):
                 print(counter)
 
             if row["barometer_lock"] == 0:
-                if counter <= thresholds[response['id']]['green']:
+                if counter <= thresholds[response['id']]['green'] and current_color != "green":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'green' WHERE `id` = '{response['id']}'")
                     db.commit()
-                elif counter <= thresholds[response['id']]['orange']:
+                    current_color = "green"
+                elif counter <= thresholds[response['id']]['orange'] and current_color != "orange":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'orange' WHERE `id` = '{response['id']}'")
                     db.commit()
-                elif counter >= thresholds[response['id']]['red']:
+                    current_color = "orange"
+                elif counter >= thresholds[response['id']]['red'] and current_color != "red":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'red' WHERE `id` = '{response['id']}'")
                     db.commit()
+                    current_color = "red"
             else:
                 print("Barometer locked")
         else:
