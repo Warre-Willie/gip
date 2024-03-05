@@ -11,7 +11,7 @@ import json
 
 # Global varible
 thresholds = {}
-current_color = "green"
+current_color = ""
 
 # Make connection with database
 db = mysql.connector.connect(
