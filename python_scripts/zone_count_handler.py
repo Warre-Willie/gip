@@ -37,7 +37,7 @@ def count_request(msg):
     response = json.loads(msg.payload.decode())
 
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT `people_count`, `barometer_lock` FROM `zones` WHERE `id` = '{response['id']}'")
+    mycursor.execute(f"SELECT `people_count`, `barometer_lock`, `barometer_color` FROM `zones` WHERE `id` = '{response['id']}'")
     for row in mycursor:
         if row["people_count"] != None:
             counter = int(row["people_count"])
@@ -51,23 +51,25 @@ def count_request(msg):
                 mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
                 db.commit()
                 print(counter)
-
+            # global current_color
+            print(row["barometer_color"])
             if row["barometer_lock"] == 0:
-                if counter <= thresholds[response['id']]['green'] and current_color != "green":
+                if counter <= thresholds[response['id']]['green'] and str(row['barometer_color']) != "green":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'green' WHERE `id` = '{response['id']}'")
                     db.commit()
-                    current_color = "green"
-                elif counter <= thresholds[response['id']]['orange'] and current_color != "orange":
+                    # current_color = "green"
+                elif counter > thresholds[response['id']]['green'] and counter <= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "orange":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'orange' WHERE `id` = '{response['id']}'")
                     db.commit()
-                    current_color = "orange"
-                elif counter >= thresholds[response['id']]['red'] and current_color != "red":
+                    # current_color = "orange"
+                elif counter >= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "red":
                     client.publish("barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
                     mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'red' WHERE `id` = '{response['id']}'")
                     db.commit()
-                    current_color = "red"
+                    # current_color = "red"
+                # print(current_color)
             else:
                 print("Barometer locked")
         else:

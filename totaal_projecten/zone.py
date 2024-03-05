@@ -4,6 +4,7 @@ import machine
 import json
 from neopixel import Neopixel
 from network_setup import connect_wifi, connect_mqtt
+import uasyncio as asyncio
 
 # set zone id
 with open('zone_config.json', 'r') as f:
@@ -72,10 +73,13 @@ def callback(topic, msg):
     response = msg.decode('utf-8')
     response_dict = json.loads(response)
     if(response_dict['id'] == zone_id):
-        color_barometer(response_dict)
+        # color_barometer(response_dict)
+        loop.create_task(color_barometer(response_dict))
+
+loop = asyncio.get_event_loop()
 
 # set barometer incomming json: {"id": 1,"color": "{green, orange, red}"}        
-def color_barometer(response_dict):
+async def color_barometer(response_dict):
     global old_user
     #green
     if response_dict["color"] == "green":
