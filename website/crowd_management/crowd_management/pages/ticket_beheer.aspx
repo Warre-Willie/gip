@@ -164,7 +164,7 @@
                                                 <tr>
                                                     <td>
                                                         <label class="checkbox">
-                                                            <asp:CheckBox ID="cbBadgeRight01" runat="server" AutoPostBack="True" OnCheckedChanged=""/>
+                                                            <%--<asp:CheckBox ID="cbBadgeRight01" runat="server" AutoPostBack="True" OnCheckedChanged=""/>--%>
                                                             Camping
                                                         </label>
                                                     </td>

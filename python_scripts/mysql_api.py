@@ -2,18 +2,22 @@ import paho.mqtt.client as mqtt
 import mysql.connector
 import json
 
+db_mqtt_settings = None
+with open('db_mqtt_config.json', 'r') as f:
+        db_mqtt_settings = json.load(f)    
+
 # Make connection with database
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="gip-WJ",
-    database="crowd_management"
+    host=db_mqtt_settings['db']['host'],
+    user=db_mqtt_settings['db']['user'],
+    passwd=db_mqtt_settings['db']['password'],
+    database=db_mqtt_settings['db']['database']
     )
 mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
 
 # MQTT settings
-broker_address = "broker.hivemq.com"
-port = 1883
+broker_address = db_mqtt_settings['mqtt']['broker']
+port = db_mqtt_settings['mqtt']['port']
 topic = "gip/queries"
 
 # Callback when the client connects to the broker

@@ -78,15 +78,6 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnConnectTicket;
 
         /// <summary>
-        /// cbBadgeRight01 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight01;
-
-        /// <summary>
         /// cbBadgeRight02 control.
         /// </summary>
         /// <remarks>
