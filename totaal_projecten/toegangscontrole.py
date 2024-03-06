@@ -1,16 +1,16 @@
 from mfrc522 import MFRC522
-import feedback_alerts
-from machine import Pin, I2C, PWM, UART
+from machine import Pin, I2C, PWM
 from pico_i2c_lcd import I2cLcd
-import time
-import urandom
-import ubinascii
-import json
+import urandom, ubinascii, json, time
 import uasyncio as asyncio
 from network_setup import connect_wifi, connect_mqtt
+import feedback_alerts
 
 #set the zone
-zone = "2"
+zone_ID = 2
+zone_name = ""
+
+lcd_start_time = time.time()
 
 led_red_pin = Pin(10, Pin.OUT)
 led_green_pin = Pin(11, Pin.OUT)
@@ -35,7 +35,7 @@ def callback(topic, msg):
     db_response = json.loads(response)
 
 def execute_query(query, returnData):
-    feedback_alerts.lcd_display(lcd, "Laden...", "")
+    feedback_alerts.lcd_display(lcd, "", "Laden...")
 
     mqtt_msg_dict = {}
     uuid = gen_uuid()
@@ -64,32 +64,43 @@ def gen_uuid():
 connect_wifi()
 client = connect_mqtt(callback)
 
-while True:
-    lcd.putstr("Scan RFID badge...")
-    reader.init()
-    (stat, tag_type) = reader.request(reader.REQIDL)
-    if stat == reader.OK:
-        (stat, uid) = reader.SelectTagSN()
+async def main():
+    global lcd_start_time
+    while True:
+        if lcd_start_time is not None and lcd_start_time + 2 < time.time():
+            feedback_alerts.lcd_display(lcd, zone_name, "Scan RFID badge")
+            lcd_start_time = None
+        reader.init()
+        (stat, tag_type) = reader.request(reader.REQIDL)
         if stat == reader.OK:
-            card = int.from_bytes(bytes(uid),"little",False)
-            execute_query("SELECT * FROM `tickets` WHERE `rfid` = '" + card + "'", True)
-            while not db_response:
-                client.check_msg()
-                time.sleep(0.1)
-            if db_response:
-                if db_response[0]['access'] == zone:
+            (stat, uid) = reader.SelectTagSN()
+            if stat == reader.OK:
+                badge = int.from_bytes(bytes(uid),"little",False)
+                execute_query(f"""SELECT t.id, t.RFID, brt.badge_right_id, brt.ticket_id, br.id, brz.badge_right_id, brz.zone_id 
+                              FROM tickets t 
+                              JOIN badge_rights_tickets brt ON brt.ticket_id = t.id 
+                              JOIN badge_rights br ON brt.badge_right_id = br.id 
+                              JOIN badge_rights_zones brz ON brz.badge_right_id = br.id 
+                              WHERE t.RFID = '{badge}'""", True)
+                client.wait_msg()
+                if db_response:
+                    # led_green_pin.on()
+                    # led_red_pin.off()
+                    feedback_alerts.lcd_display(lcd, zone_name, "Verleend")
                     await feedback_alerts.play_confirmation(buzzer_pwm)
                 else:
-                    await feedback_alerts.play_error(buzzer_pwm)
-                    await feedback_alerts.error_blink(led_red_pin)
-            else:
-                led_red_pin.value(1)
-                buzzer_pwm.freq(880)
-                buzzer_pwm.duty_u16(32768)
-                time.sleep(0.1)
-                buzzer_pwm.duty_u16(0)
-                led_red_pin.value(0)
-            db_response = {}
-            time.sleep(0.5)
-    time.sleep(0.1)
+                    # led_green_pin.off()
+                    feedback_alerts.lcd_display(lcd, zone_name, "Geweigerd")
+                    await asyncio.gather(feedback_alerts.play_error(buzzer_pwm), feedback_alerts.error_blink(led_red_pin))
+                lcd_start_time = time.time()
 
+if __name__ == "__main__": 
+    execute_query(f"SELECT name FROM zones WHERE id={zone_ID}", True)
+    client.wait_msg()
+    if db_response:
+        zone_name = db_response[0]['name']
+        feedback_alerts.lcd_display(lcd, zone_name, "Scan RFID badge")
+        db_response = {}
+        asyncio.run(main())
+    else:
+        feedback_alerts.lcd_display(lcd, "Ongeldige zone", "")
