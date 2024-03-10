@@ -111,7 +111,7 @@ async def color_barometer(response_dict):
             pixels.set_pixel_line(20,29 , red)
             pixels.show()
 
-    old_user = response_dict["color"]
+    previous_color = response_dict["color"]
 
 
 connect_wifi()
