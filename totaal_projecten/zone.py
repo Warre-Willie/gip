@@ -80,12 +80,12 @@ loop = asyncio.get_event_loop()
 
 # set barometer incomming json: {"id": 1,"color": "{green, orange, red}"}        
 async def color_barometer(response_dict):
-    global old_user
+    global previous_color
     #green
     if response_dict["color"] == "green":
-        if(old_user == "orange"):
+        if(previous_color == "orange"):
             down(19, 9, orange, green)
-        elif(old_user == "green"): 
+        elif(previous_color == "green"): 
             pixels.set_pixel_line(0,9 , green)
             pixels.show()            
         else:
@@ -93,18 +93,18 @@ async def color_barometer(response_dict):
             down(19, 9, orange, green)  
     #orange
     elif response_dict["color"] == "orange":
-        if(old_user == "orange"):
+        if(previous_color == "orange"):
             pixels.set_pixel_line(10,19 , orange)
             pixels.show()
-        elif(old_user == "green"):
+        elif(previous_color == "green"):
             up(1,10,green,orange)
         else:
             down(29, 19, red, orange)
     #red
     else:
-        if(old_user == "orange"):
+        if(previous_color == "orange"):
             up(11,20 ,orange, red)
-        elif(old_user == "green"):
+        elif(previous_color == "green"):
             up(1,10,green,orange)
             up(11,20 ,orange, red)
         else:
