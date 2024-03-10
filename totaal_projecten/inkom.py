@@ -143,6 +143,7 @@ def main():
             scanned_barcode = ''.join(filter(str.isdigit, scanned_barcode)) #remove unwanted characters in the barcode
             if bool(scanned_barcode) and scanned_barcode != "31":
                 barcode_scanned(scanned_barcode)       
-                
+
+#This will only be executed if the script is run directly, not if it's imported.         
 if __name__ == "__main__": 
     main()
