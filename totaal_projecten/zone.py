@@ -117,7 +117,10 @@ async def color_barometer(response_dict):
 connect_wifi()
 client = connect_mqtt(callback)
 # subscribe to topic
-client.subscribe("barometer")
+client.subscribe("/teller/barometer")
+
+#get collor from database
+client.publish("/teller/new_device", '{"id": ' + str(zone_id) + '}')
 
 while True:
     client.check_msg()
@@ -125,7 +128,7 @@ while True:
     if(last_laser_state == True and laser_state == False):
         
         if(switch.value() == True):
-            client.publish("Jesse", '{"id": '+ str(zone_id) + ',"people": 1}')
+            client.publish("/teller", '{"id": '+ str(zone_id) + ',"people": 1}')
         else:
-            client.publish("Jesse", '{"id": '+ str(zone_id) + ',"people": -1}')
+            client.publish("/teller", '{"id": '+ str(zone_id) + ',"people": -1}')
     last_laser_state = laser_state 
