@@ -10,9 +10,9 @@ time.sleep(5)
 print(wlan.ifconfig())
 
 topic_sub = b"my_topic"
-broker_url= b""
-username = b""
-password = b""
+broker_url= b"567c45d531f2488ebee03bbbf8b02f1a.s1.eu.hivemq.cloud"
+username = b"gitok"
+password = b"Gitok1234"
 
 def on_msg(topic, msg):
     print("New message on topic {}".format(topic.decode('utf-8')))
