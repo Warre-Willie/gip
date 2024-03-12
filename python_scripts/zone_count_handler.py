@@ -1,17 +1,9 @@
-#  MQTT publish example
-# {
-#   "UUID": "34df97b8-9b47-4cdd-b11b-09b18e32dbd7",
-#   "returnData": true,
-#   "query": "SELECT * FROM tickets WHERE barcode=\"123456789\";"
-# }
-
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
 
 # Global varible
 thresholds = {}
-current_color = ""
 
 # Make connection with database
 db = mysql.connector.connect(
@@ -23,7 +15,7 @@ db = mysql.connector.connect(
 
 def database_update():
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT * FROM zones")
+    mycursor.execute("SELECT * FROM `zones`")
 
     # Set thresholds
     for row in mycursor:
@@ -37,39 +29,32 @@ def count_request(msg):
     response = json.loads(msg.payload.decode())
 
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT people_count, lockdown, barometer_color FROM zones WHERE id = {int(response['id'])}")
+    mycursor.execute(f"SELECT `people_count`, `lockdown`, `barometer_color` FROM `zones` WHERE `id` = '{response['id']}'")
     for row in mycursor:
         if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
             if counter < 0:
                 counter = 0
-                mycursor.execute(f"UPDATE zones SET people_count= {counter} WHERE id = {int(response['id'])}")
+                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
                 db.commit()
                 print(counter)
             else:
-                mycursor.execute(f"UPDATE zones SET people_count= {counter} WHERE id = {int(response['id'])}")
+                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
                 db.commit()
                 print(counter)
-            # global current_color
-            print(row["barometer_color"])
             if row["lockdown"] == 0:
+                new_color= ""
                 if counter <= thresholds[response['id']]['green'] and str(row['barometer_color']) != "green":
-                    client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
-                    mycursor.execute(f"UPDATE zones SET barometer_color = 'green' WHERE id = {int(response['id'])}")
-                    db.commit()
-                    # current_color = "green"
+                    new_color = "green"
                 elif counter > thresholds[response['id']]['green'] and counter <= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "orange":
-                    client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
-                    mycursor.execute(f"UPDATE zones SET barometer_color = 'orange' WHERE id = {int(response['id'])}")
-                    db.commit()
-                    # current_color = "orange"
+                    new_color = "orange"
                 elif counter >= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "red":
-                    client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
-                    mycursor.execute(f"UPDATE zones SET barometer_color = 'red' WHERE id = {int(response['id'])}")
+                    new_color = "red"
+                if new_color != "":
+                    client.publish("/gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
+                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= '{new_color}' WHERE `id` = '{response['id']}'")
                     db.commit()
-                    # current_color = "red"
-                # print(current_color)
             else:
                 print("Barometer locked")
         else:
@@ -80,9 +65,9 @@ def count_request(msg):
 def new_device(msg):
     response = json.loads(msg.payload.decode())
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT barometer_color FROM zones")
+    mycursor.execute("SELECT barometer_color FROM zones WHERE id = " + str(response["id"]) + ";")
     for row in mycursor:
-        client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": ' + str(row['barometer_color']) + '}')
+        client.publish("/gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
     mycursor.close()
 
 # MQTT settings
@@ -93,12 +78,12 @@ port = 1883
 # The incomming data will be in the format of json: {"id": 1,"people": -1}
 def on_message(client, userdata, msg):
     match = msg.topic
-    if match == "/teller":
+    if match == "/gip/teller/counter":
         count_request(msg)
-    elif match == "/teller/db_update":
+    elif match == "/gip/teller/db_update":
         database_update()
         print("Database updated")
-    elif match == "/teller/new_device":
+    elif match == "/gip/teller/new_device":
         new_device(msg)
     else:
         print("No match")
@@ -118,9 +103,9 @@ database_update()
 # Connect to the broker
 client.connect(broker_address, port, 60)
 
-client.subscribe("/teller")
-client.subscribe("/teller/db_update")
-client.subscribe("/teller/new_device")
+client.subscribe("/gip/teller/counter")
+client.subscribe("/gip/teller/db_update")
+client.subscribe("/gip/teller/new_device")
 # Start the network loop
 while True:
     client.loop_start()
