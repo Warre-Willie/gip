@@ -23,7 +23,7 @@ db = mysql.connector.connect(
 
 def database_update():
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT * FROM `zones`")
+    mycursor.execute("SELECT * FROM zones")
 
     # Set thresholds
     for row in mycursor:
@@ -37,18 +37,18 @@ def count_request(msg):
     response = json.loads(msg.payload.decode())
 
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT `people_count`, `lockdown`, `barometer_color` FROM `zones` WHERE `id` = '{response['id']}'")
+    mycursor.execute(f"SELECT people_count, lockdown, barometer_color FROM zones WHERE id = {int(response['id'])}")
     for row in mycursor:
         if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
             if counter < 0:
                 counter = 0
-                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                mycursor.execute(f"UPDATE zones SET people_count= {counter} WHERE id = {int(response['id'])}")
                 db.commit()
                 print(counter)
             else:
-                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                mycursor.execute(f"UPDATE zones SET people_count= {counter} WHERE id = {int(response['id'])}")
                 db.commit()
                 print(counter)
             # global current_color
@@ -56,17 +56,17 @@ def count_request(msg):
             if row["lockdown"] == 0:
                 if counter <= thresholds[response['id']]['green'] and str(row['barometer_color']) != "green":
                     client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "green"}')
-                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'green' WHERE `id` = '{response['id']}'")
+                    mycursor.execute(f"UPDATE zones SET barometer_color = 'green' WHERE id = {int(response['id'])}")
                     db.commit()
                     # current_color = "green"
                 elif counter > thresholds[response['id']]['green'] and counter <= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "orange":
                     client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "orange"}')
-                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'orange' WHERE `id` = '{response['id']}'")
+                    mycursor.execute(f"UPDATE zones SET barometer_color = 'orange' WHERE id = {int(response['id'])}")
                     db.commit()
                     # current_color = "orange"
                 elif counter >= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "red":
                     client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "red"}')
-                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= 'red' WHERE `id` = '{response['id']}'")
+                    mycursor.execute(f"UPDATE zones SET barometer_color = 'red' WHERE id = {int(response['id'])}")
                     db.commit()
                     # current_color = "red"
                 # print(current_color)
@@ -80,7 +80,7 @@ def count_request(msg):
 def new_device(msg):
     response = json.loads(msg.payload.decode())
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT 'barometer_color' FROM `zones`")
+    mycursor.execute("SELECT barometer_color FROM zones")
     for row in mycursor:
         client.publish("/teller/barometer", '{"id": ' + str(response['id']) + ', "color": ' + str(row['barometer_color']) + '}')
     mycursor.close()
