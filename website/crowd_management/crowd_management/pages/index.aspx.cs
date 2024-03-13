@@ -21,7 +21,7 @@ namespace crowd_management.pages
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            LoadBadgeRights();
+            //LoadBadgeRights();
         }
 
         private Dictionary<int, string> GetBadgeRightsID()
@@ -189,7 +189,7 @@ namespace crowd_management.pages
 
                 if (Session["activeZoneType"].ToString() == "access")
                 {
-                    LoadBadgeRights();
+                    //LoadBadgeRights();
                 }
             }
             catch (Exception ex)
