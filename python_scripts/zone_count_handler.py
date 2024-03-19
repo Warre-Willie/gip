@@ -128,13 +128,11 @@ current_minute = datetime.datetime.now().minute
 # Start the network loop
 while True:
     client.loop_start()
-    now = datetime.datetime.now()
 
+    now = datetime.datetime.now()
     #insert population every 5 minutes
     if now.minute % 5 == 0 and now.minute != current_minute and now.second > 30:
         current_minute = now.minute
         insert_population()
         old_time = now + datetime.timedelta(minutes=5)
         print("Population inserted")
-        
-    
