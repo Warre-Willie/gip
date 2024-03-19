@@ -24,11 +24,17 @@ def connect_wifi():
 
 def connect_mqtt(callback):
     network_config = load_network_config()
-    server = network_config['mqtt']['broker']
-    # port = network_config['mqtt']['port']
-    # user = network_config['mqtt']['user']
-    # password = network_config['mqtt']['password']
-
+    if network_config["isDevelopment"]:
+        server = network_config['mqtt']["mqttDev"]['broker']
+        # port = network_config['mqtt']["mqttDev"]['port']
+        # user = network_config['mqtt']["mqttDev"]['user']
+        # password = network_config['mqtt']["mqttDev"]['password']
+    else:
+        server = network_config['mqtt']["mqttProd"]['broker']
+        # port = network_config['mqtt']["mqttProd"]['port']
+        # user = network_config['mqtt']["mqttProd"]['user']
+        # password = network_config['mqtt']["mqttProd"]['password']
+        
     client = MQTTClient(b"", server)
     client.set_callback(callback)
     client.connect()

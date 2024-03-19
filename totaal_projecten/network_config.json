@@ -1,12 +1,21 @@
 {
+  "isDevlopment": true,
   "wifi": {
     "ssid": "TP-LINK_EE42",
     "password": "29487868"
   },
   "mqtt": {
-    "broker": "broker.hivemq.com",
-    "port": 1883,
-    "username": "",
-    "password": ""
+    "mqttDev": {
+      "broker": "broker.hivemq.com",
+      "port": 1883,
+      "username": "",
+      "password": ""
+    },
+    "mqttProd": {
+      "broker": "192.168.0.101",
+      "port": 1883,
+      "username": "",
+      "password": ""
+    }
   }
 }

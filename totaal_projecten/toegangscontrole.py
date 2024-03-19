@@ -104,3 +104,4 @@ if __name__ == "__main__":
         asyncio.run(main())
     else:
         feedback_alerts.lcd_display(lcd, "Ongeldige zone", "")
+
