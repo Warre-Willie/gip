@@ -5,13 +5,26 @@ import json
 # Global varible
 thresholds = {}
 
+db_mqtt_settings = None
+with open('db_mqtt_config.json', 'r') as f:
+        db_mqtt_settings = json.load(f)    
+
 # Make connection with database
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="gip-WJ",
-    database="crowd_management"
+    host=db_mqtt_settings['db']['host'],
+    user=db_mqtt_settings['db']['username'],
+    passwd=db_mqtt_settings['db']['password'],
+    database=db_mqtt_settings['db']['database']
     )
+mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+
+# MQTT settings
+if db_mqtt_settings["isDevlopment"] == True:
+    broker_address = db_mqtt_settings['mqtt']["mqttDev"]['broker']
+    port = db_mqtt_settings['mqtt']["mqttDev"]['port']
+else:
+    broker_address = db_mqtt_settings['mqtt']["mqttProd"]['broker']
+    port = db_mqtt_settings['mqtt']["mqttProd"]['port']
 
 def database_update():
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
@@ -70,9 +83,6 @@ def new_device(msg):
         client.publish("/gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
     mycursor.close()
 
-# MQTT settings
-broker_address = "broker.hivemq.com"
-port = 1883
 
 # Callback when a message is received from the broker
 # The incomming data will be in the format of json: {"id": 1,"people": -1}

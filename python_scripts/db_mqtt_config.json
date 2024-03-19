@@ -1,4 +1,5 @@
 {
+  "isDevlopment": true,
   "db": {
     "host": "localhost",
     "username": "root",
@@ -6,9 +7,17 @@
     "database": "crowd_management"
   },
   "mqtt": {
-    "broker": "broker.hivemq.com",
-    "port": 1883,
-    "username": "",
-    "password": ""
+    "mqttDev": {
+      "broker": "broker.hivemq.com",
+      "port": 1883,
+      "username": "",
+      "password": ""
+    },
+    "mqttProd": {
+      "broker": "192.168.0.101",
+      "port": 1883,
+      "username": "",
+      "password": ""
+    }
   }
 }

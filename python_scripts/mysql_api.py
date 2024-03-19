@@ -16,8 +16,13 @@ db = mysql.connector.connect(
 mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
 
 # MQTT settings
-broker_address = db_mqtt_settings['mqtt']['broker']
-port = db_mqtt_settings['mqtt']['port']
+if db_mqtt_settings["isDevlopment"] == True:
+    broker_address = db_mqtt_settings['mqtt']["mqttDev"]['broker']
+    port = db_mqtt_settings['mqtt']["mqttDev"]['port']
+else:
+    broker_address = db_mqtt_settings['mqtt']["mqttProd"]['broker']
+    port = db_mqtt_settings['mqtt']["mqttProd"]['port']
+
 topic = "gip/queries"
 
 # Callback when the client connects to the broker
