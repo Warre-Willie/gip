@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
+import datetime
 
 # Global varible
 thresholds = {}
@@ -83,6 +84,12 @@ def new_device(msg):
         client.publish("/gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
     mycursor.close()
 
+def insert_population():
+    mycursor = db.cursor(dictionary=True)
+    mycursor.execute("SELECT `id`, `people_count` FROM `zones` WHERE `people_count` <> 0")
+    for row in mycursor:
+        mycursor.execute(f"INSERT INTO `zone_population_data`(`zone_id`, `people_count`) VALUES ({row["id"]},{row["people_count"]})")
+        db.commit()
 
 # Callback when a message is received from the broker
 # The incomming data will be in the format of json: {"id": 1,"people": -1}
@@ -116,7 +123,18 @@ client.connect(broker_address, port, 60)
 client.subscribe("/gip/teller/counter")
 client.subscribe("/gip/teller/db_update")
 client.subscribe("/gip/teller/new_device")
+
+current_minute = datetime.datetime.now().minute
 # Start the network loop
 while True:
     client.loop_start()
+    now = datetime.datetime.now()
+
+    #insert population every 5 minutes
+    if now.minute % 5 == 0 and now.minute != current_minute and now.second > 30:
+        current_minute = now.minute
+        insert_population()
+        old_time = now + datetime.timedelta(minutes=5)
+        print("Population inserted")
+        
     
