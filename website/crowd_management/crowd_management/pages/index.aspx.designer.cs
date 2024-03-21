@@ -33,6 +33,69 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.ImageMap imgHeatMap;
 
         /// <summary>
+        /// zoneLockdown1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown1;
+
+        /// <summary>
+        /// tagZoneColor1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor1;
+
+        /// <summary>
+        /// tagZoneName1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label tagZoneName1;
+
+        /// <summary>
+        /// tagZonePrecentage1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label tagZonePrecentage1;
+
+        /// <summary>
+        /// zoneLockdown2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown2;
+
+        /// <summary>
+        /// Span2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Span2;
+
+        /// <summary>
+        /// tagZoneName2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label tagZoneName2;
+
+        /// <summary>
         /// divInfoPanel control.
         /// </summary>
         /// <remarks>
@@ -222,6 +285,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatusSettings;
 
         /// <summary>
+        /// tbMaxPeople control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbMaxPeople;
+
+        /// <summary>
         /// tbBarThresGreen control.
         /// </summary>
         /// <remarks>
@@ -238,15 +310,6 @@ namespace crowd_management.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbBarThresOrange;
-
-        /// <summary>
-        /// tbBarThresRed control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbBarThresRed;
 
         /// <summary>
         /// tbEditPeopleCount control.

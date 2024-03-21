@@ -34,7 +34,7 @@
                     <a href="index.aspx" class="navbar-item">Crowd management
                     </a>
 
-                    <a href="ticket_beheer.aspx" class="navbar-item">Ticket beheer
+                    <a href="ticket_beheer.aspx" class="navbar-item">Ticketbeheer
                     </a>
 
                     <a href="rapport.aspx" class="navbar-item">Rapport maken

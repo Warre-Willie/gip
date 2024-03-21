@@ -24,6 +24,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// imgBarcode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgBarcode;
+
+        /// <summary>
         /// progress control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace crowd_management.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl progressValue;
+
+        /// <summary>
+        /// ddTicketSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddTicketSearch;
 
         /// <summary>
         /// tbTicketFilter control.
@@ -69,6 +87,15 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnClearFilter;
 
         /// <summary>
+        /// divTicketPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTicketPanel;
+
+        /// <summary>
         /// btnConnectTicket control.
         /// </summary>
         /// <remarks>
@@ -78,30 +105,12 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Button btnConnectTicket;
 
         /// <summary>
-        /// cbBadgeRight02 control.
+        /// divTicketBadgeRights control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight02;
-
-        /// <summary>
-        /// cbBadgeRight03 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight03;
-
-        /// <summary>
-        /// cbBadgeRight04 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbBadgeRight04;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTicketBadgeRights;
     }
 }
