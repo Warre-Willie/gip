@@ -3,9 +3,6 @@ import mysql.connector
 import json
 import datetime
 
-# Global varible
-thresholds = {}
-
 db_mqtt_settings = None
 with open('db_mqtt_config.json', 'r') as f:
         db_mqtt_settings = json.load(f)    
@@ -27,24 +24,16 @@ else:
     broker_address = db_mqtt_settings['mqtt']["mqttProd"]['broker']
     port = db_mqtt_settings['mqtt']["mqttProd"]['port']
 
-def database_update():
-    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT * FROM `zones`")
-
-    # Set thresholds
-    for row in mycursor:
-        if row["people_count"] != None:
-            threshold = {"green": row["threshold_green"], "orange": row["threshold_orange"]}
-            thresholds[row["id"]] = (threshold)
-
 
 def count_request(msg):
     counter = 0
     response = json.loads(msg.payload.decode())
 
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT `people_count`, `lockdown`, `barometer_color` FROM `zones` WHERE `id` = '{response['id']}'")
+    mycursor.execute(f"SELECT * FROM `zones` WHERE `id` = '{response['id']}'")
+    
     for row in mycursor:
+        
         if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
@@ -57,13 +46,14 @@ def count_request(msg):
                 mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
                 db.commit()
                 print(counter)
+            counter_prcentage = (counter / row["max_people"]) * 100
             if row["lockdown"] == 0:
                 new_color= ""
-                if counter <= thresholds[response['id']]['green'] and str(row['barometer_color']) != "green":
+                if counter_prcentage <= row["threshold_green"] and str(row['barometer_color']) != "green":
                     new_color = "green"
-                elif counter > thresholds[response['id']]['green'] and counter <= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "orange":
+                elif counter_prcentage > row["threshold_green"] and counter <= row["threshold_orange"] and str(row['barometer_color']) != "orange":
                     new_color = "orange"
-                elif counter >= thresholds[response['id']]['orange'] and str(row['barometer_color']) != "red":
+                elif counter_prcentage >= row["threshold_orange"] and str(row['barometer_color']) != "red":
                     new_color = "red"
                 if new_color != "":
                     client.publish("/gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
@@ -97,9 +87,7 @@ def on_message(client, userdata, msg):
     match = msg.topic
     if match == "/gip/teller/counter":
         count_request(msg)
-    elif match == "/gip/teller/db_update":
-        database_update()
-        print("Database updated")
+        print("Count request")
     elif match == "/gip/teller/new_device":
         new_device(msg)
     else:
@@ -114,14 +102,10 @@ client = mqtt.Client(client_id="", clean_session=True)
 # client.on_connect = on_connect
 client.on_message = on_message
 
-#First database update to get the thresholds
-database_update()
-
 # Connect to the broker
 client.connect(broker_address, port, 60)
 
 client.subscribe("/gip/teller/counter")
-client.subscribe("/gip/teller/db_update")
 client.subscribe("/gip/teller/new_device")
 
 current_minute = datetime.datetime.now().minute
