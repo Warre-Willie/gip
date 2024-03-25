@@ -33,19 +33,18 @@ def count_request(msg):
     mycursor.execute(f"SELECT * FROM `zones` WHERE `id` = '{response['id']}'")
     
     for row in mycursor:
-        
         if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
             if counter < 0:
                 counter = 0
                 mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
-                db.commit()
                 print(counter)
             else:
                 mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
-                db.commit()
+
                 print(counter)
+            db.commit()
             counter_prcentage = (counter / row["max_people"]) * 100
             if row["lockdown"] == 0:
                 new_color= ""
@@ -57,7 +56,9 @@ def count_request(msg):
                     new_color = "red"
                 if new_color != "":
                     client.publish("/gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
-                    mycursor.execute(f"UPDATE `zones` SET `barometer_color`= '{new_color}' WHERE `id` = '{response['id']}'")
+                    mycursor.execute(f"UPDATE zones SET barometer_color = '{new_color}' WHERE id = '{response['id']}'")
+                    db.commit()
+                    mycursor.execute(f"INSERT INTO barometer_logbook (zone_id, color) VALUES ({response['id']}, '{new_color}')")
                     db.commit()
             else:
                 print("Barometer locked")
@@ -87,7 +88,6 @@ def on_message(client, userdata, msg):
     match = msg.topic
     if match == "/gip/teller/counter":
         count_request(msg)
-        print("Count request")
     elif match == "/gip/teller/new_device":
         new_device(msg)
     else:
