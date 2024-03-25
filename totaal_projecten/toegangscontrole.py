@@ -6,8 +6,11 @@ import uasyncio as asyncio
 from network_setup import connect_wifi, connect_mqtt
 import feedback_alerts
 
-#set the zone
-zone_ID = 2
+# set zone id
+with open('toegang_config.json', 'r') as f:
+    config = json.load(f)
+
+zone_id = config['zone_id']
 zone_name = ""
 
 lcd_start_time = time.time()
@@ -48,6 +51,9 @@ def execute_query(query, returnData):
     client.publish("gip/queries", json_string)
 
 
+# This function generates a unique UUID (Universally Unique Identifier).
+# It does this by generating random bytes, converting them to a hexadecimal string, and concatenating them together.
+# The resulting UUID consists of 4 groups of hexadecimal strings, separated by hyphens.
 def gen_uuid():
     uuid = ""
     x = 4
@@ -64,6 +70,7 @@ def gen_uuid():
 connect_wifi()
 client = connect_mqtt(callback)
 
+# The main function is defined as an asynchronous function.
 async def main():
     global lcd_start_time
     while True:
