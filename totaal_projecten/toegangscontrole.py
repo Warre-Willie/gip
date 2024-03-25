@@ -66,7 +66,6 @@ def gen_uuid():
             uuid += "-"
     return uuid
 
-
 connect_wifi()
 client = connect_mqtt(callback)
 
@@ -111,4 +110,3 @@ if __name__ == "__main__":
         asyncio.run(main())
     else:
         feedback_alerts.lcd_display(lcd, "Ongeldige zone", "")
-
