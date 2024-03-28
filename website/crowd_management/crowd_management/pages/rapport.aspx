@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapport maken</title>
 
-    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
@@ -20,7 +20,7 @@
         <nav class="navbar is-link" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item navbar-brand-container" href="index.aspx">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png"/>
+                    <img class="navbar-brand-img" src="../image/logo_navbar.png" />
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -56,8 +56,8 @@
         <div class="tile is-ancestor tile-padding">
             <div class="tile is-4 is-vertical is-parent fit-tile-content">
                 <div class="tile is-child box">
-                    <p class="subtitle"><b>Download instellingen</b></p>
-                    <div class="card-content filter-table">
+                    <p class="subtitle"><b>Rapport instellingen</b></p>
+                    <div class="filter-table">
                         <table class="table is-fullwidth">
                             <tbody>
                                 <tr>
@@ -87,28 +87,48 @@
                             </tbody>
                         </table>
                     </div>
-                    <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth"/>
+                    <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth" OnClick="btnGenRapport_Click" />
+                </div>
+                <div class="tile is-child box">
+                    <nav class="panel" style="height: 400px; overflow: auto;">
+                        <p class="panel-heading">Oude rapporten</p>
+                        <div class="panel-block">
+                            <p class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Search" />
+                                <span class="icon is-left">
+                                    <i class="fas fa-search" aria-hidden="true"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div id="divPdfList" runat="server">
+                        </div>
+                        <div class="panel-block">
+                            <button class="button is-link is-outlined is-fullwidth">
+                                Reset all filters
+                            </button>
+                        </div>
+                    </nav>
                 </div>
             </div>
             <div class="tile is-vertical is-parent fit-tile-content">
-                <div class="tile is-child box">
+                <div id="pdfContainer" runat="server" class="tile is-child box">
                     <p class="subtitle"><b>Voorstelling</b></p>
                     <div class="is-hidden-touch">
                         <object
-                            data="../rapports/main preview doc.pdf"
+                            data="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf"
                             type="application/pdf"
                             width="100%"
                             height="700px">
                             <p>
                                 Unable to display PDF file.
-                <a href="../rapports/main preview doc.pdf">Download</a> instead.
+                <a href="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf">Download</a> instead.
                             </p>
                         </object>
                     </div>
                     <div class="is-hidden-desktop">
                         <p>
                             Open a PDF file
-              <a href="preview_doc/main preview doc.pdf" target="_blank">example</a>.
+              <a href="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf" target="_blank">example</a>.
                         </p>
                     </div>
                 </div>

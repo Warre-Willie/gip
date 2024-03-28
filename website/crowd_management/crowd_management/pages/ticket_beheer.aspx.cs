@@ -54,7 +54,7 @@ namespace crowd_management.pages
                 {
                     if (row["id"].ToString() == Session["ticketID"].ToString())
                     {
-                        ticket.CssClass += " ticket-selected";
+                        ticket.CssClass += " panel-selected";
                     }
                 }
 
