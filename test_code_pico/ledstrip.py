@@ -15,6 +15,8 @@ none = (0,0,0)
 
 pixels.brightness(100)
 
+# The 'down' and 'up' function animates a downward movement on an LED strip. It takes two pixel addresses and two colors as arguments.
+# It lights up a line of pixels between the two addresses with the specified colors, then shifts the line down one pixel at a time.
 def down(pixel_addres_1, pixel_addres_2, color_1, color_2):
 
     x = pixel_addres_1
@@ -43,6 +45,8 @@ def up(pixel_addres_1, pixel_addres_2, color_1, color_2):
          x += 1
          y += 1
 
+# The infinite while loop takes user input to change the LED strip color. 
+#Depending on the input and the previous color, it calls the 'up' or 'down' function to animate the color transition.
 while True:
     color = input("geef een getal 1(groen) 2(oranje) 3(rood):")
     if color == "1":

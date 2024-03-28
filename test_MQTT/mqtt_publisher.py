@@ -34,7 +34,8 @@ try:
 except OSError as e:
     reconnect()
     
-
+# The while loop continuously checks the state of two buttons: 'button_on' and 'button_off'.
+#and publishes a message to the MQTT broker when a button is pressed.
 while True:
     if button_on.value() == 1:
         client.publish(topic_pub, topic_on_msg)
