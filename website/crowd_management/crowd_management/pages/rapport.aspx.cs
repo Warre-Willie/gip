@@ -23,6 +23,7 @@ namespace crowd_management.pages
             {
                 pdfContainer.Visible = false;
             }
+            setPdfList();
         }
         protected override void OnUnload(EventArgs e)
         {
@@ -55,9 +56,27 @@ namespace crowd_management.pages
             SetPdfContainer(fileName);
         }
 
+        private protected void setPdfList()
+        {
+            string query = "SELECT * FROM report_files";
+            DataTable pdfList = dbRepository.SQLExecuteReader(query);
+
+            divPdfList.Controls.Clear();
+
+            foreach (DataRow row in pdfList.Rows)
+            {
+                LinkButton pdf = new LinkButton();
+
+                pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"].ToString()}<br>";
+                pdf.ID = row["file_name"].ToString();
+
+                divPdfList.Controls.Add(pdf);
+            }
+        }   
         protected void pdfList_Click(object sender, EventArgs e)
         {
-            
+            LinkButton file = (LinkButton)sender;
+            SetPdfContainer(file.ID);
         }
 
         private void SetPdfContainer(string filename)
