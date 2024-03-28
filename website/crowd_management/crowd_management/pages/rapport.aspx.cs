@@ -69,8 +69,10 @@ namespace crowd_management.pages
 
                 pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"].ToString()}<br>";
                 pdf.ID = row["file_name"].ToString();
+                pdf.Click += pdfList_Click;
 
                 divPdfList.Controls.Add(pdf);
+                setPdfList();
             }
         }   
         protected void pdfList_Click(object sender, EventArgs e)
@@ -86,7 +88,7 @@ namespace crowd_management.pages
 
             pdfContainer.InnerHtml = $@"<p class=""subtitle""><b>Voorstelling</b></p>
                                         <div class=""is-hidden-touch"">
-                                            <object data=""{pdfUrl}"" type=""application/pdf"" width=""100%"" height=""700px"">
+                                            <object data=""\rapports\{pdfUrl}"" type=""application/pdf"" width=""100%"" height=""700px"">
                                                 <p>Er is een fout opgetreden met het openen van de pdf</p>
                                             </object>
                                         </div>
