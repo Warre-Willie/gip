@@ -16,7 +16,7 @@
 }
 
 .logbook {
-  max-height: 450px;
+  max-height: 300px;
   overflow: auto;
 }
 
@@ -62,6 +62,10 @@
   margin-left: 25%;
 }
 
+.panel-selected {
+    background-color: whitesmoke;
+}
+
 body {
   min-height: 100vh;
   display: flex;
@@ -102,3 +106,10 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.zone-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

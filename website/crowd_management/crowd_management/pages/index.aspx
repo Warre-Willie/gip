@@ -38,7 +38,7 @@
                     <a href="index.aspx" class="navbar-item">Crowd management
                     </a>
 
-                    <a href="ticket_beheer.aspx" class="navbar-item">Ticket beheer
+                    <a href="ticket_beheer.aspx" class="navbar-item">Ticketbeheer
                     </a>
 
                     <a href="rapport.aspx" class="navbar-item">Rapport maken
@@ -79,12 +79,46 @@
                                     </asp:ImageMap>
 
                                     <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>
-                                        Zone1
-
+                                        <div class="zone-tile">
+                                            <div class="icons">
+                                                <span class="icon is-large">
+                                                    <i class="fas fa-2x fa-solid fa-users"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i id="zoneLockdown1" runat="server" class="fa-solid fa-lock"></i>
+                                                </span>
+                                            </div>
+                                            <div class="zone-info">
+                                                <span id="tagZoneColor1" runat="server" class="tag is-danger is-light is-medium">
+                                                    <b>
+                                                        <asp:Label ID="tagZoneName1" runat="server"></asp:Label>
+                                                    </b>
+                                                    &nbsp;
+                                                    <span>
+                                                        <asp:Label ID="tagZonePrecentage1" runat="server"></asp:Label>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>
-                                        Zone2
-
+                                        <div class="zone-tile">
+                                            <div class="icons">
+                                                <span class="icon is-large">
+                                                    <i class="fas fa-2x fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i id="zoneLockdown2" runat="server" class="fa-solid fa-lock"></i>
+                                                </span>
+                                            </div>
+                                            <div class="zone-info">
+                                                <span id="Span2" runat="server" class="tag is-link is-light is-medium">
+                                                    <b>
+                                                        <asp:Label ID="tagZoneName2" runat="server"></asp:Label>
+                                                    </b>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </article>
@@ -146,7 +180,7 @@
                                         </span>
                                         <div class="pt-2 pr-2">
                                             <div class="select is-small">
-                                                <asp:DropDownList ID="dbZoneLogbookFilter" runat="server" AutoPostBack="True" OnSelectedIndexChanged="dbZoneLogbookFilter_SelectedIndexChanged">
+                                                <asp:DropDownList ID="dbZoneLogbookFilter" runat="server" AutoPostBack="True">
                                                     <asp:ListItem Selected="True" Value="5">5 min</asp:ListItem>
                                                     <asp:ListItem Value="15">15 min</asp:ListItem>
                                                     <asp:ListItem Value="30">30 min</asp:ListItem>
@@ -266,27 +300,36 @@
                                 <div class="card-content">
                                     <div class="content">
                                         <div class="field">
-                                            <label class="label">Drempelwaarde wijzigen</label>
+                                            <label class="label">Maximum aantal mensen</label>
+                                            <div class="control">
+                                                <div class="is-desktop">
+                                                    <div class="field">
+                                                        <div class="control">
+                                                            <asp:TextBox ID="tbMaxPeople" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label class="label">Drempelwaarde wijzigen in procent</label>
                                             <div class="control">
                                                 <div class="columns is-desktop">
                                                     <div class="column">
                                                         <div class="field">
-                                                            <div class="control">
-                                                                <asp:TextBox ID="tbBarThresGreen" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <div class="control has-icons-right">
+                                                                <asp:TextBox ID="tbBarThresGreen" type="number" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                                <span class="icon is-small is-right">
+                                                                    <i class="fa-solid fa-percent"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="column">
                                                         <div class="field">
-                                                            <div class="control">
-                                                                <asp:TextBox ID="tbBarThresOrange" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="column">
-                                                        <div class="field">
-                                                            <div class="control">
-                                                                <asp:TextBox ID="tbBarThresRed" runat="server" class="input is-danger" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <div class="control has-icons-right">
+                                                                <asp:TextBox ID="tbBarThresOrange" type="number" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                                <span class="icon is-small is-right">
+                                                                    <i class="fa-solid fa-percent"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -305,13 +348,13 @@
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </span>
                                         </span>
-                                        <span>Wijwig aantal mensen
+                                        <span>Wijzig aantal mensen
                                         </span>
                                     </p>
                                 </header>
                                 <div class="card-content">
                                     <div class="content">
-                                        <asp:TextBox ID="tbEditPeopleCount" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                        <asp:TextBox ID="tbEditPeopleCount" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -328,13 +371,7 @@
                                         <span>Badgerechten</span>
                                     </p>
                                 </header>
-                                <div ID="divBadgeRightsEdit" runat="server" class="card-content">
-                                    <%--<table id="tableBadgeRightsEdit" runat="server" class="table is-fullwidth">
-                                    </table>--%>
-                                    <%--<asp:Panel ID="Panel1" runat="server">
-
-                                    </asp:Panel>--%>
-                                    <%--<asp:PlaceHolder ID="Panel1" runat="server"></asp:PlaceHolder>--%>
+                                <div id="divBadgeRightsEdit" runat="server" class="card-content">
                                 </div>
                             </div>
                         </div>
