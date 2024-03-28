@@ -115,20 +115,20 @@
                     <p class="subtitle"><b>Voorstelling</b></p>
                     <div class="is-hidden-touch">
                         <object
-                            data="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf"
+                            data="../eventHandlers/report.ashx?filename=print_rapport.pdf"
                             type="application/pdf"
                             width="100%"
                             height="700px">
                             <p>
                                 Unable to display PDF file.
-                <a href="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf">Download</a> instead.
+                <a href="../eventHandlers/report.ashx?filename=print_rapport.pdf">Download</a> instead.
                             </p>
                         </object>
                     </div>
                     <div class="is-hidden-desktop">
                         <p>
                             Open a PDF file
-              <a href="../eventHandlers/DisplayPdf.ashx?filename=print_rapport.pdf" target="_blank">example</a>.
+              <a href="../eventHandlers/report.ashx?filename=print_rapport.pdf" target="_blank">example</a>.
                         </p>
                     </div>
                 </div>

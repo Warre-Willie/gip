@@ -2,8 +2,13 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Policy;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace crowd_management.classes
 {
@@ -169,16 +174,18 @@ namespace crowd_management.classes
             Stream response = client.SendAsync(request).Result.Content.ReadAsStreamAsync().Result;
 
             DateTime createTime = DateTime.Now;
-            string fileName =createTime.ToString("yyyyMMddHHmmss") + ".pdf";
-            string friendlyName = $"{$"{createTime.Day:d2}/{createTime.Month:d2}/{createTime.Year} {createTime.Hour:d2}:{createTime.Minute:d2}.pdf"}";
+            string fileName = createTime.ToString("yyyyMMddHHmmss") + ".pdf";
+            string friendlyName = $"{$"{createTime.Day:d2}/{createTime.Month:d2}/{createTime.Year} {createTime.Hour:d2}:{createTime.Minute:d2}"}";
+            
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string relativePath = @"rapports\" + fileName;
+            string fullPath = Path.Combine(baseDirectory, relativePath);
 
-            FileStream fs = File.Create($@"C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\rapports\{fileName}");
+            FileStream fs = File.Create(fullPath);
             response.CopyTo(fs);
             fs.Close();
 
             return (fileName, friendlyName);
         }
-
-
     }
 }
