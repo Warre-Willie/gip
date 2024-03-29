@@ -38,8 +38,7 @@
               "RelativeToolTip": "crowd_management\\pages\\ticket_beheer.aspx.cs",
               "ViewState": "AQIAADsAAAAAAAAAAAAowGAAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T20:48:06.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-28T20:48:06.236Z"
             },
             {
               "$type": "Document",
@@ -51,8 +50,7 @@
               "RelativeToolTip": "crowd_management\\pages\\ticket_beheer.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-03-28T20:46:14.217Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-28T20:46:14.217Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "crowd_management\\pages\\rapport.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-03-28T17:26:31.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-28T17:26:31.879Z"
             }
           ]
         }
