@@ -16,7 +16,7 @@ namespace crowd_management.classes
     {
         // This class is used to convert a html file to a pdf file using the html2pdf.com
         // This class mimics the request that is made when you upload a file to the website
-        // This is not a official api with documentation
+        // This is not a official API with documentation
 
         string baseUrl = "https://html2pdf.com";
 

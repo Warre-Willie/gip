@@ -23,7 +23,7 @@ namespace crowd_management.pages
             {
                 pdfContainer.Visible = false;
             }
-            setPdfList();
+            SetPdfList();
         }
         protected override void OnUnload(EventArgs e)
         {
@@ -37,7 +37,6 @@ namespace crowd_management.pages
         {
             // Generate the pdf file with the filter data
 
-            //var fileNames = htmlToPdfConverter.ConvertToPdf(@"C:\Users\warre\Documents\Programmeren\gip\website\print_rapport.html");
             var fileNames = htmlToPdfConverter.ConvertToPdf(Server.MapPath("~/rapports/print_rapport.html"));
 
             string fileName = fileNames.Item1;
@@ -56,9 +55,9 @@ namespace crowd_management.pages
             SetPdfContainer(fileName);
         }
 
-        private protected void setPdfList()
+        private void SetPdfList()
         {
-            string query = "SELECT * FROM report_files";
+            string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
             DataTable pdfList = dbRepository.SQLExecuteReader(query);
 
             divPdfList.Controls.Clear();
@@ -67,9 +66,10 @@ namespace crowd_management.pages
             {
                 LinkButton pdf = new LinkButton();
 
-                pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"].ToString()}<br>";
+                pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"].ToString()}";
                 pdf.ID = row["file_name"].ToString();
                 pdf.Click += pdfList_Click;
+                pdf.CssClass = "panel-block";
 
                 divPdfList.Controls.Add(pdf);
             }
@@ -96,7 +96,7 @@ namespace crowd_management.pages
                                                 <a href=""{pdfUrl}"" target=""_blank"">example</a>.
                                             </p>
                                         </div>";
-            setPdfList();
+            SetPdfList();
         }
     }
 }
