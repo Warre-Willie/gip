@@ -72,7 +72,6 @@ namespace crowd_management.pages
                 pdf.Click += pdfList_Click;
 
                 divPdfList.Controls.Add(pdf);
-                setPdfList();
             }
         }   
         protected void pdfList_Click(object sender, EventArgs e)
@@ -97,6 +96,7 @@ namespace crowd_management.pages
                                                 <a href=""{pdfUrl}"" target=""_blank"">example</a>.
                                             </p>
                                         </div>";
+            setPdfList();
         }
     }
 }
