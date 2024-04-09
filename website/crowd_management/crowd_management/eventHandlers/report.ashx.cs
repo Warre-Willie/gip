@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Web;
 
 namespace crowd_management
 {
     public class DisplayPdf : IHttpHandler
     {
-
-        public void ProcessRequest(HttpContext context)
+			public void ProcessRequest(HttpContext context)
         {
             string filename = context.Request.QueryString["filename"];
 

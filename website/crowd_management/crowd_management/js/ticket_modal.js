@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Functions to open and close a modal
     function openModal($el) {
-        if (confirm("Door het opnieuw te koppelen van een badge wordt de oude vergeten. Wilt u doorgaan?") == true) {
+        if (confirm("Door het opnieuw te koppelen van een badge wordt de oude vergeten. Wilt u doorgaan?") === true) {
             $el.classList.add("is-active");
             ModalTriggered();
         };
@@ -49,14 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function ModalTriggered() {
-    $.ajax({
+    window.$.ajax({
         type: "POST",
         url: "ticket_beheer.aspx/ModalTriggered",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
         },
-        error: function (xhr, status, error) {
+        error: function () {
         }
     });
 };

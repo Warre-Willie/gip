@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ticket_beheer.aspx.cs" Inherits="crowd_management.pages.ticket_beheer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ticket_beheer.aspx.cs" Inherits="crowd_management.pages.TicketBeheer" %>
 
 <!DOCTYPE html>
 

@@ -11,7 +11,7 @@ namespace crowd_management.pages
 {
 
 
-    public partial class ticket_beheer
+    public partial class TicketBeheer
     {
 
         /// <summary>

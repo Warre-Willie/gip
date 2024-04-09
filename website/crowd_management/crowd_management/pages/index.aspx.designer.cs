@@ -11,7 +11,7 @@ namespace crowd_management.pages
 {
 
 
-    public partial class index
+    public partial class Index
     {
 
         /// <summary>

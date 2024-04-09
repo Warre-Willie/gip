@@ -1,10 +1,10 @@
 //https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
 
 function searchTicket() {
-    var input, filter, a, i, txtValue;
+    var input, filter, a, i;
     input = document.getElementById("tbTicketFilter");
     filter = input.value.toUpperCase();
-    tickets = document.getElementById("divTicketList");
+    var tickets = document.getElementById("divTicketList");
     a = tickets.getElementsByTagName("a");
 
     var filterAttributes = {
@@ -14,9 +14,8 @@ function searchTicket() {
     };
 
     for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
 
-        var ddTicketSearch = document.getElementById("ddTicketSearch");
+	    var ddTicketSearch = document.getElementById("ddTicketSearch");
         var selectedFilter = ddTicketSearch.value;
 
         var attribute = a[i].getAttribute(filterAttributes[selectedFilter]);

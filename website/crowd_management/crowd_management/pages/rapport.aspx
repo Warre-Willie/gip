@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="rapport.aspx.cs" Inherits="crowd_management.pages.rapport" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="rapport.aspx.cs" Inherits="crowd_management.pages.Rapport" %>
 
 <!DOCTYPE html>
 

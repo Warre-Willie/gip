@@ -6,56 +6,56 @@ namespace crowd_management.classes
 {
     public class DbRepository
     {
-        const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
-        MySqlConnection conn;
-        MySqlCommand cmd = new MySqlCommand();
+			private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
+			private readonly MySqlConnection _conn;
+			private readonly MySqlCommand _cmd = new MySqlCommand();
 
         public DbRepository()
         {
-            conn = new MySqlConnection(constring);
-            conn.Open();
+            _conn = new MySqlConnection(ConnString);
+            _conn.Open();
         }
 
         public void Dispose()
         {
-            if (conn != null)
+            if (_conn != null)
             {
-                conn.Close();
-                conn.Dispose();
+                _conn.Close();
+                _conn.Dispose();
             }
         }
 
-        public DataTable SQLExecuteReader(string query)
+        public DataTable SqlExecuteReader(string query)
         {
             DataTable dt = new DataTable();
 
             try
             {
-                cmd.Connection = conn;
-                cmd.CommandText = query;
+                _cmd.Connection = _conn;
+                _cmd.CommandText = query;
 
-                MySqlDataReader reader = cmd.ExecuteReader();
+                MySqlDataReader reader = _cmd.ExecuteReader();
                 dt.Load(reader);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.ToString());
             }
 
             return dt;
         }
 
-        public void SQLExecute(string query)
+        public void SqlExecute(string query)
         {
             try
             {
-                cmd.Connection = conn;
-                cmd.CommandText = query;
-                cmd.ExecuteNonQuery();
+                _cmd.Connection = _conn;
+                _cmd.CommandText = query;
+                _cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.ToString());
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.Index" %>
 
 <!DOCTYPE html>
 
@@ -45,15 +45,15 @@
                     </a>
                 </div>
 
-                <!-- <div class="navbar-end">
+               <%--  <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
                     <a class="button is-warning">
                         <strong>Login</strong>
                     </a>
                 </div>
-            </div>
-        </div> -->
+            </div>--%>
+        </div> 
         </nav>
 
         <div class="page-content">

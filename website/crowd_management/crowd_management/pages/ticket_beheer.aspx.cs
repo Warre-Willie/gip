@@ -8,9 +8,9 @@ using System.Web.UI.WebControls;
 
 namespace crowd_management.pages
 {
-    public partial class ticket_beheer : System.Web.UI.Page
+    public partial class TicketBeheer : System.Web.UI.Page
     {
-        readonly DbRepository dbRepository = new DbRepository();
+			private readonly DbRepository _dbRepository = new DbRepository();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,13 +26,13 @@ namespace crowd_management.pages
             base.OnUnload(e);
 
             // Close all open connections
-            dbRepository.Dispose();
+            _dbRepository.Dispose();
         }
 
         private protected void SetTicketList()
         {
             string query = "SELECT * FROM tickets";
-            DataTable ticketList = dbRepository.SQLExecuteReader(query);
+            DataTable ticketList = _dbRepository.SqlExecuteReader(query);
 
             int enteredTickets = 0;
 
@@ -41,7 +41,7 @@ namespace crowd_management.pages
             foreach (DataRow row in ticketList.Rows)
             {
                 LinkButton ticket = new LinkButton();
-                ticket.Text = "<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>" + row["barcode"].ToString();
+                ticket.Text = "<span class = 'panel-icon'> <i class='fa-solid fa-ticket'></i></span>" + row["barcode"];
                 ticket.ID = row["id"].ToString();
                 ticket.CssClass = "panel-block";
 
@@ -63,11 +63,11 @@ namespace crowd_management.pages
                 ticket.Attributes["data-badgerights"] = "";
 
                 query = $"SELECT br.name, brt.ticket_id FROM badge_rights br JOIN badge_rights_tickets brt ON brt.badge_right_id = br.id WHERE brt.ticket_id = {row["id"]}";
-                DataTable badgeRights = dbRepository.SQLExecuteReader(query);
+                DataTable badgeRights = _dbRepository.SqlExecuteReader(query);
 
                 foreach (DataRow badgeRight in badgeRights.Rows)
                 {
-                    ticket.Attributes["data-badgerights"] += badgeRight["name"].ToString() + " ";
+                    ticket.Attributes["data-badgerights"] += badgeRight["name"] + " ";
                 }
 
                 // Apply filter directly here based on ddTicketSearch and tbTicketFilter values
@@ -76,9 +76,9 @@ namespace crowd_management.pages
 
                 Dictionary<string, string> filterAttributes = new Dictionary<string, string>
                 {
-                    {"barcode", row["barcode"].ToString().ToUpper()},
-                    {"badgerights", ticket.Attributes["data-badgerights"].ToUpper()},
-                    {"rfid", row["RFID"].ToString().ToUpper()}
+                    { "barcode", row["barcode"].ToString().ToUpper() },
+                    { "badgerights", ticket.Attributes["data-badgerights"].ToUpper() },
+                    { "rfid", row["RFID"].ToString().ToUpper() }
                 };
 
                 if (filterAttributes.ContainsKey(selectedFilter))
@@ -101,8 +101,7 @@ namespace crowd_management.pages
                 {
                     enteredTickets++;
                 }
-
-            }
+						}
 
             progress.Attributes["value"] = enteredTickets.ToString();
             progress.Attributes["max"] = ticketList.Rows.Count.ToString();
@@ -118,10 +117,10 @@ namespace crowd_management.pages
             }
 
             string query = $"SELECT * FROM badge_rights";
-            DataTable badgeRights = dbRepository.SQLExecuteReader(query);
+            DataTable badgeRights = _dbRepository.SqlExecuteReader(query);
 
             query = $"SELECT * FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]}";
-            DataTable ticketBadgeRights = dbRepository.SQLExecuteReader(query);
+            DataTable ticketBadgeRights = _dbRepository.SqlExecuteReader(query);
 
 
             divTicketBadgeRights.Controls.Clear();
@@ -152,13 +151,14 @@ namespace crowd_management.pages
                 tdEdit.Controls.Add(checkBox);
 
                 Label label = new Label();
-                label.Text = " " + row["name"].ToString();
+                label.Text = " " + row["name"];
                 tdEdit.Controls.Add(label);
 
                 trEdit.Cells.Add(tdEdit);
                 tbBadgeRights.Rows.Add(trEdit);
             }
-            divTicketBadgeRights.Controls.Add(tbBadgeRights);
+
+						divTicketBadgeRights.Controls.Add(tbBadgeRights);
         }
 
         protected void ticketList_Click(object sender, EventArgs e)
@@ -170,8 +170,7 @@ namespace crowd_management.pages
             if (divTicketPanel.Attributes["class"].IndexOf("column-disabled") != -1)
             {
                 divTicketPanel.Attributes["class"] = divTicketPanel.Attributes["class"].Replace(" column-disabled", "");
-
-            }
+						}
 
             if (ticket.Attributes["data-RFID"] == "")
             {
@@ -191,19 +190,20 @@ namespace crowd_management.pages
         protected void cbBadgeRights_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox)sender;
-            string badgeRightID = checkBox.ID.Replace("cbBadgeRightID", "");
+            string badgeRightId = checkBox.ID.Replace("cbBadgeRightID", "");
 
             if (checkBox.Checked)
             {
-                string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightID})";
-                dbRepository.SQLExecute(query);
+                string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
+                _dbRepository.SqlExecute(query);
             }
             else
             {
-                string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightID}";
-                dbRepository.SQLExecute(query);
+                string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
+                _dbRepository.SqlExecute(query);
             }
-            SetTicketList();
+
+						SetTicketList();
         }
 
         [WebMethod]
@@ -211,7 +211,7 @@ namespace crowd_management.pages
         {
             string query = $"UPDATE tickets SET RFID = NULL WHERE id = {HttpContext.Current.Session["ticketID"]}";
             DbRepository dbRepository = new DbRepository();
-            dbRepository.SQLExecute(query);
+            dbRepository.SqlExecute(query);
             dbRepository.Dispose();
         }
     }

@@ -9,8 +9,8 @@ namespace crowd_management.classes
     public class MqttRepository
     {
         private readonly IMqttClient _mqttClient;
-        private readonly string broker = "broker.hivemq.com";
-        private readonly string username;
+				private const string Broker = "broker.hivemq.com";
+				private readonly string username;
         private readonly string password;
 
         public MqttRepository()
@@ -22,7 +22,7 @@ namespace crowd_management.classes
                 try
                 {
                     var options = new MqttClientOptionsBuilder()
-                        .WithTcpServer(broker)
+                        .WithTcpServer(Broker)
                         //.WithCredentials(username, password)
                         //.WithTls(tls =>
                         //{

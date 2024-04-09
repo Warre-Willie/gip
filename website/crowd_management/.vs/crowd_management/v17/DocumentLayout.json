@@ -1,24 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\rapport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\ticket_beheer.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\ticket_beheer.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\rapport.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\warre\\Documents\\Programmeren\\gip\\website\\crowd_management\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -26,56 +9,15 @@
       "DocumentGroups": [
         {
           "DockedHeight": 90,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ticket_beheer.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx.cs",
-              "RelativeDocumentMoniker": "crowd_management\\pages\\ticket_beheer.aspx.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx.cs",
-              "RelativeToolTip": "crowd_management\\pages\\ticket_beheer.aspx.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAowGAAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T20:48:06.236Z"
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ticket_beheer.aspx",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx",
-              "RelativeDocumentMoniker": "crowd_management\\pages\\ticket_beheer.aspx",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\ticket_beheer.aspx",
-              "RelativeToolTip": "crowd_management\\pages\\ticket_beheer.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-03-28T20:46:14.217Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "rapport.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
-              "RelativeDocumentMoniker": "crowd_management\\pages\\rapport.aspx.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
-              "RelativeToolTip": "crowd_management\\pages\\rapport.aspx.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAGIAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T17:26:37.554Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "rapport.aspx",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx",
-              "RelativeDocumentMoniker": "crowd_management\\pages\\rapport.aspx",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx",
-              "RelativeToolTip": "crowd_management\\pages\\rapport.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-03-28T17:26:31.879Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }

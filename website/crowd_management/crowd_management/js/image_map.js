@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $('img[usemap]').rwdImageMaps();
+    window.$('img[usemap]').rwdImageMaps();
 });
 
 window.onload = function () {
@@ -29,8 +29,8 @@ function handleCoordsChange(id, coords) {
     heatMapZone.style.top = coordArray[1] + 'px';
 
     if (heatMapZone.hasAttribute("data-first_load")) {
-        heatMapZone.removeAttribute("data-first_load")
+        heatMapZone.removeAttribute("data-first_load");
     } else {
-        heatMapZone.classList.remove("hide")
+        heatMapZone.classList.remove("hide");
     }
 }

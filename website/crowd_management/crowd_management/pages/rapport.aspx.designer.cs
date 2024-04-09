@@ -11,7 +11,7 @@ namespace crowd_management.pages
 {
 
 
-    public partial class rapport
+    public partial class Rapport
     {
 
         /// <summary>
