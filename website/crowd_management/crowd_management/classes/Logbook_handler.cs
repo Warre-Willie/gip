@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,5 @@ namespace crowd_management.classes
             string query = $"INSERT INTO website_logbook (category, user, description) VALUES ({category}, {user}, {description})";
             db.SQLExecute(query);
         }
-
     }
 }
