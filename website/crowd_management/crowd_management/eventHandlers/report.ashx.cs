@@ -16,7 +16,7 @@ namespace crowd_management
                 return;
             }
 
-            string filePath = context.Server.MapPath("~/rapports/" + filename); // Assuming PDFs are stored in a "pdfs" directory
+            string filePath = context.Server.MapPath("~/reports/" + filename); // Assuming PDFs are stored in a "pdfs" directory
             if (!File.Exists(filePath))
             {
                 context.Response.StatusCode = 404; // File not found

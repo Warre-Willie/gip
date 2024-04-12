@@ -1,0 +1,16 @@
+﻿:root {
+	--shadow: 0 0.5em 1em -0.125em #bebebe7b, 0 0px 0 1px #bebebe4b;
+}
+
+.box {
+	box-shadow: var(--shadow);
+}
+
+.card {
+	box-shadow: var(--shadow);
+}
+
+.title {
+	font-size: 1.1em;
+}
+

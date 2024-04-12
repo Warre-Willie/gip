@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace crowd_management.classes
 {
@@ -18,7 +19,7 @@ namespace crowd_management.classes
 		private string _sid = string.Empty;
 		private string _fid = string.Empty;
 
-		private static string ConvertToBase32(int value)
+		private string ConvertToBase32(int value)
 		{
 			const string chars = "0123456789abcdefghijklmnopqrstuv";
 			string result = "";
@@ -32,7 +33,7 @@ namespace crowd_management.classes
 			return result;
 		}
 
-		public static string CreateId(int length = 16, string prefix = "")
+		private string CreateId(int length = 16, string prefix = "")
 		{
 			Random random = new Random();
 			string result = "";
@@ -52,6 +53,7 @@ namespace crowd_management.classes
 			_sid = CreateId();
 			_fid = CreateId(26, "file_");
 
+			filePath = AddCss(filePath);
 			UploadFile(filePath);
 			CheckFileDelivery();
 			var fileNames = DownloadFile(WaitForConversion());
@@ -59,6 +61,31 @@ namespace crowd_management.classes
 			string friendlyName = fileNames.Item2;
 
 			return (fileName, friendlyName);
+		}
+
+		private string AddCss(string filePath)
+		{
+			string htmlContent = File.ReadAllText(filePath);
+
+			MatchCollection matches = Regex.Matches(htmlContent, @"<link\s+.*?href=[""'](.*?)[""'].*?>");
+			
+			string newFilePath = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + "_new" + Path.GetExtension(filePath));
+			foreach (Match match in matches)
+			{
+				string href = match.Groups[1].Value;
+
+				if (Path.GetExtension(href).Equals(".css", StringComparison.OrdinalIgnoreCase))
+				{
+					string fullCssPath = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, href);
+					string cssContent = File.ReadAllText(fullCssPath);
+					// Optionally minify the css content here
+
+					htmlContent = htmlContent.Replace(match.Value, "<style>\n" + cssContent + "\n</style>");
+				}
+			}
+
+			File.WriteAllText(newFilePath, htmlContent);
+			return newFilePath;
 		}
 
 		private void UploadFile(string filePath)
@@ -164,7 +191,7 @@ namespace crowd_management.classes
 			string friendlyName = $"{$"{createTime.Day:d2}/{createTime.Month:d2}/{createTime.Year} {createTime.Hour:d2}:{createTime.Minute:d2}"}";
 
 			string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-			string relativePath = @"rapports\" + fileName;
+			string relativePath = @"reports\" + fileName;
 			string fullPath = Path.Combine(baseDirectory, relativePath);
 
 			FileStream fs = File.Create(fullPath);

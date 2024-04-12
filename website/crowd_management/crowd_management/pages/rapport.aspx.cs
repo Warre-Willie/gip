@@ -32,7 +32,7 @@ namespace crowd_management.pages
         {
             // Generate the pdf file with the filter data
 
-            var fileNames = _htmlToPdfConverter.ConvertToPdf(Server.MapPath("~/rapports/print_rapport.html"));
+            var fileNames = _htmlToPdfConverter.ConvertToPdf(Server.MapPath("~/reports/print_rapport.html"));
 
             string fileName = fileNames.Item1;
             string friendlyName = fileNames.Item2;
