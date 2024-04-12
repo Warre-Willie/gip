@@ -16,6 +16,7 @@ namespace crowd_management.pages
     {
         private DbRepository dbRepository = new DbRepository();
         private HtmlToPdfConverter htmlToPdfConverter = new HtmlToPdfConverter();
+        private Logbook_handler logbookHandler = new Logbook_handler();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -53,6 +54,8 @@ namespace crowd_management.pages
             dbRepository.SQLExecute(query);
 
             SetPdfContainer(fileName);
+            //Change the logbook entry to the correct category and change the user to the current user
+            logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {friendlyName} gegenereerd");  
         }
 
         private void SetPdfList()

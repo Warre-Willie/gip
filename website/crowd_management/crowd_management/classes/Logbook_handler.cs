@@ -12,7 +12,7 @@ namespace crowd_management.classes
 
         public void AddLogbookEntry(string category, string user, string description)
         {
-            string query = $"INSERT INTO website_logbook (category, user, description) VALUES ({category}, {user}, {description})";
+            string query = $"INSERT INTO website_logbook(category, user, description) VALUES ('{category}','{user}','{description}')";
             db.SQLExecute(query);
         }
     }

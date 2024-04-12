@@ -12,6 +12,7 @@ namespace crowd_management.pages
     {
         private DbRepository dbRepository = new DbRepository();
         private MqttRepository mqttRepository = new MqttRepository();
+        private Logbook_handler logbookHandler = new Logbook_handler();
 
         private const string accessZoneType = "access";
         private const string countZoneType = "count";
