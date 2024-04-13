@@ -389,6 +389,8 @@ namespace crowd_management.pages
             mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 
             InsertBarometerLogbook(barometerColor);
+            // Change the logbook entry to the correct category and change the user to the current user
+            logbookHandler.AddLogbookEntry("Barometer", "Admin", $"Barometer kleur zone:{Session["zoneID"]} ingesteld op {barometerColor}.");
         }
 
         protected void cbBarLock_CheckedChanged(object sender, EventArgs e)
@@ -408,6 +410,8 @@ namespace crowd_management.pages
 
             var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
             mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+            // Change the logbook entry to the correct category and change the user to the current user
+            logbookHandler.AddLogbookEntry("Barometer", "Admin", $"Barometer zone:{Session["zoneID"]} {(Convert.ToBoolean(lockdown) ? "vergrendeld" : "ontgrendeld")}.");
         }
 
         protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)
@@ -415,6 +419,8 @@ namespace crowd_management.pages
             int lockdown = Convert.ToInt32(cbAccessLock.Checked);
             string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
             dbRepository.SQLExecute(query);
+            // Change the logbook entry to the correct category and change the user to the current user
+            logbookHandler.AddLogbookEntry("Zone", "Admin", $"Zone {tbZoneName.Text} {(Convert.ToBoolean(lockdown) ? "vergrendeld" : "ontgrendeld")}");
         }
     }
 }

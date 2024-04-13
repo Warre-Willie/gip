@@ -13,21 +13,25 @@ namespace crowd_management.pages
     {
 			protected void Page_Load(object sender, EventArgs e)
 			{
+                if (!IsPostBack)
+                {
+                    SetLogbook();
+                }
 			}
 
 			private void SetLogbook()
-        {
-            DbRepository dbRepository = new DbRepository();
-
-            string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
-            DataTable ticketList = dbRepository.SQLExecuteReader(query);
-
-            foreach(DataRow row in ticketList.Rows)
             {
-                string html = $"<tr><td>{row["timestamp"]}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
+                DbRepository dbRepository = new DbRepository();
 
-                divLogbookList.InnerHtml += html;
+                string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
+                DataTable ticketList = dbRepository.SQLExecuteReader(query);
+
+                foreach(DataRow row in ticketList.Rows)
+                {
+                    string html = $"<tr><td>{row["timestamp"]}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
+
+                    divLogbookList.InnerHtml += html;
+                }
             }
-        }
     }
 }
