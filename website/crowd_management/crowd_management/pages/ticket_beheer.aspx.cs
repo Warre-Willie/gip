@@ -11,6 +11,7 @@ namespace crowd_management.pages
     public partial class ticket_beheer : System.Web.UI.Page
     {
         readonly DbRepository dbRepository = new DbRepository();
+        private Logbook_handler logbook_Handler = new Logbook_handler();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -183,7 +184,6 @@ namespace crowd_management.pages
             }
 
             imgBarcode.Attributes["src"] = "https://barcode.orcascan.com/?type=code128&data=" + ticket.Attributes["data-barcode"];
-
             SetTicketList();
             SetBadgeRights();
         }
@@ -197,11 +197,15 @@ namespace crowd_management.pages
             {
                 string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightID})";
                 dbRepository.SQLExecute(query);
+                // Change the admin to the logged in user
+                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
             }
             else
             {
                 string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightID}";
                 dbRepository.SQLExecute(query);
+
+                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right removed from ticket with ID: " + Session["ticketID"]);
             }
             SetTicketList();
         }

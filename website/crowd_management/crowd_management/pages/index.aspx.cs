@@ -345,7 +345,7 @@ namespace crowd_management.pages
                         query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
                     }
                 }
-
+    
             }
             else if (Session["zoneType"].ToString() == accessZoneType)
             {
@@ -369,7 +369,7 @@ namespace crowd_management.pages
                             dbRepository.SQLExecute(query);
                         }
                     }
-
+                    logbookHandler.AddLogbookEntry("Zone", "Admin", $"Zone {tbZoneName.Text} rechten aangepast.");
                     query = $"UPDATE zones SET name = '{tbZoneName.Text}', lockdown = {cbAccessLock.Checked} WHERE id = {Session["zoneID"]}";
                 }
             }
