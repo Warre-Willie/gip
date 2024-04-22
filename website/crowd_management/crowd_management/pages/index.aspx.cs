@@ -404,7 +404,7 @@ namespace crowd_management.pages
 			string query = $"UPDATE zones SET barometer_color = '{barometerColor}', lockdown = 1 WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
 			var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
-			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
+			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
 
 			InsertBarometerLogbook(barometerColor);
 		}
@@ -425,7 +425,7 @@ namespace crowd_management.pages
 			_dbRepository.SqlExecute(query);
 
 			var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
-			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
+			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
 		}
 
 		protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)

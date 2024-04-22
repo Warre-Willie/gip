@@ -53,7 +53,9 @@ namespace crowd_management.classes
 			_sid = CreateId();
 			_fid = CreateId(26, "file_");
 
-			filePath = AddCss(filePath);
+			ImportExternalCss(filePath);
+			ConvertImgToBase64(filePath);
+
 			UploadFile(filePath);
 			CheckFileDelivery();
 			var fileNames = DownloadFile(WaitForConversion());
@@ -63,13 +65,12 @@ namespace crowd_management.classes
 			return (fileName, friendlyName);
 		}
 
-		private string AddCss(string filePath)
+		private void ImportExternalCss(string filePath)
 		{
 			string htmlContent = File.ReadAllText(filePath);
 
 			MatchCollection matches = Regex.Matches(htmlContent, @"<link\s+.*?href=[""'](.*?)[""'].*?>");
 			
-			string newFilePath = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + "_new" + Path.GetExtension(filePath));
 			foreach (Match match in matches)
 			{
 				string href = match.Groups[1].Value;
@@ -77,15 +78,55 @@ namespace crowd_management.classes
 				if (Path.GetExtension(href).Equals(".css", StringComparison.OrdinalIgnoreCase))
 				{
 					string fullCssPath = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, href);
-					string cssContent = File.ReadAllText(fullCssPath);
-					// Optionally minify the css content here
+					string cssContent = MinimizeCss(File.ReadAllText(fullCssPath));
 
 					htmlContent = htmlContent.Replace(match.Value, "<style>\n" + cssContent + "\n</style>");
 				}
 			}
 
-			File.WriteAllText(newFilePath, htmlContent);
-			return newFilePath;
+			File.WriteAllText(filePath, htmlContent);
+		}
+
+		private string MinimizeCss(string css)
+		{
+			css = Regex.Replace(css, @"\/\*[\s\S]*?\*\/", string.Empty);
+			css = Regex.Replace(css, @"\s+", " ");
+			css = Regex.Replace(css, @"\s*([{};,:])\s*", "$1");
+			css = css.Trim();
+
+			return css;
+		}
+
+		static void ConvertImgToBase64(string filePath)
+		{
+			string htmlContent = File.ReadAllText(filePath);
+
+			// Regular expression to match img tags with src attribute containing local file paths
+			MatchCollection matches = Regex.Matches(htmlContent, @"<img\s+.*?src\s*=\s*(?:(?<!https?:\/\/)\s*[""'](?<url>[^\""']+\.(?:png|jpe?g|gif|bmp))[""'])\s*.*?>");
+
+			foreach (Match match in matches)
+			{
+				string url = match.Groups["url"].Value;
+				string fullImgPath = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, url);
+				string base64Image = string.Empty;
+
+				try
+				{
+					byte[] imageBytes = File.ReadAllBytes(fullImgPath);
+					base64Image = Convert.ToBase64String(imageBytes);
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e.Message);
+				}
+
+				// Keep the original class attribute
+				string imgTagWithBase64 = match.Value.Replace(url, $"data:image;base64,{base64Image}");
+
+				htmlContent = htmlContent.Replace(match.Value, imgTagWithBase64);
+			}
+
+			File.WriteAllText(filePath, htmlContent);
 		}
 
 		private void UploadFile(string filePath)
