@@ -345,7 +345,6 @@ namespace crowd_management.pages
                         query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
                     }
                 }
-    
             }
             else if (Session["zoneType"].ToString() == accessZoneType)
             {
@@ -374,6 +373,8 @@ namespace crowd_management.pages
                 }
             }
             dbRepository.SQLExecute(query);
+            // Change the logbook entry to the correct category and change the user to the current user
+            logbookHandler.AddLogbookEntry("Zone", "Admin", $"Wijziging instellingen zone: {Session["zoneID"]}");
         }
 
         protected void barManChange_Click(object sender, EventArgs e)
