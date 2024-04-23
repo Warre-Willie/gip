@@ -146,6 +146,7 @@
     <Content Include="pages\dummy\images\logo_print.png" />
     <Content Include="pages\index.aspx" />
     <Content Include="pages\logbook.aspx" />
+    <Content Include="pages\login.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
     <Content Include="reports\barometer_zone_percentage.html" />
@@ -194,6 +195,13 @@
     </Compile>
     <Compile Include="pages\logbook.aspx.designer.cs">
       <DependentUpon>logbook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\rapport.aspx.cs">
       <DependentUpon>rapport.aspx</DependentUpon>

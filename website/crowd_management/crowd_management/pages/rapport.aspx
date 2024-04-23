@@ -39,19 +39,15 @@
 
                     <a href="rapport.aspx" class="navbar-item">Rapport maken
                     </a>
-                    <a href="logbook.aspx" class="navbar-item">logboek
-                    </a>  
-                </div>
-
-                <!-- <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-warning">
-                        <strong>Login</strong>
+                    <a href="logbook.aspx" class="navbar-item">Logboek
                     </a>
                 </div>
-            </div>
-        </div> -->
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <asp:LinkButton ID="btnLogout" runat="server" CssClass="button is-warning" OnClick="btnLogout_Click"><b>Uitloggen</b></asp:LinkButton>
+                    </div>
+                </div>
             </div>
         </nav>
 

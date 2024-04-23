@@ -16,12 +16,20 @@ public partial class Rapport : System.Web.UI.Page
 
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		if (!IsPostBack)
+		Session["ReturnURL"] = "rapport.aspx";
+		if (Session["User"] == null)
 		{
-			pdfContainer.Visible = false;
-		}
+            Response.Redirect("login.aspx");
+        }
+        else
+		{
+            if (!IsPostBack)
+            {
+                pdfContainer.Visible = false;
+            }
 
-		SetPdfList();
+            SetPdfList();
+        }
 	}
 
 	protected override void OnUnload(EventArgs e)
@@ -66,8 +74,7 @@ public partial class Rapport : System.Web.UI.Page
 		query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
 		_dbRepository.SqlExecute(query);
 
-		//Change the logbook entry to the correct category and change the user to the current user
-		_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
+		_logbookHandler.AddLogbookEntry("Rapport", Session["User"].ToString(), $"Rapport {fileName} gegenereerd");
 
 		SetPdfContainer(fileName);
 	}
@@ -120,4 +127,11 @@ public partial class Rapport : System.Web.UI.Page
 											</div>";
 		SetPdfList();
 	}
+
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+		Session["User"] = null;
+		Session.Abandon();
+		Response.Redirect("login.aspx?logout=true");
+    }
 }

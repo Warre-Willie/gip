@@ -11,7 +11,7 @@ namespace crowd_management.pages
 {
 
 
-    public partial class Rapport
+    public partial class login
     {
 
         /// <summary>
@@ -24,66 +24,39 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// btnLogout control.
+        /// tbEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+        protected global::System.Web.UI.WebControls.TextBox tbEmail;
 
         /// <summary>
-        /// cbRapport01 control.
+        /// tbWW control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbRapport01;
+        protected global::System.Web.UI.WebControls.TextBox tbWW;
 
         /// <summary>
-        /// cbRapport02 control.
+        /// btnLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbRapport02;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
 
         /// <summary>
-        /// cbRapport03 control.
+        /// lbError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbRapport03;
-
-        /// <summary>
-        /// btnGenRapport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGenRapport;
-
-        /// <summary>
-        /// divPdfList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPdfList;
-
-        /// <summary>
-        /// pdfContainer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pdfContainer;
+        protected global::System.Web.UI.WebControls.Label lbError;
     }
 }

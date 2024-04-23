@@ -19,11 +19,20 @@ namespace crowd_management.pages
 
 		protected void Page_PreRender(object sender, EventArgs e)
 		{
-			LoadHeatMap();
-			if (IsPostBack)
+			Session["ReturnURL"] = "index.aspx";
+			if (Session["User"] == null)
 			{
-				LoadZonePanel();
-			}
+                Response.Redirect("login.aspx");
+            }
+			else
+			{
+                LoadHeatMap();
+                if (IsPostBack)
+                {
+                    LoadZonePanel();
+                }
+            }
+			
 		}
 
 		protected override void OnUnload(EventArgs e)
@@ -394,8 +403,7 @@ namespace crowd_management.pages
 			}
 
 			_dbRepository.SqlExecute(query);
-			// Change the logbook entry to the correct category and change the user to the current user
-			_logbookHandler.AddLogbookEntry("Zone", "Admin", $"Wijziging instellingen zone: {Session["zoneID"]}");
+			_logbookHandler.AddLogbookEntry("Zone", Session["User"].ToString(), $"Wijziging instellingen zone: {Session["zoneID"]}");
 		}
 
 		protected void barManChange_Click(object sender, EventArgs e)
@@ -442,5 +450,12 @@ namespace crowd_management.pages
 			string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
 		}
-	}
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+			Session["User"] = null;
+			Session.Abandon();
+			Response.Redirect("login.aspx?logout=true");
+        }
+    }
 }

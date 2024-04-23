@@ -15,11 +15,20 @@ namespace crowd_management.pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            SetTicketList();
-            if (IsPostBack)
+            Session["ReturnURL"] = "ticket_beheer.aspx";
+            if (Session["User"] == null)
             {
-                SetBadgeRights();
+                Response.Redirect("login.aspx");
             }
+            else
+            {
+                SetTicketList();
+                if (IsPostBack)
+                {
+                    SetBadgeRights();
+                }
+            }
+
         }
 
         protected override void OnUnload(EventArgs e)
@@ -102,7 +111,7 @@ namespace crowd_management.pages
                 {
                     enteredTickets++;
                 }
-						}
+            }
 
             progress.Attributes["value"] = enteredTickets.ToString();
             progress.Attributes["max"] = ticketList.Rows.Count.ToString();
@@ -159,7 +168,7 @@ namespace crowd_management.pages
                 tbBadgeRights.Rows.Add(trEdit);
             }
 
-						divTicketBadgeRights.Controls.Add(tbBadgeRights);
+            divTicketBadgeRights.Controls.Add(tbBadgeRights);
         }
 
         protected void ticketList_Click(object sender, EventArgs e)
@@ -171,7 +180,7 @@ namespace crowd_management.pages
             if (divTicketPanel.Attributes["class"].IndexOf("column-disabled") != -1)
             {
                 divTicketPanel.Attributes["class"] = divTicketPanel.Attributes["class"].Replace(" column-disabled", "");
-						}
+            }
 
             if (ticket.Attributes["data-RFID"] == "")
             {
@@ -197,14 +206,14 @@ namespace crowd_management.pages
                 string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
                 _dbRepository.SqlExecute(query);
                 // Change the admin to the logged in user
-                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
+                logbook_Handler.AddLogbookEntry("Ticket", "Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
             }
             else
             {
                 string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
                 _dbRepository.SqlExecute(query);
 
-                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right removed from ticket with ID: " + Session["ticketID"]);
+                logbook_Handler.AddLogbookEntry("Ticket", Session["User"].ToString(), "Badge recht verwijdert bij ID: " + Session["ticketID"]);
             }
 
             SetTicketList();
@@ -217,6 +226,13 @@ namespace crowd_management.pages
             DbRepository dbRepository = new DbRepository();
             dbRepository.SqlExecute(query);
             dbRepository.Dispose();
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session["User"] = null;
+            Session.Abandon();
+            Response.Redirect("login.aspx?logout=true");
         }
     }
 }
