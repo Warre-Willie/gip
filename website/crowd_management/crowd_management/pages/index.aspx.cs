@@ -455,7 +455,9 @@ namespace crowd_management.pages
         {
 			Session["User"] = null;
 			Session.Abandon();
-			Response.Redirect("login.aspx?logout=true");
+			Session.Clear();
+            Session["ReturnURL"] = "index.aspx";
+            Response.Redirect("login.aspx?logout=true");
         }
     }
 }

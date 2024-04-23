@@ -132,6 +132,8 @@ public partial class Rapport : System.Web.UI.Page
     {
 		Session["User"] = null;
 		Session.Abandon();
-		Response.Redirect("login.aspx?logout=true");
+		Session.Clear();
+        Session["ReturnURL"] = "rapport.aspx";
+        Response.Redirect("login.aspx?logout=true");
     }
 }
