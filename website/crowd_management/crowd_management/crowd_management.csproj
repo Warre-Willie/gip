@@ -145,6 +145,7 @@
     <Content Include="pages\dummy\dummy-teller.aspx" />
     <Content Include="pages\dummy\images\logo_print.png" />
     <Content Include="pages\index.aspx" />
+    <Content Include="pages\logbook.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
     <Content Include="reports\barometer_zone_percentage.html" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <Compile Include="classes\DbRepository.cs" />
     <Compile Include="classes\HtmlToPdfConverter.cs" />
+    <Compile Include="classes\Logbook_handler.cs" />
     <Compile Include="classes\MqttRepository.cs" />
     <Compile Include="classes\report\BarometerPercentage.cs" />
     <Compile Include="eventHandlers\report.ashx.cs">
@@ -185,6 +187,13 @@
     </Compile>
     <Compile Include="pages\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\logbook.aspx.cs">
+      <DependentUpon>logbook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\logbook.aspx.designer.cs">
+      <DependentUpon>logbook.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\rapport.aspx.cs">
       <DependentUpon>rapport.aspx</DependentUpon>
