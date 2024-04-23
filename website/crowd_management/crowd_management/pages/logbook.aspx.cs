@@ -1,37 +1,38 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using crowd_management.classes;
 
 namespace crowd_management.pages
 {
-    public partial class logbook : System.Web.UI.Page
-    {
-			protected void Page_Load(object sender, EventArgs e)
+	public partial class Logbook : System.Web.UI.Page
+	{
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			if (!IsPostBack)
 			{
-                if (!IsPostBack)
-                {
-                    SetLogbook();
-                }
+				SetLogbook();
 			}
+		}
 
-			private void SetLogbook()
-            {
-                DbRepository dbRepository = new DbRepository();
+		private void SetLogbook()
+		{
+			DbRepository dbRepository = new DbRepository();
 
-                string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
-                DataTable ticketList = dbRepository.SQLExecuteReader(query);
+			string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
+			DataTable ticketList = dbRepository.SQLExecuteReader(query);
 
-                foreach(DataRow row in ticketList.Rows)
-                {
-                    string html = $"<tr><td>{row["timestamp"]}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
+			foreach (DataRow row in ticketList.Rows)
+			{
+				DateTime timestamp = DateTime.Parse(row["timestamp"].ToString());
+				string html = $"<tr><td>{FormatDateTime(timestamp)}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
 
-                    divLogbookList.InnerHtml += html;
-                }
-            }
-    }
+				divLogbookList.InnerHtml += html;
+			}
+		}
+
+		private static string FormatDateTime(DateTime dateTime)
+		{
+			return $"{dateTime.Day:d2}/{dateTime.Month:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+		}
+	}
 }

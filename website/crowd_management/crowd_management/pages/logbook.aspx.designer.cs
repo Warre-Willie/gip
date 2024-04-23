@@ -11,7 +11,7 @@ namespace crowd_management.pages
 {
 
 
-    public partial class logbook
+    public partial class Logbook
     {
 
         /// <summary>
