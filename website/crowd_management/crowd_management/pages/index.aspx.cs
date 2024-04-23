@@ -12,7 +12,7 @@ namespace crowd_management.pages
 	{
 		private readonly DbRepository _dbRepository = new DbRepository();
 		private readonly MqttRepository _mqttRepository = new MqttRepository();
-		private Logbook_handler logbookHandler = new Logbook_handler();
+		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 
 		private const string AccessZoneType = "access";
 		private const string CountZoneType = "count";
@@ -376,20 +376,26 @@ namespace crowd_management.pages
 
 					foreach (DataRow row in badgeRights.Rows)
 					{
-						CheckBox checkbox = (CheckBox) divBadgeRightsEdit.FindControl($"cbBadgeRightID{row["id"]}");
+						if (divBadgeRightsEdit.FindControl($"cbBadgeRightID{row["id"]}") is not CheckBox checkbox)
+						{
+							return;
+						}
+
 						if (checkbox.Checked)
 						{
 							query = $"INSERT INTO badge_rights_zones (zone_id, badge_right_id) VALUES ({Session["zoneID"]}, {row["id"]})";
 							_dbRepository.SqlExecute(query);
 						}
 					}
-					logbookHandler.AddLogbookEntry("Zone", "Admin", $"Zone {tbZoneName.Text} rechten aangepast.");
+
+					_logbookHandler.AddLogbookEntry("Zone", "Admin", $"Zone {tbZoneName.Text} rechten aangepast.");
 					query = $"UPDATE zones SET name = '{tbZoneName.Text}', lockdown = {cbAccessLock.Checked} WHERE id = {Session["zoneID"]}";
 				}
 			}
-			// Change the logbook entry to the correct category and change the user to the current user
-            logbookHandler.AddLogbookEntry("Zone", "Admin", $"Wijziging instellingen zone: {Session["zoneID"]}");
+
 			_dbRepository.SqlExecute(query);
+			// Change the logbook entry to the correct category and change the user to the current user
+			_logbookHandler.AddLogbookEntry("Zone", "Admin", $"Wijziging instellingen zone: {Session["zoneID"]}");
 		}
 
 		protected void barManChange_Click(object sender, EventArgs e)
@@ -409,9 +415,6 @@ namespace crowd_management.pages
 			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
 
 			InsertBarometerLogbook(barometerColor);
-
-			// Change the logbook entry to the correct category and change the user to the current user
-            logbookHandler.AddLogbookEntry("Barometer", "Admin", $"Barometer kleur zone:{Session["zoneID"]} ingesteld op {barometerColor}.");
 		}
 
 		protected void cbBarLock_CheckedChanged(object sender, EventArgs e)
@@ -430,7 +433,7 @@ namespace crowd_management.pages
 			_dbRepository.SqlExecute(query);
 
 			var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
-			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
+			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 		}
 
 		protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)
@@ -438,8 +441,6 @@ namespace crowd_management.pages
 			int lockdown = Convert.ToInt32(cbAccessLock.Checked);
 			string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
-			// Change the logbook entry to the correct category and change the user to the current user
-            logbookHandler.AddLogbookEntry("Zone", "Admin", $"Zone {tbZoneName.Text} {(Convert.ToBoolean(lockdown) ? "vergrendeld" : "ontgrendeld")}");
 		}
 	}
 }

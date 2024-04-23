@@ -19,7 +19,7 @@ namespace crowd_management.pages
 			DbRepository dbRepository = new DbRepository();
 
 			string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
-			DataTable ticketList = dbRepository.SQLExecuteReader(query);
+			DataTable ticketList = dbRepository.SqlExecuteReader(query);
 
 			foreach (DataRow row in ticketList.Rows)
 			{

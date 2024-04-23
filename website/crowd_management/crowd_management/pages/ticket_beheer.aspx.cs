@@ -11,7 +11,7 @@ namespace crowd_management.pages
     public partial class TicketBeheer : System.Web.UI.Page
     {
         private readonly DbRepository _dbRepository = new DbRepository();
-        private Logbook_handler logbook_Handler = new Logbook_handler();
+        private LogbookHandler logbook_Handler = new LogbookHandler();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -194,15 +194,15 @@ namespace crowd_management.pages
 
             if (checkBox.Checked)
             {
-                string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightID})";
-                dbRepository.SQLExecute(query);
+                string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
+                _dbRepository.SqlExecute(query);
                 // Change the admin to the logged in user
                 logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
             }
             else
             {
-                string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightID}";
-                dbRepository.SQLExecute(query);
+                string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
+                _dbRepository.SqlExecute(query);
 
                 logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right removed from ticket with ID: " + Session["ticketID"]);
             }
