@@ -231,8 +231,6 @@ namespace crowd_management.pages
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["User"] = null;
-            Session.Abandon();
-            Session.Clear();
             Session["ReturnURL"] = "ticket_beheer.aspx";
             Response.Redirect("login.aspx?logout=true");
         }
