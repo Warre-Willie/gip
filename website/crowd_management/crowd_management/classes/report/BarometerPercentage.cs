@@ -2,152 +2,150 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Web;
 using System.Web.Script.Serialization;
 
-namespace crowd_management.classes.report
+namespace crowd_management.classes.report;
+
+public class BarometerPercentage
 {
-	public class BarometerPercentage
+	private int Id { get; set; }
+	private string Zone { get; set; }
+	private int PercentageGreen { get; set; }
+	private int PercentageOrange { get; set; }
+	private int PercentageRed { get; set; }
+
+
+	private readonly DbRepository _dbRepository = new DbRepository();
+
+	public void MakeGraph(string contentPath)
 	{
-		private int Id { get; set; }
-		private string Zone { get; set; }
-		private int PercentageGreen { get; set; }
-		private int PercentageOrange { get; set; }
-		private int PercentageRed { get; set; }
+		string json = MakeJson();
 
+		string relativePath = "~/reports/barometer_zone_percentage.html";
+		string fullPath = relativePath.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
+		string graphHtml = File.ReadAllText(fullPath);
 
-		private readonly DbRepository _dbRepository = new DbRepository();
+		graphHtml = graphHtml.Replace("{{graphJson}}", json);
+		string templateContent = File.ReadAllText(contentPath);
+		templateContent += graphHtml;
+		File.WriteAllText(contentPath, templateContent);
+	}
 
-		public void MakeGraph(string contentPath)
+	private string MakeJson()
+	{
+		List<BarometerPercentage> barometerPercentages = GetChartData();
+		var labels = new List<string>();
+		var datasets = new List<object>();
+
+		foreach (var barometerPercentage in barometerPercentages)
 		{
-			string json = MakeJson();
+			labels.Add(barometerPercentage.Zone);
 
-			string relativePath = "~/reports/barometer_zone_percentage.html";
-			string fullPath = relativePath.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
-			string graphHtml = File.ReadAllText(fullPath);
+			datasets.Add(new
+			{
+				label = "Groen",
+				backgroundColor = "lime",
+				data = new[] { barometerPercentage.PercentageGreen }
+			});
 
-			graphHtml = graphHtml.Replace("{{graphJson}}", json);
-			string templateContent = File.ReadAllText(contentPath);
-			templateContent += graphHtml;
-			File.WriteAllText(contentPath, templateContent);
+			datasets.Add(new
+			{
+				label = "Geel",
+				backgroundColor = "yellow",
+				data = new[] { barometerPercentage.PercentageOrange }
+			});
+
+			datasets.Add(new
+			{
+				label = "Rood",
+				backgroundColor = "red",
+				data = new[] { barometerPercentage.PercentageRed }
+			});
 		}
 
-		private string MakeJson()
+		var jsonData = new
 		{
-			List<BarometerPercentage> barometerPercentages = GetBarometerPercentage();
-			var labels = new List<string>();
-			var datasets = new List<object>();
-
-			foreach (var barometerPercentage in barometerPercentages)
+			type = "bar",
+			data = new
 			{
-				labels.Add(barometerPercentage.Zone);
-
-				datasets.Add(new
-				{
-					label = "Groen",
-					backgroundColor = "lime",
-					data = new[] { barometerPercentage.PercentageGreen }
-				});
-
-				datasets.Add(new
-				{
-					label = "Geel",
-					backgroundColor = "yellow",
-					data = new[] { barometerPercentage.PercentageOrange }
-				});
-
-				datasets.Add(new
-				{
-					label = "Rood",
-					backgroundColor = "red",
-					data = new[] { barometerPercentage.PercentageRed }
-				});
-			}
-
-			var jsonData = new
+				labels,
+				datasets
+			},
+			options = new
 			{
-				type = "bar",
-				data = new
+				title = new { display = false },
+				scales = new
 				{
-					labels,
-					datasets
-				},
-				options = new
-				{
-					title = new { display = true, text = "Barometer kleur percentage" },
-					scales = new
-					{
-						xAxes = new[] { new { stacked = true, barThickness = 50 } },
-						yAxes = new[] { new { stacked = true } }
-					}
+					xAxes = new[] { new { stacked = true, barThickness = 50 } },
+					yAxes = new[] { new { stacked = true } }
 				}
-			};
+			}
+		};
 
-			JavaScriptSerializer serializer = new JavaScriptSerializer();
-			return serializer.Serialize(jsonData);
+		JavaScriptSerializer serializer = new JavaScriptSerializer();
+		return serializer.Serialize(jsonData);
+	}
+
+	private List<BarometerPercentage> GetChartData()
+	{
+		string query = "SELECT id, people_count, name FROM zones";
+		DataTable dtZones = _dbRepository.SqlExecuteReader(query);
+
+		List<BarometerPercentage> barometerPercentages = new List<BarometerPercentage>();
+		Dictionary<int, Dictionary<string, int>> secondCount = new Dictionary<int, Dictionary<string, int>>();
+
+		foreach (DataRow row in dtZones.Rows)
+		{
+			if (row["people_count"] != DBNull.Value)
+			{
+				BarometerPercentage barometerPercentage = new BarometerPercentage
+				{
+					Id = (int) row["id"],
+					Zone = row["name"].ToString()
+				};
+				barometerPercentages.Add(barometerPercentage);
+
+				secondCount.Add((int) row["id"], new Dictionary<string, int> { { "green", 0 }, { "orange", 0 }, { "red", 0 } });
+			}
 		}
 
-		private List<BarometerPercentage> GetBarometerPercentage()
+		query = "SELECT * FROM barometer_logbook ORDER BY timestamp ASC;";
+		DataTable dtLogbook = _dbRepository.SqlExecuteReader(query);
+
+		DateTime prevTime = new DateTime();
+
+		foreach (DataRow row in dtLogbook.Rows)
 		{
-			string query = "SELECT id, people_count, name FROM zones";
-			DataTable dtZones = _dbRepository.SqlExecuteReader(query);
-
-			List<BarometerPercentage> barometerPercentages = new List<BarometerPercentage>();
-			Dictionary<int, Dictionary<string, int>> secondCount = new Dictionary<int, Dictionary<string, int>>();
-
-			foreach (DataRow row in dtZones.Rows)
+			if (prevTime == new DateTime())
 			{
-				if (row["people_count"] != DBNull.Value)
-				{
-					BarometerPercentage barometerPercentage = new BarometerPercentage
-					{
-						Id = (int) row["id"],
-						Zone = row["name"].ToString()
-					};
-					barometerPercentages.Add(barometerPercentage);
-
-					secondCount.Add((int) row["id"], new Dictionary<string, int> { { "green", 0 }, { "orange", 0 }, { "red", 0 } });
-				}
+				prevTime = DateTime.Parse(row["timestamp"].ToString());
+				continue;
 			}
 
-			query = "SELECT * FROM barometer_logbook ORDER BY timestamp ASC;";
-			DataTable dtLogbook = _dbRepository.SqlExecuteReader(query);
+			DateTime currentTime = DateTime.Parse(row["timestamp"].ToString());
 
-			DateTime prevTime = new DateTime();
+			int seconds = (int)(currentTime - prevTime).TotalSeconds;
 
-			foreach (DataRow row in dtLogbook.Rows)
-			{
-				if (prevTime == new DateTime())
-				{
-					prevTime = DateTime.Parse(row["timestamp"].ToString());
-					continue;
-				}
+			secondCount[(int) row["zone_id"]][row["color"].ToString()] += seconds;
 
-				DateTime currentTime = DateTime.Parse(row["timestamp"].ToString());
-
-				int seconds = (int) (currentTime - prevTime).TotalSeconds;
-
-				secondCount[(int) row["zone_id"]][row["color"].ToString()] += seconds;
-
-				prevTime = currentTime;
-			}
-
-			foreach (KeyValuePair<int, Dictionary<string, int>> kvp in secondCount)
-			{
-				int totalSecondsZone = kvp.Value["green"] + kvp.Value["orange"] + kvp.Value["red"];
-
-				foreach (BarometerPercentage barometerPercentage in barometerPercentages)
-				{
-					if (barometerPercentage.Id == kvp.Key)
-					{
-						barometerPercentage.PercentageGreen = (int) Math.Round((double) kvp.Value["green"] / totalSecondsZone * 100);
-						barometerPercentage.PercentageOrange = (int) Math.Round((double) kvp.Value["orange"] / totalSecondsZone * 100);
-						barometerPercentage.PercentageRed = (int) Math.Round((double) kvp.Value["red"] / totalSecondsZone * 100);
-					}
-				}
-			}
-
-			return barometerPercentages;
+			prevTime = currentTime;
 		}
+
+		foreach (KeyValuePair<int, Dictionary<string, int>> kvp in secondCount)
+		{
+			int totalSecondsZone = kvp.Value["green"] + kvp.Value["orange"] + kvp.Value["red"];
+
+			foreach (BarometerPercentage barometerPercentage in barometerPercentages)
+			{
+				if (barometerPercentage.Id == kvp.Key)
+				{
+					barometerPercentage.PercentageGreen = (int) Math.Round((double) kvp.Value["green"] / totalSecondsZone * 100);
+					barometerPercentage.PercentageOrange = (int) Math.Round((double) kvp.Value["orange"] / totalSecondsZone * 100);
+					barometerPercentage.PercentageRed = (int) Math.Round((double) kvp.Value["red"] / totalSecondsZone * 100);
+				}
+			}
+		}
+
+		return barometerPercentages;
 	}
 }

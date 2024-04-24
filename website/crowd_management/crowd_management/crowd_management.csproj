@@ -138,6 +138,7 @@
     <Content Include="image\logo_print.png" />
     <Content Include="js\image_map.js" />
     <Content Include="js\navbar.js" />
+    <Content Include="js\search_report.js" />
     <Content Include="js\search_ticket.js" />
     <Content Include="js\settings_panel.js" />
     <Content Include="js\ticket_modal.js" />
@@ -148,11 +149,13 @@
     <Content Include="pages\logbook.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
+    <Content Include="reports\barometer_timeline.html" />
     <Content Include="reports\barometer_zone_percentage.html" />
     <Content Include="reports\bulma.css" />
     <Content Include="reports\print_rapport.html" />
     <Content Include="reports\report_template.html" />
     <Content Include="reports\style.css" />
+    <Content Include="reports\zone_population.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +164,8 @@
     <Compile Include="classes\LogbookHandler.cs" />
     <Compile Include="classes\MqttRepository.cs" />
     <Compile Include="classes\report\BarometerPercentage.cs" />
+    <Compile Include="classes\report\BarometerTimeline.cs" />
+    <Compile Include="classes\report\ZonePopulation.cs" />
     <Compile Include="eventHandlers\report.ashx.cs">
       <DependentUpon>report.ashx</DependentUpon>
     </Compile>
@@ -214,7 +219,6 @@
   <ItemGroup>
     <Content Include="eventHandlers\report.ashx" />
     <None Include="packages.config" />
-    <Content Include="reports\main preview doc.pdf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

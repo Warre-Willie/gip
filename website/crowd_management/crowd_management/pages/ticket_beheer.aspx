@@ -111,7 +111,7 @@
                                             </span>
                                         </p>
                                     </div>
-                                    <div id="divTicketList" runat="server" class="ticket-list">
+                                    <div id="divTicketList" runat="server" class="panel-list">
                                     </div>
                                     <div class="panel-block">
                                         <asp:Button ID="btnClearFilter" runat="server" class="button is-link is-outlined is-fullwidth" Text="Verwijder filter" OnClientClick="clearInput(); return false;" />
@@ -175,7 +175,6 @@
 
         <!-- Loading JavaScript at the end of the page for better preformance-->
         <script src="../js/navbar.js"></script>
-        <script src="../js/settings_panel.js"></script>
         <script src="../js/search_ticket.js"></script>
         <script src="../js/ticket_modal.js"></script>
 

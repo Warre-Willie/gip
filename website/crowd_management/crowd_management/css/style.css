@@ -33,7 +33,7 @@
   position: absolute;
   right: 50.5px;
 }
-.ticket-list {
+.panel-list {
   max-height: 300px;
   overflow: auto;
 }
@@ -113,3 +113,20 @@ body {
     align-items: center;
 }
 
+.panel-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.panel-button {
+  position: absolute;
+  right: 10px; /* Adjust the distance from the right side */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.report-panel-icon {
+  margin-top: 5px;
+}

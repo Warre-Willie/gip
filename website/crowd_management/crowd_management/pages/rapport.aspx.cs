@@ -1,9 +1,11 @@
 ﻿using crowd_management.classes;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Web.UI.WebControls;
 using crowd_management.classes.report;
 using System.IO;
+using System.Web.UI;
 
 namespace crowd_management.pages;
 
@@ -13,6 +15,8 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
+	private readonly ZonePopulation _zonePopulation = new ZonePopulation();
+	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -35,7 +39,6 @@ public partial class Rapport : System.Web.UI.Page
 	protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
 		// Generate the pdf file with the filter data
-
 		string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
 		FileStream fs = File.Create(contentPath);
 		fs.Close();
@@ -44,7 +47,9 @@ public partial class Rapport : System.Web.UI.Page
 		string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
 		File.Copy(filePath, newTemplate);
 
+		_zonePopulation.MakeGraph(contentPath);
 		_barometerPercentage.MakeGraph(contentPath);
+		_barometerTimeline.MakeGraph(contentPath);
 
 		File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
 
@@ -81,14 +86,30 @@ public partial class Rapport : System.Web.UI.Page
 
 		foreach (DataRow row in pdfList.Rows)
 		{
-			LinkButton pdf = new LinkButton();
+			Panel pdfPanel = new Panel();
+			pdfPanel.CssClass = "panel-block panel-row";
 
-			pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-			pdf.ID = row["file_name"].ToString();
-			pdf.Click += pdfList_Click;
-			pdf.CssClass = "panel-block";
+			LinkButton pdfLink = new LinkButton();
+			pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
+			pdfLink.ID = "rmv_" + row["file_name"];
+			pdfLink.Attributes["fileName"] = row["file_name"].ToString();
+			pdfLink.Click += pdfList_Click;
 
-			divPdfList.Controls.Add(pdf);
+			LinkButton deletePdfLink = new LinkButton();
+			deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
+			deletePdfLink.ID = "pdf_" + row["file_name"];
+			deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
+			deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
+			deletePdfLink.Click += btnDeletePdf_Click;
+
+			// Add PDF link button to the panel
+			pdfPanel.Controls.Add(pdfLink);
+
+			// Add delete PDF link button to the PDF panel
+			pdfPanel.Controls.Add(deletePdfLink);
+
+			// Add the panel to the container
+			divPdfList.Controls.Add(pdfPanel);
 		}
 	}
 
@@ -99,7 +120,26 @@ public partial class Rapport : System.Web.UI.Page
 			return;
 		}
 
-		SetPdfContainer(file.ID);
+		SetPdfContainer(file.Attributes["fileName"]);
+	}
+
+	protected void btnDeletePdf_Click(object sender, EventArgs e)
+	{
+		if (sender is not LinkButton file)
+		{
+			return;
+		}
+
+		string query = $"DELETE FROM report_files WHERE file_name = '{file.Attributes["fileName"]}'";
+		_dbRepository.SqlExecute(query);
+
+		if (File.Exists(Server.MapPath($"~/rapports/{file.Attributes["fileName"]}")))
+		{
+			File.Delete(Server.MapPath($"~/rapports/{file.Attributes["fileName"]}"));
+		}
+
+		pdfContainer.Visible = false;
+		SetPdfList();
 	}
 
 	private void SetPdfContainer(string filename)
