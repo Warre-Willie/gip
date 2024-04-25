@@ -30,7 +30,7 @@ def count_request(msg):
     response = json.loads(msg.payload.decode())
 
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT * FROM `zones` WHERE `id` = '{response['id']}'")
+    mycursor.execute(f"SELECT * FROM zones WHERE id = '{response['id']}'")
     
     for row in mycursor:
         if row["people_count"] != None:
@@ -38,10 +38,10 @@ def count_request(msg):
             counter += response["people"]
             if counter < 0:
                 counter = 0
-                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
                 print(counter)
             else:
-                mycursor.execute(f"UPDATE `zones` SET `people_count`= '{str(counter)}' WHERE `id` = '{response['id']}'")
+                mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
 
                 print(counter)
             db.commit()
@@ -79,36 +79,35 @@ def new_device(msg):
 
 def insert_population():
     mycursor = db.cursor(dictionary=True)
-    mycursor.execute("SELECT `id`, `people_count` FROM `zones` WHERE `people_count` <> 0")
+    mycursor.execute("SELECT id, people_count FROM zones WHERE people_count <> 0")
     for row in mycursor:
-        mycursor.execute(f"INSERT INTO `zone_population_data`(`zone_id`, `people_count`) VALUES ({row["id"]},{row["people_count"]})")
+        mycursor.execute(f"INSERT INTO zone_population_data (zone_id, people_count) VALUES ({row['id']},{row['people_count']})")
         db.commit()
 
 # Callback when a message is received from the broker
 # The incomming data will be in the format of json: {"id": 1,"people": -1}
 def on_message(client, userdata, msg):
     match = msg.topic
-    if match == "/gip/teller/counter":
+    if match == "gip/teller/counter":
         count_request(msg)
-    elif match == "/gip/teller/new_device":
+    elif match == "gip/teller/new_device":
         new_device(msg)
     else:
         print("No match")
         
       
 # Create MQTT client instance with no client_id
-client = mqtt.Client(client_id="", clean_session=True)
+client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2, client_id="", clean_session=True)
 
 
 # Set callback functions
-# client.on_connect = on_connect
 client.on_message = on_message
 
 # Connect to the broker
 client.connect(broker_address, port, 60)
 
-client.subscribe("/gip/teller/counter")
-client.subscribe("/gip/teller/new_device")
+client.subscribe("gip/teller/counter")
+client.subscribe("gip/teller/new_device")
 
 current_minute = datetime.datetime.now().minute
 # Start the network loop
