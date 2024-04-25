@@ -17,6 +17,7 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
 	private readonly ZonePopulation _zonePopulation = new ZonePopulation();
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
+	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
 
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -47,9 +48,11 @@ public partial class Rapport : System.Web.UI.Page
 		string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
 		File.Copy(filePath, newTemplate);
 
+
 		_zonePopulation.MakeGraph(contentPath);
 		_barometerPercentage.MakeGraph(contentPath);
 		_barometerTimeline.MakeGraph(contentPath);
+		_ticketProgressBar.MakeGraph(contentPath);
 
 		File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
 

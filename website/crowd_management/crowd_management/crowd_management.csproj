@@ -150,6 +150,7 @@
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
     <Content Include="reports\barometer_timeline.html" />
+    <Content Include="reports\ticket_progress_bar.html" />
     <Content Include="reports\barometer_zone_percentage.html" />
     <Content Include="reports\bulma.css" />
     <Content Include="reports\print_rapport.html" />
@@ -165,6 +166,7 @@
     <Compile Include="classes\MqttRepository.cs" />
     <Compile Include="classes\report\BarometerPercentage.cs" />
     <Compile Include="classes\report\BarometerTimeline.cs" />
+    <Compile Include="classes\report\TicketProgressBar.cs" />
     <Compile Include="classes\report\ZonePopulation.cs" />
     <Compile Include="eventHandlers\report.ashx.cs">
       <DependentUpon>report.ashx</DependentUpon>
