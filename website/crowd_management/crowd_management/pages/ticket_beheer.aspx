@@ -9,8 +9,7 @@
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <title>Ticketbeheer</title>
 
-    <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
-
+		<link href="../FontAwesome/css/all.css" rel="stylesheet" />
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css">
     <link rel="stylesheet" href="../css/style.css">

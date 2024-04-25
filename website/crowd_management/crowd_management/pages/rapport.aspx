@@ -8,7 +8,8 @@
 	<title>Rapport maken</title>
 
 	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
-	<script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
+
+	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css">

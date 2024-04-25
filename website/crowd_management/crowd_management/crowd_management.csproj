@@ -131,6 +131,38 @@
     <Content Include="css\bulma.css" />
     <Content Include="css\printstyle.css" />
     <Content Include="css\style.css" />
+    <Content Include="FontAwesome\css\all.css" />
+    <Content Include="FontAwesome\css\all.min.css" />
+    <Content Include="FontAwesome\css\brands.css" />
+    <Content Include="FontAwesome\css\brands.min.css" />
+    <Content Include="FontAwesome\css\fontawesome.css" />
+    <Content Include="FontAwesome\css\fontawesome.min.css" />
+    <Content Include="FontAwesome\css\regular.css" />
+    <Content Include="FontAwesome\css\regular.min.css" />
+    <Content Include="FontAwesome\css\solid.css" />
+    <Content Include="FontAwesome\css\solid.min.css" />
+    <Content Include="FontAwesome\css\svg-with-js.css" />
+    <Content Include="FontAwesome\css\svg-with-js.min.css" />
+    <Content Include="FontAwesome\css\v4-font-face.css" />
+    <Content Include="FontAwesome\css\v4-font-face.min.css" />
+    <Content Include="FontAwesome\css\v4-shims.css" />
+    <Content Include="FontAwesome\css\v4-shims.min.css" />
+    <Content Include="FontAwesome\css\v5-font-face.css" />
+    <Content Include="FontAwesome\css\v5-font-face.min.css" />
+    <Content Include="FontAwesome\js\all.js" />
+    <Content Include="FontAwesome\js\all.min.js" />
+    <Content Include="FontAwesome\js\brands.js" />
+    <Content Include="FontAwesome\js\brands.min.js" />
+    <Content Include="FontAwesome\js\conflict-detection.js" />
+    <Content Include="FontAwesome\js\conflict-detection.min.js" />
+    <Content Include="FontAwesome\js\fontawesome.js" />
+    <Content Include="FontAwesome\js\fontawesome.min.js" />
+    <Content Include="FontAwesome\js\regular.js" />
+    <Content Include="FontAwesome\js\regular.min.js" />
+    <Content Include="FontAwesome\js\solid.js" />
+    <Content Include="FontAwesome\js\solid.min.js" />
+    <Content Include="FontAwesome\js\v4-shims.js" />
+    <Content Include="FontAwesome\js\v4-shims.min.js" />
     <Content Include="Global.asax" />
     <Content Include="image\favicon.png" />
     <Content Include="image\foor_plan.png" />
@@ -146,7 +178,7 @@
     <Content Include="pages\dummy\dummy-teller.aspx" />
     <Content Include="pages\dummy\images\logo_print.png" />
     <Content Include="pages\index.aspx" />
-    <Content Include="pages\logbook.aspx" />
+    <Content Include="pages\logboek.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
     <Content Include="reports\barometer_timeline.html" />
@@ -195,12 +227,12 @@
     <Compile Include="pages\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\logbook.aspx.cs">
-      <DependentUpon>logbook.aspx</DependentUpon>
+    <Compile Include="pages\logboek.aspx.cs">
+      <DependentUpon>logboek.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pages\logbook.aspx.designer.cs">
-      <DependentUpon>logbook.aspx</DependentUpon>
+    <Compile Include="pages\logboek.aspx.designer.cs">
+      <DependentUpon>logboek.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\rapport.aspx.cs">
       <DependentUpon>rapport.aspx</DependentUpon>
@@ -220,6 +252,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="eventHandlers\report.ashx" />
+    <Content Include="FontAwesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="FontAwesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="FontAwesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="FontAwesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="FontAwesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="FontAwesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="FontAwesome\webfonts\fa-v4compatibility.ttf" />
+    <Content Include="FontAwesome\webfonts\fa-v4compatibility.woff2" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

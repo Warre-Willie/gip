@@ -9,8 +9,7 @@
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <title>Crowd management</title>
 
-    <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
-
+		<link href="../FontAwesome/css/all.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 

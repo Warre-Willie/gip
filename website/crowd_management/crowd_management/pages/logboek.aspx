@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logbook.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logboek.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
 
 <!DOCTYPE html>
 
@@ -7,9 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
-	<title>Crowd management</title>
-
-	<script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
+	<title>Logboek</title>
+	
+	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css" />
