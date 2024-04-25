@@ -60,7 +60,7 @@ def count_request(msg):
                     db.commit()
                     mycursor.execute(f"INSERT INTO barometer_logbook (zone_id, color) VALUES ({response['id']}, '{new_color}')")
                     db.commit()
-                    mycursor.execute(f"INSERT INTO website_logbook(category, user, description) VALUES ('Barometer', 'System', 'Zone {response['id']} changed to {new_color}')")
+                    mycursor.execute(f"INSERT INTO website_logbook(category, user, description) VALUES ('Barometer', 'System', 'Zone: {response['id']} verandert naar {new_color}')")
                     db.commit()
             else:
                 print("Barometer locked")
