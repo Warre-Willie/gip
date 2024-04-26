@@ -115,15 +115,15 @@ def color_barometer(response_dict):
 connect_wifi()
 client = connect_mqtt(callback)
 # subscribe to topic
-client.subscribe("/gip/teller/barometer")
-client.publish("/gip/teller/new_device", '{"id": ' + str(zone_id) + '}')
+client.subscribe("gip/teller/barometer")
+client.publish("gip/teller/new_device", '{"id": ' + str(zone_id) + '}')
 while True:
     client.check_msg()
     laser_state = not(laser.value())
     if(last_laser_state == True and laser_state == False):
         
         if(switch.value() == True):
-            client.publish("/gip/teller/counter", '{"id": '+ str(zone_id) + ',"people": 1}')
+            client.publish("gip/teller/counter", '{"id": '+ str(zone_id) + ',"people": 1}')
         else:
-            client.publish("/gip/teller/counter", '{"id": '+ str(zone_id) + ',"people": -1}')
+            client.publish("gip/teller/counter", '{"id": '+ str(zone_id) + ',"people": -1}')
     last_laser_state = laser_state 
