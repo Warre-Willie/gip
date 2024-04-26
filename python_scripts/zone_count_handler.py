@@ -74,7 +74,7 @@ def new_device(msg):
     mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
     mycursor.execute("SELECT barometer_color FROM zones WHERE id = " + str(response["id"]) + ";")
     for row in mycursor:
-        client.publish("/gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
+        client.publish("gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
     mycursor.close()
 
 def insert_population():
@@ -97,7 +97,7 @@ def on_message(client, userdata, msg):
         
       
 # Create MQTT client instance with no client_id
-client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2, client_id="", clean_session=True)
+client = mqtt.Client(client_id="", clean_session=True)
 
 
 # Set callback functions

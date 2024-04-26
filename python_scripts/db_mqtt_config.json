@@ -1,5 +1,5 @@
 {
-  "isDevlopment": true,
+  "isDevlopment": false,
   "db": {
     "host": "localhost",
     "username": "root",
