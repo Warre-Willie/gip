@@ -78,12 +78,14 @@ def new_device(msg):
     mycursor.close()
 
 def insert_population():
-    mycursor = db.cursor(dictionary=True)
-    mycursor.execute("SELECT id, people_count FROM zones WHERE people_count <> 0")
-    for row in mycursor:
-        mycursor.execute(f"INSERT INTO zone_population_data (zone_id, people_count) VALUES ({row['id']},{row['people_count']})")
-        db.commit()
-
+    try:
+        mycursor = db.cursor(dictionary=True)
+        mycursor.execute("SELECT id, people_count FROM zones WHERE people_count <> 0")
+        for row in mycursor:
+            mycursor.execute(f"INSERT INTO zone_population_data (zone_id, people_count) VALUES ({row['id']},{row['people_count']})")
+            db.commit()
+    except:
+        print("Error inserting population")
 # Callback when a message is received from the broker
 # The incomming data will be in the format of json: {"id": 1,"people": -1}
 def on_message(client, userdata, msg):
