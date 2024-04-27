@@ -42,7 +42,7 @@
 					<a href="rapport.aspx" class="navbar-item">Rapport maken
 					</a>
 
-					<a href="logbook.aspx" class="navbar-item">logboek
+					<a href="logboek.aspx" class="navbar-item">logboek
 					</a>
 				</div>
 			</div>
