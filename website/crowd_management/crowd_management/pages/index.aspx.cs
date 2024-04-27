@@ -65,27 +65,28 @@ namespace crowd_management.pages
 			}
 		}
 
-		private void SetHeatMapCountInfo(DataRow row)
-		{
-			HtmlGenericControl zoneTagColor = FindControl($"tagZoneColor{row["id"]}") as HtmlGenericControl;
-			zoneTagColor?.Attributes.Add("class", $"tag is-{GetColorClass(row["barometer_color"].ToString())} is-light is-medium");
+        private void SetHeatMapCountInfo(DataRow row)
+        {
+            HtmlGenericControl zoneTagColor = FindControl($"tagZoneColor{row["id"]}") as HtmlGenericControl;
+            zoneTagColor?.Attributes.Add("class", $"tag is-{GetColorClass(row["barometer_color"].ToString())} is-light is-medium");
 
-			Label zonePercentage = FindControl($"tagZonePercentage{row["id"]}") as Label;
-			double percentage = Convert.ToDouble(row["people_count"].ToString()) / Convert.ToDouble(row["max_people"].ToString()) * 100;
-			percentage = Math.Round(percentage, 2);
-			if (zonePercentage == null)
-			{
-				return;
-			}
+            Label zonePercentage = FindControl($"tagZonePercentage{row["id"]}") as Label;
+            double percentage = Convert.ToDouble(row["people_count"].ToString()) / Convert.ToDouble(row["max_people"].ToString()) * 100;
+            percentage = Math.Round(percentage, 2);
+            //if (zonePercentage == null)
+            //{
+            //    return;
+            //}
 
-			zonePercentage.Text = percentage + "%";
-			if (percentage > 100)
-			{
-				zonePercentage.Text = "100%";
-			}
-		}
+            zonePercentage.Text = percentage + "%";
+            if (percentage > 100)
+            {
+                zonePercentage.Text = "100%";
+            }
+        }
 
-		private void SetHeatMapLockdown(DataRow row)
+
+        private void SetHeatMapLockdown(DataRow row)
 		{
 			HtmlGenericControl zoneLockdown = FindControl($"zoneLockdown{row["id"]}") as HtmlGenericControl;
 			if (zoneLockdown == null)
