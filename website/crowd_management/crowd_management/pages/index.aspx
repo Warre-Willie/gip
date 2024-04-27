@@ -90,13 +90,13 @@
                                                 </span>
                                             </div>
                                             <div class="zone-info">
-                                                <span id="tagZoneColor1" runat="server" class="tag is-danger is-light is-medium">
+                                                <span id="tagZoneColor" runat="server" class="tag is-danger is-light is-medium">
                                                     <b>
                                                         <asp:Label ID="tagZoneName1" runat="server"></asp:Label>
                                                     </b>
                                                     &nbsp;
                                                     <span>
-                                                        <asp:Label ID="tagZonePrecentage1" runat="server"></asp:Label>
+                                                        <asp:Label ID="tagZonePercentage1" runat="server"></asp:Label>
                                                     </span>
                                                 </span>
                                             </div>
