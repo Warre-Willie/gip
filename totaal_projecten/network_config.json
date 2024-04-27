@@ -1,7 +1,7 @@
 {
-  "isDevelopment": true,
+  "isDevlopment": true,
   "wifi": {
-    "ssid": "Gip_JesseWarre",
+    "ssid": "TP-LINK_EE42",
     "password": "29487868"
   },
   "mqtt": {

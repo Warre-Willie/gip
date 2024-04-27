@@ -42,13 +42,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown1;
 
         /// <summary>
-        /// tagZoneColor control.
+        /// tagZoneColor1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor1;
 
         /// <summary>
         /// tagZoneName1 control.
@@ -60,13 +60,13 @@ namespace crowd_management.pages
         protected global::System.Web.UI.WebControls.Label tagZoneName1;
 
         /// <summary>
-        /// tagZonePercentage1 control.
+        /// tagZonePrecentage1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label tagZonePercentage1;
+        protected global::System.Web.UI.WebControls.Label tagZonePrecentage1;
 
         /// <summary>
         /// zoneLockdown2 control.
