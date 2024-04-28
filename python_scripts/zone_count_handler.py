@@ -55,7 +55,7 @@ def count_request(msg):
                 elif counter_prcentage >= row["threshold_orange"] and str(row['barometer_color']) != "red":
                     new_color = "red"
                 if new_color != "":
-                    client.publish("/gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
+                    client.publish("gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
                     mycursor.execute(f"UPDATE zones SET barometer_color = '{new_color}' WHERE id = '{response['id']}'")
                     db.commit()
                     mycursor.execute(f"INSERT INTO barometer_logbook (zone_id, color) VALUES ({response['id']}, '{new_color}')")
