@@ -28,9 +28,9 @@ namespace crowd_management.pages
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            tbEmail.Text = tbEmail.Text.Trim().ToUpper();
-            tbWW.Text = tbWW.Text.Trim();
-            string hashedWW = ComputeSHA256(tbWW.Text);
+            string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+            string tbWW_text = tbWW.Text.Trim();
+            string hashedWW = ComputeSHA256(tbWW_text);
 
             DataTable dt = db.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail.Text}'");
 
@@ -46,6 +46,7 @@ namespace crowd_management.pages
                     }
                 }
                 lbError.Visible = true;
+                tbWW.Text = "";
             }
         }
 
