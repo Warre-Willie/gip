@@ -20,7 +20,7 @@ namespace crowd_management.pages
 		protected void Page_PreRender(object sender, EventArgs e)
 		{
 			Session["ReturnURL"] = "index.aspx";
-			if (Session["User"] == null)
+			if (!User.Identity.IsAuthenticated)
 			{
                 Response.Redirect("login.aspx");
             }

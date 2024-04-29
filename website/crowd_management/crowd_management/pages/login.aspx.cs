@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -40,7 +41,7 @@ namespace crowd_management.pages
                 {
                     if (row["password"].ToString() == hashedWW)
                     {
-                        Session["User"] = row["username"];
+                        FormsAuthentication.SetAuthCookie(row["username"].ToString(), true);
                         Response.Redirect(Session["ReturnURL"].ToString());
                         break;
                     }
