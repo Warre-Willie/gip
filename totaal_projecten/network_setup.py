@@ -1,3 +1,9 @@
+"""
+File: mysql_api.py
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: 29-04-2024
+Description: This is the start of the network setup library.
+"""
 # network_setup.py
 import network
 import time

@@ -1,3 +1,9 @@
+"""
+File: mysql_api.py
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: 29-04-2024
+Description: This is the main script for the entrance of the event.
+"""
 from mfrc522 import MFRC522
 import feedback_alerts
 from machine import Pin, I2C, PWM, UART

@@ -1,3 +1,9 @@
+"""
+File: mysql_api.py
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: 29-04-2024
+Description: This is the main script for the access control system.
+"""
 from mfrc522 import MFRC522
 from machine import Pin, I2C, PWM
 from pico_i2c_lcd import I2cLcd
