@@ -1,3 +1,9 @@
+"""
+File: mysql_api.py
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: 29-04-2024
+Description: This is the main script for the zone counter.
+"""
 from machine import Pin
 import time
 import machine

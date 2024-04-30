@@ -1,3 +1,9 @@
+"""
+File: mysql_api.py
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: 29-04-2024
+Description: This script is used to make the connection btween the count divices and the database and to update the barometer.
+"""
 import paho.mqtt.client as mqtt
 import mysql.connector
 import json
