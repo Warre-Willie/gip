@@ -131,8 +131,6 @@ public partial class Rapport : System.Web.UI.Page
     protected void btnLogout_Click(object sender, EventArgs e)
     {
 		Session["User"] = null;
-		Session.Abandon();
-		Session.Clear();
         Session["ReturnURL"] = "rapport.aspx";
         Response.Redirect("login.aspx?logout=true");
     }

@@ -20,19 +20,18 @@ namespace crowd_management.pages
 		protected void Page_PreRender(object sender, EventArgs e)
 		{
 			Session["ReturnURL"] = "index.aspx";
-			if (!User.Identity.IsAuthenticated)
+			if (Session["User"] == null)
 			{
-                Response.Redirect("login.aspx");
-            }
+				Response.Redirect("login.aspx");
+			}
 			else
 			{
-                LoadHeatMap();
-                if (IsPostBack)
-                {
-                    LoadZonePanel();
-                }
-            }
-			
+				LoadHeatMap();
+				if (IsPostBack)
+				{
+					LoadZonePanel();
+				}
+			}
 		}
 
 		protected override void OnUnload(EventArgs e)

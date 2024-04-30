@@ -15,7 +15,6 @@ namespace crowd_management.pages
     public partial class login : System.Web.UI.Page
     {
         private DbRepository db = new DbRepository();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -35,13 +34,13 @@ namespace crowd_management.pages
 
             DataTable dt = db.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail.Text}'");
 
-            if (dt.Rows.Count > 0 )
+            if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
                     if (row["password"].ToString() == hashedWW)
                     {
-                        FormsAuthentication.SetAuthCookie(row["username"].ToString(), true);
+                        Session["User"] = row["username"];
                         Response.Redirect(Session["ReturnURL"].ToString());
                         break;
                     }
@@ -50,6 +49,7 @@ namespace crowd_management.pages
                 tbWW.Text = "";
             }
         }
+
 
         private string ComputeSHA256(string input)
         {
