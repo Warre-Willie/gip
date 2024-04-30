@@ -1,13 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Diagnostics;
 
 namespace crowd_management.classes
 {
     public class DbRepository
     {
-			private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
-			private readonly MySqlConnection _conn;
+        private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ";
+        private readonly MySqlConnection _conn;
 			private readonly MySqlCommand _cmd = new MySqlCommand();
 
         public DbRepository()

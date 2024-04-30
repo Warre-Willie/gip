@@ -357,7 +357,11 @@ namespace crowd_management.pages
 					else
 					{
 						string barometerColor = GetBarometerColor(Convert.ToInt32(tbEditPeopleCount.Text), Convert.ToInt32(tbMaxPeople.Text), Convert.ToDouble(tbBarThresGreen.Text), Convert.ToDouble(tbBarThresOrange.Text));
-						query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
+
+                        var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+                        _mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+
+                        query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
 					}
 				}
 			}
@@ -411,8 +415,8 @@ namespace crowd_management.pages
 
 			string query = $"UPDATE zones SET barometer_color = '{barometerColor}', lockdown = 1 WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
-			var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
-			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson)).Wait();
+			var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 
 			InsertBarometerLogbook(barometerColor);
 		}
@@ -432,8 +436,8 @@ namespace crowd_management.pages
 			string query = $"UPDATE zones SET lockdown = {lockdown}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
 
-			var mqttMessageJson = new { id = Session["zoneID"], color = barometerColor };
-			//_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+			var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 		}
 
 		protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)

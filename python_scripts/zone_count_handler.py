@@ -50,9 +50,9 @@ def count_request(msg):
                 new_color= ""
                 if counter_prcentage <= row["threshold_green"] and str(row['barometer_color']) != "green":
                     new_color = "green"
-                elif counter_prcentage > row["threshold_green"] and counter <= row["threshold_orange"] and str(row['barometer_color']) != "orange":
+                elif counter_prcentage > row["threshold_green"] and counter_prcentage <= row["threshold_orange"] and str(row['barometer_color']) != "orange":
                     new_color = "orange"
-                elif counter_prcentage >= row["threshold_orange"] and str(row['barometer_color']) != "red":
+                elif counter_prcentage > row["threshold_orange"] and str(row['barometer_color']) != "red":
                     new_color = "red"
                 if new_color != "":
                     client.publish("gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')

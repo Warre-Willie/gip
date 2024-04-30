@@ -306,7 +306,7 @@
                                                 <div class="is-desktop">
                                                     <div class="field">
                                                         <div class="control">
-                                                            <asp:TextBox ID="tbMaxPeople" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                            <asp:TextBox ID="tbMaxPeople" min="0" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -317,7 +317,7 @@
                                                     <div class="column">
                                                         <div class="field">
                                                             <div class="control has-icons-right">
-                                                                <asp:TextBox ID="tbBarThresGreen" type="number" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                                <asp:TextBox ID="tbBarThresGreen" type="number" min="0" max="100" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                                 <span class="icon is-small is-right">
                                                                     <i class="fa-solid fa-percent"></i>
                                                                 </span>
@@ -327,7 +327,7 @@
                                                     <div class="column">
                                                         <div class="field">
                                                             <div class="control has-icons-right">
-                                                                <asp:TextBox ID="tbBarThresOrange" type="number" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                                                <asp:TextBox ID="tbBarThresOrange" type="number" min="0" max="100" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                                                 <span class="icon is-small is-right">
                                                                     <i class="fa-solid fa-percent"></i>
                                                                 </span>
@@ -355,7 +355,7 @@
                                 </header>
                                 <div class="card-content">
                                     <div class="content">
-                                        <asp:TextBox ID="tbEditPeopleCount" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                        <asp:TextBox ID="tbEditPeopleCount" min="0" type="number" runat="server" class="input is-link" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
