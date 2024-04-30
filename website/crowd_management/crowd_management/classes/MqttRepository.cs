@@ -9,7 +9,7 @@ namespace crowd_management.classes
     public class MqttRepository
     {
         private readonly IMqttClient _mqttClient;
-				private const string Broker = "192.168.0.101";
+				private const string Broker = "broker.hivemq.com";
 				private readonly string username;
         private readonly string password;
 

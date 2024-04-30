@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using Newtonsoft.Json;
+using QuickChart;
 
 namespace crowd_management.classes.report;
 
@@ -13,11 +14,20 @@ public class TicketProgressBar
 	{
 		string json = MakeJson();
 
+		Chart qc = new Chart();
+
+		qc.Width = 500;
+		qc.Height = 50;
+
+		qc.Config = json;
+
+		string graphBase64 = Convert.ToBase64String(qc.ToByteArray());
+
 		string relativePath = "~/reports/ticket_progress_bar.html";
 		string fullPath = relativePath.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
 		string graphHtml = File.ReadAllText(fullPath);
 
-		graphHtml = graphHtml.Replace("{{graphJson}}", json);
+		graphHtml = graphHtml.Replace("{{graphBase64}}", graphBase64);
 
 		string templateContent = File.ReadAllText(contentPath);
 		templateContent += graphHtml;

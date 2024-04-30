@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using QuickChart;
 
 namespace crowd_management.classes.report;
 
@@ -19,11 +20,21 @@ public class ZonePopulation
 	{
 		string json = MakeJson();
 
+		Chart qc = new Chart();
+
+		qc.Width = 500;
+		qc.Height = 300;
+		qc.Version = "3";
+
+		qc.Config = json;
+
+		string graphBase64 = Convert.ToBase64String(qc.ToByteArray());
+
 		string relativePath = "~/reports/zone_population.html";
 		string fullPath = relativePath.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
 		string graphHtml = File.ReadAllText(fullPath);
 
-		graphHtml = graphHtml.Replace("{{graphJson}}", json);
+		graphHtml = graphHtml.Replace("{{graphBase64}}", graphBase64);
 		string templateContent = File.ReadAllText(contentPath);
 		templateContent += graphHtml;
 		File.WriteAllText(contentPath, templateContent);
