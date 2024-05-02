@@ -8,20 +8,22 @@ namespace crowd_management.pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["ReturnURL"] = "logbook.aspx";
-            if (Session["User"] == null)
+            if (!IsPostBack)
             {
-                Response.Redirect("login.aspx");
-            }
-            else
-            {
-                if (!IsPostBack)
+                // Set the ReturnURL session variable to the desired page
+                Session["ReturnURL"] = "logbook.aspx";
+
+                if (Session["User"] == null)
+                {
+                    Response.Redirect("login.aspx");
+                }
+                else
                 {
                     SetLogbook();
                 }
             }
-
         }
+
 
         private void SetLogbook()
         {

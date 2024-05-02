@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -14,7 +15,6 @@ namespace crowd_management.pages
     public partial class login : System.Web.UI.Page
     {
         private DbRepository db = new DbRepository();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -28,13 +28,13 @@ namespace crowd_management.pages
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            tbEmail.Text = tbEmail.Text.Trim().ToUpper();
-            tbWW.Text = tbWW.Text.Trim();
-            string hashedWW = ComputeSHA256(tbWW.Text);
+            string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+            string tbWW_text = tbWW.Text.Trim();
+            string hashedWW = ComputeSHA256(tbWW_text);
 
             DataTable dt = db.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail.Text}'");
 
-            if (dt.Rows.Count > 0 )
+            if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
@@ -46,8 +46,10 @@ namespace crowd_management.pages
                     }
                 }
                 lbError.Visible = true;
+                tbWW.Text = "";
             }
         }
+
 
         private string ComputeSHA256(string input)
         {

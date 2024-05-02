@@ -22,17 +22,16 @@ namespace crowd_management.pages
 			Session["ReturnURL"] = "index.aspx";
 			if (Session["User"] == null)
 			{
-                Response.Redirect("login.aspx");
-            }
+				Response.Redirect("login.aspx");
+			}
 			else
 			{
-                LoadHeatMap();
-                if (IsPostBack)
-                {
-                    LoadZonePanel();
-                }
-            }
-			
+				LoadHeatMap();
+				if (IsPostBack)
+				{
+					LoadZonePanel();
+				}
+			}
 		}
 
 		protected override void OnUnload(EventArgs e)
