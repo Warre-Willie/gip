@@ -34,23 +34,27 @@ else:
 def count_request(msg):
     counter = 0
     response = json.loads(msg.payload.decode())
-
-    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute(f"SELECT * FROM zones WHERE id = '{response['id']}'")
-    
+    try:
+        mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+        mycursor.execute(f"SELECT * FROM zones WHERE id = '{response['id']}'")
+    except:
+        print("Error selecting zone")
     for row in mycursor:
         if row["people_count"] != None:
             counter = int(row["people_count"])
             counter += response["people"]
-            if counter < 0:
-                counter = 0
-                mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
-                print(counter)
-            else:
-                mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
+            try:
+                if counter < 0:
+                    counter = 0
+                    mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
+                    print(counter)
+                else:
+                    mycursor.execute(f"UPDATE zones SET people_count= '{str(counter)}' WHERE id = '{response['id']}'")
+                    print(counter)
+                db.commit()
+            except:
+                print("Error updating count")
 
-                print(counter)
-            db.commit()
             counter_prcentage = (counter / row["max_people"]) * 100
             if row["lockdown"] == 0:
                 new_color= ""
@@ -61,13 +65,16 @@ def count_request(msg):
                 elif counter_prcentage > row["threshold_orange"] and str(row['barometer_color']) != "red":
                     new_color = "red"
                 if new_color != "":
-                    client.publish("gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
-                    mycursor.execute(f"UPDATE zones SET barometer_color = '{new_color}' WHERE id = '{response['id']}'")
-                    db.commit()
-                    mycursor.execute(f"INSERT INTO barometer_logbook (zone_id, color) VALUES ({response['id']}, '{new_color}')")
-                    db.commit()
-                    mycursor.execute(f"INSERT INTO website_logbook(category, user, description) VALUES ('Barometer', 'System', 'Zone: {response['id']} verandert naar {new_color}')")
-                    db.commit()
+                    try:
+                        client.publish("gip/teller/barometer", '{"id": ' + str(response['id']) + ', "color": "' + new_color + '"}')
+                        mycursor.execute(f"UPDATE zones SET barometer_color = '{new_color}' WHERE id = '{response['id']}'")
+                        db.commit()
+                        mycursor.execute(f"INSERT INTO barometer_logbook (zone_id, color) VALUES ({response['id']}, '{new_color}')")
+                        db.commit()
+                        mycursor.execute(f"INSERT INTO website_logbook(category, user, description) VALUES ('Barometer', 'System', 'Zone: {response['id']} verandert naar {new_color}')")
+                        db.commit()
+                    except:
+                        print("Error updating barometer")
             else:
                 print("Barometer locked")
         else:
@@ -76,12 +83,15 @@ def count_request(msg):
 
 #new device request
 def new_device(msg):
-    response = json.loads(msg.payload.decode())
-    mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
-    mycursor.execute("SELECT barometer_color FROM zones WHERE id = " + str(response["id"]) + ";")
-    for row in mycursor:
-        client.publish("gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
-    mycursor.close()
+    try:
+        response = json.loads(msg.payload.decode())
+        mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
+        mycursor.execute("SELECT barometer_color FROM zones WHERE id = " + str(response["id"]) + ";")
+        for row in mycursor:
+            client.publish("gip/teller/barometer", '{"id": ' + str(response["id"]) + ', "color": "'+ str(row["barometer_color"]) + '"}')
+        mycursor.close()
+    except:
+        print("Error new device")
 
 def insert_population():
     try:
@@ -92,6 +102,7 @@ def insert_population():
             db.commit()
     except:
         print("Error inserting population")
+    
 # Callback when a message is received from the broker
 # The incomming data will be in the format of json: {"id": 1,"people": -1}
 def on_message(client, userdata, msg):
@@ -106,7 +117,6 @@ def on_message(client, userdata, msg):
       
 # Create MQTT client instance with no client_id
 client = mqtt.Client(client_id="", clean_session=True)
-
 
 # Set callback functions
 client.on_message = on_message

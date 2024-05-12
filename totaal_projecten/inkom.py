@@ -74,11 +74,14 @@ async def lcd_succeed_cooldown():
 def barcode_scanned(scanned_barcode):
     global current_barcode
     current_barcode = scanned_barcode
-    query = f'SELECT * FROM tickets WHERE barcode="{scanned_barcode}";'
-    execute_query(query, True)
-    client.wait_msg()
-    asyncio.run(synching_process())
-                                 
+    try:
+        query = f'SELECT * FROM tickets WHERE barcode="{scanned_barcode}";'
+        execute_query(query, True)
+        client.wait_msg()
+        asyncio.run(synching_process())
+    except:
+        print("Error in barcode_scanned")
+                            
 async def synching_process():
     global db_response
     global current_barcode
@@ -97,15 +100,19 @@ async def synching_process():
                     (stat, uid) = reader.SelectTagSN()
                     if stat == reader.OK:
                         badge = str(int.from_bytes(bytes(uid),"little",False))
+                        try:
+                            query = f'SELECT * FROM tickets WHERE RFID="{badge}";'
+                            execute_query(query, True)
+                            client.wait_msg()
+                        except:
+                            print("Error in synching_process")
 
-                        query = f'SELECT * FROM tickets WHERE RFID="{badge}";'
-                        execute_query(query, True)
-                        client.wait_msg()
                         if not bool(db_response):
-                            
-                            query = f'UPDATE tickets SET RFID="{badge}" WHERE barcode="{current_barcode}";'
-                            execute_query(query, False)
-
+                            try:
+                                query = f'UPDATE tickets SET RFID="{badge}" WHERE barcode="{current_barcode}";'
+                                execute_query(query, False)
+                            except:
+                                print("Error in synching_process")
                             await feedback_alerts.play_confirmation(buzzer_pwm)
                             feedback_alerts.lcd_display(lcd, "Synchronisatie", "Succesvol")
 

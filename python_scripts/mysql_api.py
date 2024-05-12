@@ -36,20 +36,22 @@ def on_message(client, userdata, msg):
     mqtt_payload = json.loads(msg.payload.decode())
 
     db.reconnect()
-    if mqtt_payload['returnData']:
-        
-        mycursor.execute(mqtt_payload['query'])
-        myresult = mycursor.fetchall()
-        if myresult:
-            response = []
-            for row in myresult:
-                response.append(row)
-            client.publish(mqtt_payload['UUID'], json.dumps(response))
+    try:
+        if mqtt_payload['returnData']:
+            mycursor.execute(mqtt_payload['query'])
+            myresult = mycursor.fetchall()
+            if myresult:
+                response = []
+                for row in myresult:
+                    response.append(row)
+                client.publish(mqtt_payload['UUID'], json.dumps(response))
+            else:
+                client.publish(mqtt_payload['UUID'], "{}")
         else:
-            client.publish(mqtt_payload['UUID'], "{}")
-    else:
-        mycursor.execute(mqtt_payload['query'])
-        db.commit()
+            mycursor.execute(mqtt_payload['query'])
+            db.commit()
+    except mysql.connector.Error as err:
+        print(mqtt_payload['UUID'], "Error: {}".format(err))
 
 
 # Create MQTT client instance with no client_id
@@ -64,7 +66,10 @@ client.will_set(will_topic, will_message, 2, False)
 client.on_message = on_message
 
 # Connect to the broker
-client.connect(broker_address, port, 60)
+try:
+    client.connect(broker_address, port, 60)
+except:
+    print("Connection failed")
 
 client.subscribe(topic)
 # Start the network loop
