@@ -1,4 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logboek.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
+﻿<!--
+   File: logboek.aspx
+   Author: Warre Willeme & Jesse UijtdeHaag
+   Date: May 12, 2024
+   Description: This page is used to display the logbook of the application. It shows all the actions that have been performed by the users.
+-->
+
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logboek.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
 
 <!DOCTYPE html>
 

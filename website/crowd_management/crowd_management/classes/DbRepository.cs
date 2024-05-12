@@ -1,4 +1,11 @@
-﻿using MySql.Data.MySqlClient;
+﻿/*
+ * File: DbReposetory.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: This file contains the DbRepository class. This class is used to connect to the database and execute queries.
+ */
+
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.Diagnostics;

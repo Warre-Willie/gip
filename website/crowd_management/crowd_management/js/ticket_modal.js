@@ -1,3 +1,10 @@
+/*
+ * File: ticket_modal.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the ticket modal on the crowd management page.
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
     // Functions to open and close a modal
     function openModal($el) {

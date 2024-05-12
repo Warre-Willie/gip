@@ -1,4 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="rapport.aspx.cs" Inherits="crowd_management.pages.Rapport" %>
+﻿<!--
+   File: rapport.aspx
+   Author: Warre Willeme & Jesse UijtdeHaag
+   Date: May 12, 2024
+   Description: This file contains the HTML code for the report page.
+-->
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="rapport.aspx.cs" Inherits="crowd_management.pages.Rapport" %>
 
 <!DOCTYPE html>
 

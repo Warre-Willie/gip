@@ -1,4 +1,10 @@
-﻿using crowd_management.classes;
+﻿/*
+ * File: index.aspx.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: This file contains the code behind for the index page. This page is used to display the heat map and zone information.
+ */
+using crowd_management.classes;
 using Newtonsoft.Json;
 using System;
 using System.Data;
@@ -46,22 +52,29 @@ namespace crowd_management.pages
 
 		private void LoadHeatMap()
 		{
-			string query = "SELECT * FROM zones";
-			DataTable zones = _dbRepository.SqlExecuteReader(query);
-
-			foreach (DataRow row in zones.Rows)
+			try
 			{
-				if (FindControl($"tagZoneName{row["id"]}") is Label zoneName)
-				{
-					zoneName.Text = row["name"].ToString();
-				}
+				string query = "SELECT * FROM zones";
+				DataTable zones = _dbRepository.SqlExecuteReader(query);
 
-				SetHeatMapLockdown(row);
-
-				if (!string.IsNullOrEmpty(row["people_count"].ToString()))
+				foreach (DataRow row in zones.Rows)
 				{
-					SetHeatMapCountInfo(row);
+					if (FindControl($"tagZoneName{row["id"]}") is Label zoneName)
+					{
+						zoneName.Text = row["name"].ToString();
+					}
+
+					SetHeatMapLockdown(row);
+
+					if (!string.IsNullOrEmpty(row["people_count"].ToString()))
+					{
+						SetHeatMapCountInfo(row);
+					}
 				}
+			} 
+			catch (Exception ex) 
+			{
+				_logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error loading heat map: {ex.Message}");
 			}
 		}
 
@@ -125,36 +138,49 @@ namespace crowd_management.pages
 				return;
 			}
 
-			string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
-			DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
-
-			if (zoneInfo.Rows.Count > 0)
+			try
 			{
-				DataRow row = zoneInfo.Rows[0];
-
-				string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
-				Session["zoneType"] = zoneType;
-
-				SetZoneTitle(row["name"].ToString());
-
-				if (zoneType == CountZoneType)
+				string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
+				DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
+			}
+			catch (Exception ex)
+			{
+                _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error loading zone panel: {ex.Message}");
+            }
+			try
+			{
+				if (zoneInfo.Rows.Count > 0)
 				{
-					SetCountZoneInfo(row);
-					SetStatusColor(row["barometer_color"].ToString());
-					SetLogbook();
+					DataRow row = zoneInfo.Rows[0];
+
+					string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
+					Session["zoneType"] = zoneType;
+
+					SetZoneTitle(row["name"].ToString());
+
+					if (zoneType == CountZoneType)
+					{
+						SetCountZoneInfo(row);
+						SetStatusColor(row["barometer_color"].ToString());
+						SetLogbook();
+					}
+					else
+					{
+						cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
+						SetBadgeRights();
+					}
+
+					SetCardVisibility(zoneType);
 				}
 				else
 				{
-					cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
-					SetBadgeRights();
+					// Message: zone not found
 				}
-
-				SetCardVisibility(zoneType);
 			}
-			else
+			catch (Exception ex)
 			{
-				// Message: zone not found
-			}
+                _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error loading zone panel: {ex.Message}");
+            }
 		}
 
 		private void SetLogbook()
@@ -350,19 +376,27 @@ namespace crowd_management.pages
 				}
 				else
 				{
-					if (cbBarLock.Checked)
+					try
 					{
-						query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text} WHERE id = {Session["zoneID"]}";
+						if (cbBarLock.Checked)
+						{
+							query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text} WHERE id = {Session["zoneID"]}";
+						}
+						else
+						{
+							string barometerColor = GetBarometerColor(Convert.ToInt32(tbEditPeopleCount.Text), Convert.ToInt32(tbMaxPeople.Text), Convert.ToDouble(tbBarThresGreen.Text), Convert.ToDouble(tbBarThresOrange.Text));
+
+							var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+							_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+
+							query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
+						}
 					}
-					else
+					catch (Exception ex)
 					{
-						string barometerColor = GetBarometerColor(Convert.ToInt32(tbEditPeopleCount.Text), Convert.ToInt32(tbMaxPeople.Text), Convert.ToDouble(tbBarThresGreen.Text), Convert.ToDouble(tbBarThresOrange.Text));
-
-                        var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
-                        _mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
-
-                        query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
-					}
+                        _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error saving zone settings: {ex.Message}");
+                    }
+					
 				}
 			}
 			else if (Session["zoneType"].ToString() == AccessZoneType)
@@ -413,12 +447,19 @@ namespace crowd_management.pages
 
 			cbBarLock.Checked = true;
 
-			string query = $"UPDATE zones SET barometer_color = '{barometerColor}', lockdown = 1 WHERE id = {Session["zoneID"]}";
-			_dbRepository.SqlExecute(query);
-			var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
-			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+			try
+			{
+				string query = $"UPDATE zones SET barometer_color = '{barometerColor}', lockdown = 1 WHERE id = {Session["zoneID"]}";
+				_dbRepository.SqlExecute(query);
+				var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+				_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 
-			InsertBarometerLogbook(barometerColor);
+				InsertBarometerLogbook(barometerColor);
+			}
+			catch (Exception ex)
+			{
+                _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error changing barometer color: {ex.Message}");
+            }
 		}
 
 		protected void cbBarLock_CheckedChanged(object sender, EventArgs e)
@@ -431,20 +472,35 @@ namespace crowd_management.pages
 			{
 				barometerColor = GetBarometerColor(Convert.ToInt32(row["people_count"]), Convert.ToInt32(row["max_people"]), Convert.ToInt32(row["threshold_green"]), Convert.ToInt32(row["threshold_orange"]));
 			}
+			try
+			{
+				int lockdown = Convert.ToInt32(cbBarLock.Checked);
+				string query = $"UPDATE zones SET lockdown = {lockdown}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
+				_dbRepository.SqlExecute(query);
 
-			int lockdown = Convert.ToInt32(cbBarLock.Checked);
-			string query = $"UPDATE zones SET lockdown = {lockdown}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
-			_dbRepository.SqlExecute(query);
-
-			var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
-			_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+				var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+				_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+			}
+			catch (Exception ex)
+			{
+                _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error changing barometer lock: {ex.Message}");
+            }
+			
 		}
 
 		protected void cbAccessLock_CheckedChanged(object sender, EventArgs e)
 		{
 			int lockdown = Convert.ToInt32(cbAccessLock.Checked);
-			string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
-			_dbRepository.SqlExecute(query);
+			try
+			{
+				string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
+				_dbRepository.SqlExecute(query);
+			}
+			catch (Exception ex)
+			{
+                _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error changing access lock: {ex.Message}");
+            }
+			
 		}
 	}
 }

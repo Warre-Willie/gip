@@ -15,11 +15,19 @@ namespace crowd_management.pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            SetTicketList();
-            if (IsPostBack)
+            try
             {
-                SetBadgeRights();
+                SetTicketList();
+                if (IsPostBack)
+                {
+                    SetBadgeRights();
+                }
             }
+            catch (Exception ex)
+            {
+                logbook_Handler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+            }
+           
         }
 
         protected override void OnUnload(EventArgs e)
@@ -183,31 +191,45 @@ namespace crowd_management.pages
             }
 
             imgBarcode.Attributes["src"] = "https://barcode.orcascan.com/?type=code128&data=" + ticket.Attributes["data-barcode"];
-            SetTicketList();
-            SetBadgeRights();
+            try
+            {
+                SetTicketList();
+                SetBadgeRights();
+            }
+            catch (Exception ex)
+            {
+                logbook_Handler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+            }
         }
 
         protected void cbBadgeRights_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox)sender;
             string badgeRightId = checkBox.ID.Replace("cbBadgeRightID", "");
-
-            if (checkBox.Checked)
+            try
             {
-                string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
-                _dbRepository.SqlExecute(query);
-                // Change the admin to the logged in user
-                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
+                if (checkBox.Checked)
+                {
+                    string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
+                    _dbRepository.SqlExecute(query);
+                    // Change the admin to the logged in user
+                    logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
+                }
+                else
+                {
+                    string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
+                    _dbRepository.SqlExecute(query);
+
+                    logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right removed from ticket with ID: " + Session["ticketID"]);
+                }
+
+                SetTicketList();
             }
-            else
+            catch (Exception ex)
             {
-                string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
-                _dbRepository.SqlExecute(query);
-
-                logbook_Handler.AddLogbookEntry("Ticket","Admin", "Badge right removed from ticket with ID: " + Session["ticketID"]);
+                logbook_Handler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
             }
-
-            SetTicketList();
+            
         }
 
         [WebMethod]

@@ -1,4 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿/*
+ * File: HtmlToPdfConverter.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: this file contains the HtmlToPdfConverter class. This class is used to convert a html file to a pdf file using the html2pdf.com
+ */
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;

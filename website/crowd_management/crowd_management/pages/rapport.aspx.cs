@@ -1,4 +1,11 @@
-﻿using crowd_management.classes;
+﻿/*
+ * File: rapport.aspx.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the code behind for the report page. This page allows the user to generate a report and view previously generated reports.
+ */
+
+using crowd_management.classes;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -25,8 +32,14 @@ public partial class Rapport : System.Web.UI.Page
 		{
 			pdfContainer.Visible = false;
 		}
-
-		SetPdfList();
+		try
+		{
+			SetPdfList();
+		}
+		catch (Exception ex)
+		{
+            _logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+        }
 	}
 
 	protected override void OnUnload(EventArgs e)
@@ -39,45 +52,52 @@ public partial class Rapport : System.Web.UI.Page
 
 	protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
-		// Generate the pdf file with the filter data
-		string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
-		FileStream fs = File.Create(contentPath);
-		fs.Close();
-
-		string filePath = Server.MapPath("~/reports/report_template.html");
-		string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
-		File.Copy(filePath, newTemplate);
-
-
-		_zonePopulation.MakeGraph(contentPath);
-		_barometerPercentage.MakeGraph(contentPath);
-		_barometerTimeline.MakeGraph(contentPath);
-		_ticketProgressBar.MakeGraph(contentPath);
-
-		File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
-
-		var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
-		File.Delete(newTemplate);
-		File.Delete(contentPath);
-
-		string fileName = fileNames.Item1;
-		string friendlyName = fileNames.Item2;
-
-		// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
-		string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
-		DataTable dt = _dbRepository.SqlExecuteReader(query);
-		if (dt.Rows.Count > 0)
+		try
 		{
-			friendlyName = $"{friendlyName} ({dt.Rows.Count})";
+			// Generate the pdf file with the filter data
+			string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
+			FileStream fs = File.Create(contentPath);
+			fs.Close();
+
+			string filePath = Server.MapPath("~/reports/report_template.html");
+			string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
+			File.Copy(filePath, newTemplate);
+
+
+			_zonePopulation.MakeGraph(contentPath);
+			_barometerPercentage.MakeGraph(contentPath);
+			_barometerTimeline.MakeGraph(contentPath);
+			_ticketProgressBar.MakeGraph(contentPath);
+
+			File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
+
+			var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
+			File.Delete(newTemplate);
+			File.Delete(contentPath);
+
+			string fileName = fileNames.Item1;
+			string friendlyName = fileNames.Item2;
+
+			// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
+			string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
+			DataTable dt = _dbRepository.SqlExecuteReader(query);
+			if (dt.Rows.Count > 0)
+			{
+				friendlyName = $"{friendlyName} ({dt.Rows.Count})";
+			}
+
+			query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
+			_dbRepository.SqlExecute(query);
+
+			//Change the logbook entry to the correct category and change the user to the current user
+			_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
+
+			SetPdfContainer(fileName);
 		}
-
-		query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
-		_dbRepository.SqlExecute(query);
-
-		//Change the logbook entry to the correct category and change the user to the current user
-		_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
-
-		SetPdfContainer(fileName);
+		catch (Exception ex)
+		{
+            _logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+        }
 	}
 
 	private void SetPdfList()

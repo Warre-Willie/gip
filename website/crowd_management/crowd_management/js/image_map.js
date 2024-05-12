@@ -1,4 +1,11 @@
-﻿$(document).ready(function () {
+﻿/*
+ * File: image_map.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the image map on the crowd management page.
+ */
+
+$(document).ready(function () {
     window.$('img[usemap]').rwdImageMaps();
 });
 

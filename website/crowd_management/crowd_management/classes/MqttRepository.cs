@@ -1,4 +1,10 @@
-﻿using MQTTnet;
+﻿/*
+ * File: MqttRepository.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: This file contains the MqttRepository class. This class is used to connect to the MQTT broker and publish messages.
+ */
+using MQTTnet;
 using MQTTnet.Client;
 using System.Threading;
 using System;

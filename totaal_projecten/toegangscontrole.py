@@ -1,5 +1,5 @@
 """
-File: mysql_api.py
+File: toegangscontrole.py
 Author: Warre Willeme & Jesse UijtdeHaag
 Date: 29-04-2024
 Description: This is the main script for the access control system.
@@ -88,13 +88,16 @@ async def main():
             (stat, uid) = reader.SelectTagSN()
             if stat == reader.OK:
                 badge = int.from_bytes(bytes(uid),"little",False)
-                execute_query(f"""SELECT t.id, t.RFID, brt.badge_right_id, brt.ticket_id, br.id, brz.badge_right_id, brz.zone_id 
-                              FROM tickets t 
-                              JOIN badge_rights_tickets brt ON brt.ticket_id = t.id 
-                              JOIN badge_rights br ON brt.badge_right_id = br.id 
-                              JOIN badge_rights_zones brz ON brz.badge_right_id = br.id 
-                              WHERE t.RFID = '{badge}'""", True)
-                client.wait_msg()
+                try:
+                    execute_query(f"""SELECT t.id, t.RFID, brt.badge_right_id, brt.ticket_id, br.id, brz.badge_right_id, brz.zone_id 
+                                FROM tickets t 
+                                JOIN badge_rights_tickets brt ON brt.ticket_id = t.id 
+                                JOIN badge_rights br ON brt.badge_right_id = br.id 
+                                JOIN badge_rights_zones brz ON brz.badge_right_id = br.id 
+                                WHERE t.RFID = '{badge}'""", True)
+                    client.wait_msg()
+                except:
+                    print("Error in badge_scanned")
                 if db_response:
                     # led_green_pin.on()
                     # led_red_pin.off()
@@ -107,8 +110,11 @@ async def main():
                 lcd_start_time = time.time()
 
 if __name__ == "__main__": 
-    execute_query(f"SELECT name FROM zones WHERE id={zone_ID}", True)
-    client.wait_msg()
+    try:
+        execute_query(f"SELECT name FROM zones WHERE id={zone_ID}", True)
+        client.wait_msg()
+    except:
+        print("Error in main")
     if db_response:
         zone_name = db_response[0]['name']
         feedback_alerts.lcd_display(lcd, zone_name, "Scan RFID badge")
