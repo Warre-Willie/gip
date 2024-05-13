@@ -13,17 +13,22 @@ namespace crowd_management.pages
 {
 	public partial class Logbook : System.Web.UI.Page
 	{
-		LogbookHandler logbookHandler = new LogbookHandler();
+        #region Accessors
+        LogbookHandler logbookHandler = new LogbookHandler();
+        #endregion
 
-		protected void Page_Load(object sender, EventArgs e)
+        #region Page Events
+        protected void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
 				SetLogbook();
 			}
 		}
+        #endregion
 
-		private void SetLogbook()
+        #region Logbook methods
+        private void SetLogbook()
 		{
 			DbRepository dbRepository = new DbRepository();
 			try
@@ -51,5 +56,6 @@ namespace crowd_management.pages
 		{
 			return $"{dateTime.Day:d2}/{dateTime.Month:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 		}
+		#endregion
 	}
 }

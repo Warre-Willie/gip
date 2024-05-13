@@ -16,14 +16,17 @@ namespace crowd_management.pages
 {
 	public partial class Index : Page
 	{
-		private readonly DbRepository _dbRepository = new DbRepository();
+        #region Accessors and constants
+        private readonly DbRepository _dbRepository = new DbRepository();
 		private readonly MqttRepository _mqttRepository = new MqttRepository();
 		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 
 		private const string AccessZoneType = "access";
 		private const string CountZoneType = "count";
+        #endregion
 
-		protected void Page_PreRender(object sender, EventArgs e)
+        #region Load and unload page
+        protected void Page_PreRender(object sender, EventArgs e)
 		{
 			LoadHeatMap();
 			if (IsPostBack)
@@ -49,8 +52,10 @@ namespace crowd_management.pages
 				SetBadgeRights();
 			}
 		}
+        #endregion
 
-		private void LoadHeatMap()
+		#region Load data
+        private void LoadHeatMap()
 		{
 			try
 			{
@@ -218,8 +223,88 @@ namespace crowd_management.pages
 				}
 			}
 		}
+        private void SetCardVisibility(string zoneType)
+        {
+            bool isCountType = zoneType == CountZoneType;
+            divInfoZoneCardsCount.Visible = isCountType;
+            divSettingsZoneCardsCount.Visible = isCountType;
+            divInfoZoneCardsAccess.Visible = !isCountType;
+            divSettingsZoneCardsAccess.Visible = !isCountType;
+        }
 
-		private DateTime IgnoreSeconds(DateTime dateTime)
+        private void SetCountZoneInfo(DataRow row)
+        {
+            tbBarThresGreen.Text = Convert.ToDouble(row["threshold_green"].ToString()).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            tbBarThresOrange.Text = Convert.ToDouble(row["threshold_orange"].ToString()).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            tbMaxPeople.Text = row["max_people"].ToString();
+
+            tbEditPeopleCount.Text = row["people_count"].ToString();
+
+            cbBarLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
+        }
+
+        private void SetStatusColor(string barometerColor)
+        {
+            string colorClass = GetColorClass(barometerColor);
+
+            tagCurrentStatus.Attributes["class"] = $"tag is-{colorClass} is-light";
+            tagCurrentStatusSettings.Attributes["class"] = $"tag is-{colorClass} is-light";
+        }
+
+        private void SetBadgeRights()
+        {
+            if ((string)Session["zoneType"] == AccessZoneType && Session["zoneID"] != null)
+            {
+                string query = $"SELECT br.*, brz.zone_id FROM badge_rights br LEFT JOIN badge_rights_zones brz ON brz.badge_right_id = br.id";
+                DataTable badgeRights = _dbRepository.SqlExecuteReader(query);
+
+                divBadgeRightsEdit.Controls.Clear();
+                tableBadgeRightsView.Controls.Clear();
+
+                Table tbBadgeRightsEdit = new Table();
+                tbBadgeRightsEdit.ID = "tblBadgeRightsEdit";
+                tbBadgeRightsEdit.CssClass = "table is-fullwidth";
+
+                foreach (DataRow row in badgeRights.Rows)
+                {
+                    // For edit
+                    TableRow trEdit = new TableRow();
+                    TableCell tdEdit = new TableCell();
+
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.ID = "cbBadgeRightID" + row["id"];
+
+                    if (row["zone_id"] != DBNull.Value)
+                    {
+                        // Check edit checkbox
+                        checkBox.Checked = row["zone_id"] != DBNull.Value;
+
+                        // For view
+                        HtmlTableRow trView = new HtmlTableRow();
+                        HtmlTableCell tdView = new HtmlTableCell();
+                        tdView.InnerHtml = row["name"].ToString();
+                        trView.Cells.Add(tdView);
+                        tableBadgeRightsView.Controls.Add(trView);
+                    }
+
+                    tdEdit.Controls.Add(checkBox);
+
+                    Label label = new Label();
+                    label.Text = " " + row["name"];
+                    tdEdit.Controls.Add(label);
+
+                    trEdit.Cells.Add(tdEdit);
+                    tbBadgeRightsEdit.Rows.Add(trEdit);
+                }
+
+                divBadgeRightsEdit.Controls.Add(tbBadgeRightsEdit);
+            }
+        }
+        #endregion
+
+        #region Formatting
+        private DateTime IgnoreSeconds(DateTime dateTime)
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0, 0);
 		}
@@ -236,87 +321,10 @@ namespace crowd_management.pages
 
 			tbZoneName.Text = zoneName;
 		}
+        #endregion
 
-		private void SetCardVisibility(string zoneType)
-		{
-			bool isCountType = zoneType == CountZoneType;
-			divInfoZoneCardsCount.Visible = isCountType;
-			divSettingsZoneCardsCount.Visible = isCountType;
-			divInfoZoneCardsAccess.Visible = !isCountType;
-			divSettingsZoneCardsAccess.Visible = !isCountType;
-		}
-
-		private void SetCountZoneInfo(DataRow row)
-		{
-			tbBarThresGreen.Text = Convert.ToDouble(row["threshold_green"].ToString()).ToString(System.Globalization.CultureInfo.InvariantCulture);
-			tbBarThresOrange.Text = Convert.ToDouble(row["threshold_orange"].ToString()).ToString(System.Globalization.CultureInfo.InvariantCulture);
-
-			tbMaxPeople.Text = row["max_people"].ToString();
-
-			tbEditPeopleCount.Text = row["people_count"].ToString();
-
-			cbBarLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
-		}
-
-		private void SetStatusColor(string barometerColor)
-		{
-			string colorClass = GetColorClass(barometerColor);
-
-			tagCurrentStatus.Attributes["class"] = $"tag is-{colorClass} is-light";
-			tagCurrentStatusSettings.Attributes["class"] = $"tag is-{colorClass} is-light";
-		}
-
-		private void SetBadgeRights()
-		{
-			if ((string) Session["zoneType"] == AccessZoneType && Session["zoneID"] != null)
-			{
-				string query = $"SELECT br.*, brz.zone_id FROM badge_rights br LEFT JOIN badge_rights_zones brz ON brz.badge_right_id = br.id";
-				DataTable badgeRights = _dbRepository.SqlExecuteReader(query);
-
-				divBadgeRightsEdit.Controls.Clear();
-				tableBadgeRightsView.Controls.Clear();
-
-				Table tbBadgeRightsEdit = new Table();
-				tbBadgeRightsEdit.ID = "tblBadgeRightsEdit";
-				tbBadgeRightsEdit.CssClass = "table is-fullwidth";
-
-				foreach (DataRow row in badgeRights.Rows)
-				{
-					// For edit
-					TableRow trEdit = new TableRow();
-					TableCell tdEdit = new TableCell();
-
-					CheckBox checkBox = new CheckBox();
-					checkBox.ID = "cbBadgeRightID" + row["id"];
-
-					if (row["zone_id"] != DBNull.Value)
-					{
-						// Check edit checkbox
-						checkBox.Checked = row["zone_id"] != DBNull.Value;
-
-						// For view
-						HtmlTableRow trView = new HtmlTableRow();
-						HtmlTableCell tdView = new HtmlTableCell();
-						tdView.InnerHtml = row["name"].ToString();
-						trView.Cells.Add(tdView);
-						tableBadgeRightsView.Controls.Add(trView);
-					}
-
-					tdEdit.Controls.Add(checkBox);
-
-					Label label = new Label();
-					label.Text = " " + row["name"];
-					tdEdit.Controls.Add(label);
-
-					trEdit.Cells.Add(tdEdit);
-					tbBadgeRightsEdit.Rows.Add(trEdit);
-				}
-
-				divBadgeRightsEdit.Controls.Add(tbBadgeRightsEdit);
-			}
-		}
-
-		private void InsertBarometerLogbook(string barometerColor)
+        #region Barometer methods
+        private void InsertBarometerLogbook(string barometerColor)
 		{
 			string query = $"INSERT INTO barometer_logbook (zone_id, color) VALUES ({Session["zoneID"]}, '{barometerColor}')";
 			_dbRepository.SqlExecute(query);
@@ -343,8 +351,10 @@ namespace crowd_management.pages
 
 			return barometerColor;
 		}
+        #endregion
 
-		protected void imgHeatMap_Click(object sender, ImageMapEventArgs e)
+        #region Event handlers
+        protected void imgHeatMap_Click(object sender, ImageMapEventArgs e)
 		{
 			// Only execute this if column is disabled
 			if (divInfoPanel.Attributes["class"].IndexOf("column-disabled") != -1)
@@ -500,7 +510,7 @@ namespace crowd_management.pages
 			{
                 _logbookHandler.AddLogbookEntry("Zone", Session["user"].ToString(), $"Error changing access lock: {ex.Message}");
             }
-			
 		}
-	}
+        #endregion
+    }
 }
