@@ -57,7 +57,7 @@
 									<td>
 										<label class="checkbox">
 											<asp:CheckBox ID="cbRapport01" runat="server" />
-											<span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen tijden</span>
+											<span class="has-tooltip-multiline" data-tooltip="Lijngrafiek van het aantal bezoekers op een evenement gedurende een bepaalde periode.">Aantal bezoekers op het evenement per tijdseenheid</span>
 										</label>
 									</td>
 								</tr>
@@ -65,7 +65,7 @@
 									<td>
 										<label class="checkbox">
 											<asp:CheckBox ID="cbRapport02" runat="server" />
-											<span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen zones </span>
+											<span class="has-tooltip-multiline" data-tooltip="Een blokdiagram dat het percentage weergeeft van hoe vaak een bepaalde kleur is voorgekomen.">Blokdiagram van kleurvoorkomens in procenten</span>
 										</label>
 									</td>
 								</tr>
@@ -73,13 +73,22 @@
 									<td>
 										<label class="checkbox">
 											<asp:CheckBox ID="cbRapport03" runat="server" />
-											Aantal tickets
+                                            <span class="has-tooltip-multiline" data-tooltip="Tijdlijn met de drukte in verhouding tot de tijd.">Drukte in Tijdsverloop</span>
 										</label>
 									</td>
 								</tr>
+                                <tr>
+                                    <td>
+                                        <label class="checkbox">
+                                            <asp:CheckBox ID="cbRapport04" runat="server" />
+                                            <span class="has-tooltip-multiline" data-tooltip="Laat het aantal gescande tickets zien die gescand zijn in verhouding tot de verkochte tickets.">Gescande tickets t.o.v. verkochte tickets</span>
+                                        </label>
+                                    </td>
+                                </tr>
 							</tbody>
 						</table>
 					</div>
+                    <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 					<asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth" OnClick="btnGenRapport_Click" />
 				</div>
 				<div class="tile is-child box">

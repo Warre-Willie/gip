@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_timeline.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\reports\\barometer_timeline.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\reports\\zone_population.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\reports\\zone_population.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_zone_percentage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\reports\\barometer_zone_percentage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\reports\\ticket_progress_bar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\reports\\ticket_progress_bar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\rapport.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\rapport.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\barometerpercentage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\classes\\report\\barometerpercentage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\ticketprogressbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\classes\\report\\ticketprogressbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\zonepopulation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\classes\\report\\zonepopulation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 90,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,52 +42,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "rapport.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
-              "RelativeDocumentMoniker": "crowd_management\\pages\\rapport.aspx.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
-              "RelativeToolTip": "crowd_management\\pages\\rapport.aspx.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAgwDUAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T19:51:33.666Z",
+              "DocumentIndex": 3,
+              "Title": "ticket_progress_bar.html",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\ticket_progress_bar.html",
+              "RelativeDocumentMoniker": "crowd_management\\reports\\ticket_progress_bar.html",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\ticket_progress_bar.html*",
+              "RelativeToolTip": "crowd_management\\reports\\ticket_progress_bar.html*",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-15T13:56:03.565Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "barometer_zone_percentage.html",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_zone_percentage.html",
+              "RelativeDocumentMoniker": "crowd_management\\reports\\barometer_zone_percentage.html",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_zone_percentage.html",
+              "RelativeToolTip": "crowd_management\\reports\\barometer_zone_percentage.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-15T13:52:53.479Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "BarometerPercentage.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\BarometerPercentage.cs",
-              "RelativeDocumentMoniker": "crowd_management\\classes\\report\\BarometerPercentage.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\BarometerPercentage.cs",
-              "RelativeToolTip": "crowd_management\\classes\\report\\BarometerPercentage.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAA7wAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T19:50:59.083Z"
+              "Title": "zone_population.html",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\zone_population.html",
+              "RelativeDocumentMoniker": "crowd_management\\reports\\zone_population.html",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\zone_population.html",
+              "RelativeToolTip": "crowd_management\\reports\\zone_population.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-15T13:44:37.837Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TicketProgressBar.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\TicketProgressBar.cs",
-              "RelativeDocumentMoniker": "crowd_management\\classes\\report\\TicketProgressBar.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\TicketProgressBar.cs",
-              "RelativeToolTip": "crowd_management\\classes\\report\\TicketProgressBar.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T19:50:51.37Z"
+              "DocumentIndex": 0,
+              "Title": "barometer_timeline.html",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_timeline.html",
+              "RelativeDocumentMoniker": "crowd_management\\reports\\barometer_timeline.html",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\reports\\barometer_timeline.html*",
+              "RelativeToolTip": "crowd_management\\reports\\barometer_timeline.html*",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAB2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-15T13:44:23.943Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ZonePopulation.cs",
-              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\ZonePopulation.cs",
-              "RelativeDocumentMoniker": "crowd_management\\classes\\report\\ZonePopulation.cs",
-              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\classes\\report\\ZonePopulation.cs",
-              "RelativeToolTip": "crowd_management\\classes\\report\\ZonePopulation.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAAowAAAAAAAAAAA",
+              "DocumentIndex": 5,
+              "Title": "rapport.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
+              "RelativeDocumentMoniker": "crowd_management\\pages\\rapport.aspx.cs",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx.cs",
+              "RelativeToolTip": "crowd_management\\pages\\rapport.aspx.cs",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAwwGQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T19:50:46.082Z"
+              "WhenOpened": "2024-05-15T13:06:54.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "rapport.aspx",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx",
+              "RelativeDocumentMoniker": "crowd_management\\pages\\rapport.aspx",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\rapport.aspx",
+              "RelativeToolTip": "crowd_management\\pages\\rapport.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-15T09:55:32.375Z",
+              "EditorCaption": ""
             }
           ]
         }
