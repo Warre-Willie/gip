@@ -18,15 +18,18 @@ namespace crowd_management.pages;
 
 public partial class Rapport : System.Web.UI.Page
 {
-	private readonly DbRepository _dbRepository = new DbRepository();
+    #region Accessors
+    private readonly DbRepository _dbRepository = new DbRepository();
 	private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
 	private readonly ZonePopulation _zonePopulation = new ZonePopulation();
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
+    #endregion
 
-	protected void Page_Load(object sender, EventArgs e)
+    #region Page events
+    protected void Page_Load(object sender, EventArgs e)
 	{
 		if (!IsPostBack)
 		{
@@ -49,8 +52,10 @@ public partial class Rapport : System.Web.UI.Page
 		// Close all open connections
 		_dbRepository.Dispose();
 	}
+    #endregion
 
-	protected void btnGenRapport_Click(object sender, EventArgs e)
+    #region Event handlers
+    protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
 		try
 		{
@@ -100,41 +105,7 @@ public partial class Rapport : System.Web.UI.Page
         }
 	}
 
-	private void SetPdfList()
-	{
-		string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
-		DataTable pdfList = _dbRepository.SqlExecuteReader(query);
-
-		divPdfList.Controls.Clear();
-
-		foreach (DataRow row in pdfList.Rows)
-		{
-			Panel pdfPanel = new Panel();
-			pdfPanel.CssClass = "panel-block panel-row";
-
-			LinkButton pdfLink = new LinkButton();
-			pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-			pdfLink.ID = "rmv_" + row["file_name"];
-			pdfLink.Attributes["fileName"] = row["file_name"].ToString();
-			pdfLink.Click += pdfList_Click;
-
-			LinkButton deletePdfLink = new LinkButton();
-			deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
-			deletePdfLink.ID = "pdf_" + row["file_name"];
-			deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
-			deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
-			deletePdfLink.Click += btnDeletePdf_Click;
-
-			// Add PDF link button to the panel
-			pdfPanel.Controls.Add(pdfLink);
-
-			// Add delete PDF link button to the PDF panel
-			pdfPanel.Controls.Add(deletePdfLink);
-
-			// Add the panel to the container
-			divPdfList.Controls.Add(pdfPanel);
-		}
-	}
+	
 
 	protected void pdfList_Click(object sender, EventArgs e)
 	{
@@ -164,8 +135,46 @@ public partial class Rapport : System.Web.UI.Page
 		pdfContainer.Visible = false;
 		SetPdfList();
 	}
+    #endregion
 
-	private void SetPdfContainer(string filename)
+    #region Methods
+    private void SetPdfList()
+    {
+        string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
+        DataTable pdfList = _dbRepository.SqlExecuteReader(query);
+
+        divPdfList.Controls.Clear();
+
+        foreach (DataRow row in pdfList.Rows)
+        {
+            Panel pdfPanel = new Panel();
+            pdfPanel.CssClass = "panel-block panel-row";
+
+            LinkButton pdfLink = new LinkButton();
+            pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
+            pdfLink.ID = "rmv_" + row["file_name"];
+            pdfLink.Attributes["fileName"] = row["file_name"].ToString();
+            pdfLink.Click += pdfList_Click;
+
+            LinkButton deletePdfLink = new LinkButton();
+            deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
+            deletePdfLink.ID = "pdf_" + row["file_name"];
+            deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
+            deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
+            deletePdfLink.Click += btnDeletePdf_Click;
+
+            // Add PDF link button to the panel
+            pdfPanel.Controls.Add(pdfLink);
+
+            // Add delete PDF link button to the PDF panel
+            pdfPanel.Controls.Add(deletePdfLink);
+
+            // Add the panel to the container
+            divPdfList.Controls.Add(pdfPanel);
+        }
+    }
+
+    private void SetPdfContainer(string filename)
 	{
 		pdfContainer.Visible = true;
 		string pdfUrl = $"../eventHandlers/report.ashx?filename={filename}";
@@ -183,4 +192,5 @@ public partial class Rapport : System.Web.UI.Page
 											</div>";
 		SetPdfList();
 	}
+    #endregion
 }
