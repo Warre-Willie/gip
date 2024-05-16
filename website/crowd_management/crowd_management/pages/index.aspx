@@ -13,6 +13,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
+    
+    <script src="../js/preventBack.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css" />
