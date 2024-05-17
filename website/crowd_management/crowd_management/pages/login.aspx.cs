@@ -41,7 +41,26 @@ namespace crowd_management.pages
                     if (row["password"].ToString() == hashedWW)
                     {
                         Session["User"] = row["username"];
-                        Response.Redirect(Session["ReturnURL"].ToString());
+                        Uri returnURL = Request.UrlReferrer;
+                        if (returnURL != Request.Url)
+                        {
+                            UriBuilder uriBuilder = new UriBuilder(returnURL);
+
+                            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+
+                            query["pb"] = "true";
+
+                            uriBuilder.Query = query.ToString();
+
+                            string newUrl = uriBuilder.ToString();
+
+                            Response.Redirect(newUrl);
+                        }
+                        else
+                        {
+                            // Handle the case where there is no referrer
+                            Response.Redirect("~/pages/index.aspx?pb=true");
+                        }
                         break;
                     }
                 }
