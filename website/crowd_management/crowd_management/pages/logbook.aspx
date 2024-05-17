@@ -10,6 +10,7 @@
     <title>Crowd management</title>
 
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
+    <script src="../js/preventBack.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css" />

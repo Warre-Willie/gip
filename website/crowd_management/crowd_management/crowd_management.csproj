@@ -138,6 +138,7 @@
     <Content Include="image\logo_print.png" />
     <Content Include="js\image_map.js" />
     <Content Include="js\navbar.js" />
+    <Content Include="js\preventBack.js" />
     <Content Include="js\search_ticket.js" />
     <Content Include="js\settings_panel.js" />
     <Content Include="js\ticket_modal.js" />
