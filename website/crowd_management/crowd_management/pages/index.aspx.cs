@@ -10,154 +10,172 @@ namespace crowd_management.pages
 {
 	public partial class Index : Page
 	{
-		private readonly DbRepository _dbRepository = new DbRepository();
-		private readonly MqttRepository _mqttRepository = new MqttRepository();
-		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+        private readonly DbRepository _dbRepository = new DbRepository();
+        private readonly MqttRepository _mqttRepository = new MqttRepository();
+        private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 
-		private const string AccessZoneType = "access";
-		private const string CountZoneType = "count";
+        private const string AccessZoneType = "access";
+        private const string CountZoneType = "count";
 
-		protected void Page_PreRender(object sender, EventArgs e)
-		{
-			LoadHeatMap();
-			if (IsPostBack)
-			{
-				LoadZonePanel();
-			}
-		}
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            LoadHeatMap();
+            if (IsPostBack)
+            {
+                LoadZonePanel();
+            }
+        }
 
-		protected override void OnUnload(EventArgs e)
-		{
-			base.OnUnload(e);
+        protected override void OnUnload(EventArgs e)
+        {
+            base.OnUnload(e);
 
-			// Close all open connections
-			_dbRepository.Dispose();
-			_mqttRepository.Dispose();
-		}
+            // Close all open connections
+            _dbRepository.Dispose();
+            _mqttRepository.Dispose();
+        }
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-			if (IsPostBack)
-			{
-				SetBadgeRights();
-			}
-		}
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (IsPostBack)
+            {
+                SetBadgeRights();
+            }
+        }
 
-		private void LoadHeatMap()
-		{
-			string query = "SELECT * FROM zones";
-			DataTable zones = _dbRepository.SqlExecuteReader(query);
+        [System.Web.Services.WebMethod]
+        public static string GetHeatMapData()
+        {
+            Index indexPage = new Index();
+            return indexPage.FetchHeatMapData();
+        }
 
-			foreach (DataRow row in zones.Rows)
-			{
-				if (FindControl($"tagZoneName{row["id"]}") is Label zoneName)
-				{
-					zoneName.Text = row["name"].ToString();
-				}
+        private string FetchHeatMapData()
+        {
+            // Replace with your actual data fetching logic
+            var heatMapData = new
+            {
+                Zone1 = new { Name = "Zone 1", Percentage = 75, Lockdown = SetHeatMapLockdown() },
+                Zone2 = new { Name = "Zone 2", Percentage = 50, Lockdown = SetHeatMapLockdown() }
+            };
+            return JsonConvert.SerializeObject(heatMapData);
+        }
 
-				SetHeatMapLockdown(row);
+        private void LoadHeatMap()
+        {
+            string query = "SELECT * FROM zones";
+            DataTable zones = _dbRepository.SqlExecuteReader(query);
 
-				if (!string.IsNullOrEmpty(row["people_count"].ToString()))
-				{
-					SetHeatMapCountInfo(row);
-				}
-			}
-		}
+            foreach (DataRow row in zones.Rows)
+            {
+                if (FindControl($"tagZoneName{row["id"]}") is Label zoneName)
+                {
+                    zoneName.Text = row["name"].ToString();
+                }
 
-		private void SetHeatMapCountInfo(DataRow row)
-		{
-			HtmlGenericControl zoneTagColor = FindControl($"tagZoneColor{row["id"]}") as HtmlGenericControl;
-			zoneTagColor?.Attributes.Add("class", $"tag is-{GetColorClass(row["barometer_color"].ToString())} is-light is-medium");
+                SetHeatMapLockdown(row);
 
-			Label zonePercentage = FindControl($"tagZonePercentage{row["id"]}") as Label;
-			double percentage = Convert.ToDouble(row["people_count"].ToString()) / Convert.ToDouble(row["max_people"].ToString()) * 100;
-			percentage = Math.Round(percentage, 2);
-			if (zonePercentage == null)
-			{
-				return;
-			}
+                if (!string.IsNullOrEmpty(row["people_count"].ToString()))
+                {
+                    SetHeatMapCountInfo(row);
+                }
+            }
+        }
 
-			zonePercentage.Text = percentage + "%";
-			if (percentage > 100)
-			{
-				zonePercentage.Text = "100%";
-			}
-		}
+        private void SetHeatMapCountInfo(DataRow row)
+        {
+            HtmlGenericControl zoneTagColor = FindControl($"tagZoneColor{row["id"]}") as HtmlGenericControl;
+            zoneTagColor?.Attributes.Add("class", $"tag is-{GetColorClass(row["barometer_color"].ToString())} is-light is-medium");
 
-		private void SetHeatMapLockdown(DataRow row)
-		{
-			HtmlGenericControl zoneLockdown = FindControl($"zoneLockdown{row["id"]}") as HtmlGenericControl;
-			if (zoneLockdown == null)
-			{
-				return;
-			}
+            Label zonePercentage = FindControl($"tagZonePercentage{row["id"]}") as Label;
+            double percentage = Convert.ToDouble(row["people_count"].ToString()) / Convert.ToDouble(row["max_people"].ToString()) * 100;
+            percentage = Math.Round(percentage, 2);
+            if (zonePercentage == null)
+            {
+                return;
+            }
 
-			if (Convert.ToBoolean(row["lockdown"]))
-			{
-				zoneLockdown.Attributes["class"] = "fa-solid fa-lock";
-			}
-			else
-			{
-				zoneLockdown.Attributes["class"] = "fa-solid fa-lock-open";
-			}
-		}
+            zonePercentage.Text = percentage + "%";
+            if (percentage > 100)
+            {
+                zonePercentage.Text = "100%";
+            }
+        }
 
-		private string GetColorClass(string color)
-		{
-			switch (color)
-			{
-				case "green":
-					return "success";
-				case "orange":
-					return "warning";
-				case "red":
-					return "danger";
-				default:
-					return "link";
-			}
-		}
+        private void SetHeatMapLockdown(DataRow row)
+        {
+            HtmlGenericControl zoneLockdown = FindControl($"zoneLockdown{row["id"]}") as HtmlGenericControl;
+            if (zoneLockdown == null)
+            {
+                return;
+            }
 
-		private void LoadZonePanel()
-		{
-			if (Session["zoneID"] == null)
-			{
-				return;
-			}
+            if (Convert.ToBoolean(row["lockdown"]))
+            {
+                zoneLockdown.Attributes["class"] = "fa-solid fa-lock";
+            }
+            else
+            {
+                zoneLockdown.Attributes["class"] = "fa-solid fa-lock-open";
+            }
+        }
 
-			string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
-			DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
+        private string GetColorClass(string color)
+        {
+            switch (color)
+            {
+                case "green":
+                    return "success";
+                case "orange":
+                    return "warning";
+                case "red":
+                    return "danger";
+                default:
+                    return "link";
+            }
+        }
 
-			if (zoneInfo.Rows.Count > 0)
-			{
-				DataRow row = zoneInfo.Rows[0];
+        private void LoadZonePanel()
+        {
+            if (Session["zoneID"] == null)
+            {
+                return;
+            }
 
-				string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
-				Session["zoneType"] = zoneType;
+            string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
+            DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
 
-				SetZoneTitle(row["name"].ToString());
+            if (zoneInfo.Rows.Count > 0)
+            {
+                DataRow row = zoneInfo.Rows[0];
 
-				if (zoneType == CountZoneType)
-				{
-					SetCountZoneInfo(row);
-					SetStatusColor(row["barometer_color"].ToString());
-					SetLogbook();
-				}
-				else
-				{
-					cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
-					SetBadgeRights();
-				}
+                string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
+                Session["zoneType"] = zoneType;
 
-				SetCardVisibility(zoneType);
-			}
-			else
-			{
-				// Message: zone not found
-			}
-		}
+                SetZoneTitle(row["name"].ToString());
 
-		private void SetLogbook()
+                if (zoneType == CountZoneType)
+                {
+                    SetCountZoneInfo(row);
+                    SetStatusColor(row["barometer_color"].ToString());
+                    SetLogbook();
+                }
+                else
+                {
+                    cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
+                    SetBadgeRights();
+                }
+
+                SetCardVisibility(zoneType);
+            }
+            else
+            {
+                // Message: zone not found
+            }
+        }
+
+        private void SetLogbook()
 		{
 			string query = $"SELECT * FROM zone_population_data WHERE zone_id = '{Session["zoneID"]}' ORDER BY timestamp DESC;";
 			DataTable logbook = _dbRepository.SqlExecuteReader(query);
