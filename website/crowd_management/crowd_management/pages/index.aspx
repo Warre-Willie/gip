@@ -96,8 +96,8 @@
 													</b>
 													&nbsp;
                                                     <span>
-																											<asp:Label ID="tagZonePercentage1" runat="server"></asp:Label>
-																										</span>
+														<asp:Label ID="tagZonePercentage1" runat="server"></asp:Label>
+													</span>
 												</span>
 											</div>
 										</div>

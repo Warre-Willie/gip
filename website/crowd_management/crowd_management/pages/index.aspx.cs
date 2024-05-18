@@ -58,6 +58,7 @@ namespace crowd_management.pages
 			public string Name { get; set; }
 			public double Percentage { get; set; }
 			public bool Lockdown { get; set; }
+			public string Color { get; set; }
 		}
 
 		private string FetchHeatMapData()
@@ -74,38 +75,46 @@ namespace crowd_management.pages
 				{ "Zone3", new ZoneData() },
 				{ "Zone4", new ZoneData() }
 			};
+            try
+            {
+                foreach (DataRow row in zones.Rows)
+                {
+                    int zoneId = Convert.ToInt32(row["id"]);
+                    double percentage = 0;
+                    bool lockdown = Convert.ToBoolean(row["lockdown"]);
 
-			foreach (DataRow row in zones.Rows)
-			{
-				int zoneId = Convert.ToInt32(row["id"]);
-				double percentage = 0;
-				bool lockdown = Convert.ToBoolean(row["lockdown"]);
+                    // Formatting zone data
+                    if (!string.IsNullOrEmpty(row["people_count"].ToString()) && !string.IsNullOrEmpty(row["max_people"].ToString()))
+                    {
+                        percentage = Convert.ToDouble(row["people_count"]) / Convert.ToDouble(row["max_people"]) * 100;
+                        percentage = Math.Round(percentage, 2);
+                    }
 
-				// Formatting zone data
-				if (!string.IsNullOrEmpty(row["people_count"].ToString()) && !string.IsNullOrEmpty(row["max_people"].ToString()))
-				{
-					percentage = Convert.ToDouble(row["people_count"]) / Convert.ToDouble(row["max_people"]) * 100;
-					percentage = Math.Round(percentage, 2);
-				}
+                    string color = GetColorClass(row["barometer_color"].ToString());
 
-				switch (zoneId)
-				{
-					case 1:
-						heatMapData["Zone1"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
-						break;
-					case 2:
-						heatMapData["Zone2"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
-						break;
-					case 3:
-						heatMapData["Zone3"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
-						break;
-					case 4:
-						heatMapData["Zone4"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
-						break;
-				}
-			}
+                    switch (zoneId)
+                    {
+                        case 1:
+                            heatMapData["Zone1"] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
+                            break;
+                        case 2:
+                            heatMapData["Zone2"] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
+                            break;
+                        case 3:
+                            heatMapData["Zone3"] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
+                            break;
+                        case 4:
+                            heatMapData["Zone4"] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
 
-			return JsonConvert.SerializeObject(heatMapData);
+            return JsonConvert.SerializeObject(heatMapData);
 		}
 
 		private void LoadHeatMap()
