@@ -7,9 +7,9 @@ namespace crowd_management.classes
 {
     public class DbRepository
     {
-        private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ";
+        private const string ConnString = "Server=localhost;Database=crowd_management;Uid=root;Pwd=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
         private readonly MySqlConnection _conn;
-			private readonly MySqlCommand _cmd = new MySqlCommand();
+				private readonly MySqlCommand _cmd = new MySqlCommand();
 
         public DbRepository()
         {

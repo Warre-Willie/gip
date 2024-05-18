@@ -37,5 +37,5 @@
     updateHeatMap();
 
     // Set an interval to update the heatmap periodically
-    setInterval(updateHeatMap, 5000); // Update every 5 seconds
+    setInterval(updateHeatMap, 3000); // Update every 5 seconds
 });
