@@ -53,12 +53,51 @@ namespace crowd_management.pages
 
         private string FetchHeatMapData()
         {
-            // Replace with your actual data fetching logic
+            string query = "SELECT * FROM zones";
+            DataTable zones = _dbRepository.SqlExecuteReader(query);
+
             var heatMapData = new
             {
-                Zone1 = new { Name = "Zone 1", Percentage = 75, Lockdown = SetHeatMapLockdown() },
-                Zone2 = new { Name = "Zone 2", Percentage = 50, Lockdown = SetHeatMapLockdown() }
+                Zone1 = new { Name = "", Percentage = 0, Lockdown = false },
+                Zone2 = new { Name = "", Percentage = 0, Lockdown = false },
+                Zone3 = new { Name = "", Percentage = 0, Lockdown = false },
+                Zone4 = new { Name = "", Percentage = 0, Lockdown = false },
+                Zone5 = new { Name = "", Percentage = 0, Lockdown = false }
             };
+
+            foreach (DataRow row in zones.Rows)
+            {
+                int zoneId = Convert.ToInt32(row["id"]);
+                double percentage = 0;
+                bool lockdown = Convert.ToBoolean(row["lockdown"]);
+
+                // Formatting zone data
+                if (!string.IsNullOrEmpty(row["people_count"].ToString()) && !string.IsNullOrEmpty(row["max_people"].ToString()))
+                {
+                    percentage = Convert.ToDouble(row["people_count"]) / Convert.ToDouble(row["max_people"]) * 100;
+                    percentage = Math.Round(percentage, 2);
+                }
+
+                switch (zoneId)
+                {
+                    case 1:
+                        heatMapData.Zone1 = new { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+                        break;
+                    case 2:
+                        heatMapData.Zone2 = new { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+                        break;
+                    case 3:
+                        heatMapData.Zone3 = new { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+                        break;
+                    case 4:
+                        heatMapData.Zone4 = new { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+                        break;
+                    case 5:
+                        heatMapData.Zone5 = new { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+                        break;
+                }
+            }
+
             return JsonConvert.SerializeObject(heatMapData);
         }
 
