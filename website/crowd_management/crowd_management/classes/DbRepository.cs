@@ -14,9 +14,13 @@ namespace crowd_management.classes
 {
     public class DbRepository
     {
+        #region Variables
         private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ";
         private readonly MySqlConnection _conn;
 			private readonly MySqlCommand _cmd = new MySqlCommand();
+        #endregion
+
+        #region Methods
 
         public DbRepository()
         {
@@ -66,5 +70,6 @@ namespace crowd_management.classes
                 throw new Exception(ex.ToString());
             }
         }
+#endregion  
     }
 }

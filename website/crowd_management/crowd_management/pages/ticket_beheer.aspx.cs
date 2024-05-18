@@ -10,9 +10,13 @@ namespace crowd_management.pages
 {
     public partial class TicketBeheer : System.Web.UI.Page
     {
+        #region Accessors
         private readonly DbRepository _dbRepository = new DbRepository();
         private LogbookHandler logbook_Handler = new LogbookHandler();
 
+        #endregion
+
+        #region Load and Unload
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -37,7 +41,9 @@ namespace crowd_management.pages
             // Close all open connections
             _dbRepository.Dispose();
         }
+        #endregion
 
+        #region Methods
         private protected void SetTicketList()
         {
             string query = "SELECT * FROM tickets";
@@ -169,7 +175,9 @@ namespace crowd_management.pages
 
 						divTicketBadgeRights.Controls.Add(tbBadgeRights);
         }
+        #endregion
 
+        #region Event Handlers
         protected void ticketList_Click(object sender, EventArgs e)
         {
             LinkButton ticket = (LinkButton)sender;
@@ -240,5 +248,6 @@ namespace crowd_management.pages
             dbRepository.SqlExecute(query);
             dbRepository.Dispose();
         }
+#endregion
     }
 }

@@ -20,11 +20,15 @@ namespace crowd_management.classes
 		// This class mimics the request that is made when you upload a file to the website
 		// This is not an official API with documentation
 
+        #region Varibables
+
 		private const string BaseUrl = "https://html2pdf.com";
 
 		private string _sid = string.Empty;
 		private string _fid = string.Empty;
+		#endregion
 
+		#region Methods
 		private string ConvertToBase32(int value)
 		{
 			const string chars = "0123456789abcdefghijklmnopqrstuv";
@@ -247,5 +251,6 @@ namespace crowd_management.classes
 
 			return (fileName, friendlyName);
 		}
+#endregion
 	}
 }

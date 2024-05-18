@@ -13,8 +13,11 @@ namespace crowd_management.classes
 {
     public class LogbookHandler
     {
+        #region Variables
         private DbRepository db = new DbRepository();
+        #endregion
 
+        #region Methods
         public void AddLogbookEntry(string category, string user, string description)
         {
             try // try to add the logbook entry to the database
@@ -27,6 +30,6 @@ namespace crowd_management.classes
                 Console.WriteLine(ex.ToString());
             }
         }
-
+        #endregion
     }
 }

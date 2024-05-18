@@ -14,11 +14,16 @@ namespace crowd_management.classes
 {
     public class MqttRepository
     {
+        #region Variables and constands
+
         private readonly IMqttClient _mqttClient;
-				private const string Broker = "broker.hivemq.com";
-				private readonly string username;
+		private const string Broker = "broker.hivemq.com";
+		private readonly string username;
         private readonly string password;
 
+        #endregion
+
+        #region Methods
         public MqttRepository()
         {
             var factory = new MqttFactory();
@@ -64,5 +69,6 @@ namespace crowd_management.classes
 
             await _mqttClient.PublishAsync(message, CancellationToken.None);
         }
+#endregion
     }
 }
