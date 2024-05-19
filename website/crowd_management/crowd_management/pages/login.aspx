@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
     <script src="../js/preventBack.js"></script>
+    <script src="../js/preventBackLogin.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css">

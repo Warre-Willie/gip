@@ -24,6 +24,16 @@ namespace crowd_management.pages
                     Response.Redirect("Login.aspx");
                 }
             }
+
+            // Add 'pb=true' to the URL if it's not already there
+            if (Request.QueryString["pb"] != "true")
+            {
+                UriBuilder uriBuilder = new UriBuilder(Request.Url);
+                var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["pb"] = "true";
+                uriBuilder.Query = query.ToString();
+                Response.Redirect(uriBuilder.ToString());
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -41,29 +51,24 @@ namespace crowd_management.pages
                     if (row["password"].ToString() == hashedWW)
                     {
                         Session["User"] = row["username"];
-                        Uri returnURL = Request.UrlReferrer;
-                        if (returnURL != Request.Url)
+                        // Handle the case where there is no referrer
+                        if (Session["ReturnURL"] == null)
                         {
-                            UriBuilder uriBuilder = new UriBuilder(returnURL);
-
-                            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-
-                            query["pb"] = "true";
-
-                            uriBuilder.Query = query.ToString();
-
-                            string newUrl = uriBuilder.ToString();
-
-                            Response.Redirect(newUrl);
+                            Response.Redirect("index.aspx");
                         }
                         else
                         {
-                            // Handle the case where there is no referrer
-                            Response.Redirect("~/pages/index.aspx?pb=true");
+                            Response.Redirect(Session["ReturnURL"].ToString());
                         }
-                        break;
+                        
                     }
+                    break;
                 }
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
+            else
+            {
                 lbError.Visible = true;
                 tbWW.Text = "";
             }
