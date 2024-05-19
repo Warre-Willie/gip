@@ -15,20 +15,22 @@ namespace crowd_management.pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["ReturnURL"] = "ticket_beheer.aspx";
             if (Session["User"] == null)
             {
-                Response.Redirect("login.aspx");
+                divPage.Visible = false;
+                divLogin.Visible = true;
             }
             else
             {
-                SetTicketList();
-                if (IsPostBack)
-                {
-                    SetBadgeRights();
-                }
+                divPage.Visible = true;
+                divLogin.Visible = false;
             }
 
+            SetTicketList();
+            if (IsPostBack)
+            {
+                SetBadgeRights();
+            }
         }
 
         protected override void OnUnload(EventArgs e)
@@ -231,8 +233,40 @@ namespace crowd_management.pages
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["User"] = null;
-            Session["ReturnURL"] = "ticket_beheer.aspx";
-            Response.Redirect("login.aspx?logout=true");
+            divPage.Visible = false;
+            divLogin.Visible = true;
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+            string tbWW_text = tbWW.Text.Trim();
+            string hashedWW = Hash.GetHash(tbWW_text);
+
+            DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["password"].ToString() == hashedWW)
+                    {
+                        Session["User"] = row["username"];
+                        divPage.Visible = true;
+                        divLogin.Visible = false;
+                    }
+
+                    break;
+                }
+
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
+            else
+            {
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
         }
     }
 }

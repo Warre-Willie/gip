@@ -7,6 +7,8 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.Security;
 using System.Web;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace crowd_management.pages
 {
@@ -14,26 +16,23 @@ namespace crowd_management.pages
 	{
 		private readonly DbRepository _dbRepository = new DbRepository();
 		private readonly MqttRepository _mqttRepository = new MqttRepository();
-		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+        private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 
 		private const string AccessZoneType = "access";
 		private const string CountZoneType = "count";
 
 		protected void Page_PreRender(object sender, EventArgs e)
 		{
-			Session["ReturnURL"] = "index.aspx";
 			if (Session["User"] == null)
 			{
-				Response.Redirect("login.aspx");
-			}
-			else
-			{
-				LoadHeatMap();
-				if (IsPostBack)
-				{
-					LoadZonePanel();
-				}
-			}
+                divPage.Visible = false;
+                divLogin.Visible = true;
+            }
+            else
+            {
+                divPage.Visible = true;
+                divLogin.Visible = false;
+            }
 		}
 
 		protected override void OnUnload(EventArgs e)
@@ -455,8 +454,40 @@ namespace crowd_management.pages
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["User"] = null;
-            Session["ReturnURL"] = "index.aspx";
-            Response.Redirect("login.aspx?logout=true");
+            divPage.Visible = false;
+            divLogin.Visible = true;
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+            string tbWW_text = tbWW.Text.Trim();
+            string hashedWW = Hash.GetHash(tbWW_text);
+
+            DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["password"].ToString() == hashedWW)
+                    {
+                        Session["User"] = row["username"];
+                        divPage.Visible = true;
+                        divLogin.Visible = false;
+                    }
+
+                    break;
+                }
+
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
+            else
+            {
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
         }
     }
 }

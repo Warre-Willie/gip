@@ -1,25 +1,27 @@
 using System;
 using System.Data;
+using System.Web;
 using crowd_management.classes;
 
 namespace crowd_management.pages
 {
     public partial class Logbook : System.Web.UI.Page
     {
+        private readonly DbRepository _dbRepository = new DbRepository();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Set the ReturnURL session variable to the desired page
-                Session["ReturnURL"] = "logbook.aspx";
-
                 if (Session["User"] == null)
                 {
-                    Response.Redirect("login.aspx");
+                    divPage.Visible = false;
+                    divLogin.Visible = true;
                 }
                 else
                 {
-                    SetLogbook();
+                    divPage.Visible = true;
+                    divLogin.Visible = false;
                 }
             }
         }
@@ -49,10 +51,40 @@ namespace crowd_management.pages
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["User"] = null;
+            divPage.Visible = false;
+            divLogin.Visible = true; ;
+        }
 
-            Session["ReturnURL"] = "logbook.aspx";
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+            string tbWW_text = tbWW.Text.Trim();
+            string hashedWW = Hash.GetHash(tbWW_text);
 
-            Response.Redirect("login.aspx?logout=true");
+            DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["password"].ToString() == hashedWW)
+                    {
+                        Session["User"] = row["username"];
+                        divPage.Visible = true;
+                        divLogin.Visible = false;
+                    }
+
+                    break;
+                }
+
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
+            else
+            {
+                lbError.Visible = true;
+                tbWW.Text = "";
+            }
         }
     }
 }

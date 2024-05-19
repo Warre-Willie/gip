@@ -9,7 +9,7 @@
 
     <link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
     <script src="https://kit.fontawesome.com/08c8f3812a.js" crossorigin="anonymous"></script>
-    
+
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css">
@@ -18,131 +18,164 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar is-link" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item navbar-brand-container" href="index.aspx">
-                    <img class="navbar-brand-img" src="../image/logo_navbar.png" />
-                </a>
-
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div id="navbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a href="index.aspx" class="navbar-item">Crowd management
+        <div id="divPage" runat="server">
+            <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item navbar-brand-container" href="index.aspx">
+                        <img class="navbar-brand-img" src="../image/logo_navbar.png" />
                     </a>
 
-                    <a href="ticket_beheer.aspx" class="navbar-item">Ticketbeheer
-                    </a>
-
-                    <a href="rapport.aspx" class="navbar-item">Rapport maken
-                    </a>
-                    <a href="logbook.aspx" class="navbar-item">Logboek
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
                     </a>
                 </div>
+                <div id="navbar" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a href="index.aspx" class="navbar-item">Crowd management
+                        </a>
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <asp:LinkButton ID="btnLogout" runat="server" CssClass="button is-warning" OnClick="btnLogout_Click"><b>Uitloggen</b></asp:LinkButton>
+                        <a href="ticket_beheer.aspx" class="navbar-item">Ticketbeheer
+                        </a>
+
+                        <a href="rapport.aspx" class="navbar-item">Rapport maken
+                        </a>
+                        <a href="logbook.aspx" class="navbar-item">Logboek
+                        </a>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <asp:LinkButton ID="btnLogout" runat="server" CssClass="button is-warning" OnClick="btnLogout_Click"><b>Uitloggen</b></asp:LinkButton>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
 
-        <div class="tile is-ancestor tile-padding">
-            <div class="tile is-4 is-vertical is-parent fit-tile-content">
-                <div class="tile is-child box">
-                    <p class="subtitle"><b>Rapport instellingen</b></p>
-                    <div class="filter-table">
-                        <table class="table is-fullwidth">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <asp:CheckBox ID="cbRapport01" runat="server" />
-                                            <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen tijden</span>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <asp:CheckBox ID="cbRapport02" runat="server" />
-                                            <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen zones </span>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="checkbox">
-                                            <asp:CheckBox ID="cbRapport03" runat="server" />
-                                            Aantal tickets
-                                        </label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="tile is-ancestor tile-padding">
+                <div class="tile is-4 is-vertical is-parent fit-tile-content">
+                    <div class="tile is-child box">
+                        <p class="subtitle"><b>Rapport instellingen</b></p>
+                        <div class="filter-table">
+                            <table class="table is-fullwidth">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox">
+                                                <asp:CheckBox ID="cbRapport01" runat="server" />
+                                                <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen tijden</span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox">
+                                                <asp:CheckBox ID="cbRapport02" runat="server" />
+                                                <span class="has-tooltip-multiline" data-tooltip="Een lijngrafiek met het aantal mensen op evenement gedurende een bepaalde periode">Verspreiding tussen zones </span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox">
+                                                <asp:CheckBox ID="cbRapport03" runat="server" />
+                                                Aantal tickets
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth" OnClick="btnGenRapport_Click" />
                     </div>
-                    <asp:Button ID="btnGenRapport" runat="server" Text="Genereer PDF" class="button is-success is-fullwidth" OnClick="btnGenRapport_Click" />
+                    <div class="tile is-child box">
+                        <nav class="panel" style="height: 400px; overflow: auto;">
+                            <p class="panel-heading">Oude rapporten</p>
+                            <div class="panel-block">
+                                <p class="control has-icons-left">
+                                    <input class="input" type="text" placeholder="Search" />
+                                    <span class="icon is-left">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div id="divPdfList" runat="server">
+                            </div>
+                            <div class="panel-block">
+                                <button class="button is-link is-outlined is-fullwidth">
+                                    Reset all filters
+                                </button>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
-                <div class="tile is-child box">
-                    <nav class="panel" style="height: 400px; overflow: auto;">
-                        <p class="panel-heading">Oude rapporten</p>
-                        <div class="panel-block">
-                            <p class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Search" />
-                                <span class="icon is-left">
-                                    <i class="fas fa-search" aria-hidden="true"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div id="divPdfList" runat="server">
-                        </div>
-                        <div class="panel-block">
-                            <button class="button is-link is-outlined is-fullwidth">
-                                Reset all filters
-                            </button>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-            <div class="tile is-vertical is-parent fit-tile-content">
-                <div id="pdfContainer" runat="server" class="tile is-child box">
-                    <p class="subtitle"><b>Voorstelling</b></p>
-                    <div class="is-hidden-touch">
-                        <object
-                            data="../eventHandlers/report.ashx?filename=print_rapport.pdf"
-                            type="application/pdf"
-                            width="100%"
-                            height="700px">
-                            <p>
-                                Unable to display PDF file.
+                <div class="tile is-vertical is-parent fit-tile-content">
+                    <div id="pdfContainer" runat="server" class="tile is-child box">
+                        <p class="subtitle"><b>Voorstelling</b></p>
+                        <div class="is-hidden-touch">
+                            <object
+                                data="../eventHandlers/report.ashx?filename=print_rapport.pdf"
+                                type="application/pdf"
+                                width="100%"
+                                height="700px">
+                                <p>
+                                    Unable to display PDF file.
                 <a href="../eventHandlers/report.ashx?filename=print_rapport.pdf">Download</a> instead.
-                            </p>
-                        </object>
-                    </div>
-                    <div class="is-hidden-desktop">
-                        <p>
-                            Open a PDF file
+                                </p>
+                            </object>
+                        </div>
+                        <div class="is-hidden-desktop">
+                            <p>
+                                Open a PDF file
               <a href="../eventHandlers/report.ashx?filename=print_rapport.pdf" target="_blank">example</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer has-background-white ">
+                Ontworpen door Warre Willeme & Jesse UijtdeHaag
+            </div>
+
+            <!-- Loading JavaScript at the end of the page for better preformance-->
+            <script src="../js/navbar.js"></script>
+            <script src="../js/settings_panel.js"></script>
+            <script src="../js/search_ticket.js"></script>
+            <script src="../js/ticket_modal.js"></script>
+        </div>
+        <div id="divLogin" runat="server">
+            <div class="login-container">
+                <div class="image-container">
+                    <img src="../image/logo_print.png" />
+                </div>
+                <div class="box">
+                    <div class="field">
+                        <p class="control has-icons-right">
+                            <asp:TextBox ID="tbEmail" CssClass="input" runat="server" placeholder="Email"></asp:TextBox>
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-envelope"></i>
+                            </span>
                         </p>
                     </div>
+                    <div class="field">
+                        <p class="control has-icons-right">
+                            <asp:TextBox ID="tbWW" CssClass="input" runat="server" placeholder="Wachtwoord" type="password"></asp:TextBox>
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="button is-warning" OnClick="btnLogin_Click" />
+                        </p>
+                    </div>
+                    <asp:Label ID="lbError" runat="server" Text="Ongeldige login poging" CssClass="has-text-danger" Visible="false"></asp:Label>
                 </div>
             </div>
         </div>
-
-        <div class="footer has-background-white ">
-            Ontworpen door Warre Willeme & Jesse UijtdeHaag
-        </div>
-
-        <!-- Loading JavaScript at the end of the page for better preformance-->
-        <script src="../js/navbar.js"></script>
-        <script src="../js/settings_panel.js"></script>
-        <script src="../js/search_ticket.js"></script>
-        <script src="../js/ticket_modal.js"></script>
     </form>
 </body>
 </html>

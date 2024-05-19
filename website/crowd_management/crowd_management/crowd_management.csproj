@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\DbRepository.cs" />
+    <Compile Include="classes\Hash.cs" />
     <Compile Include="classes\HtmlToPdfConverter.cs" />
     <Compile Include="classes\LogbookHandler.cs" />
     <Compile Include="classes\MqttRepository.cs" />

@@ -9,112 +9,116 @@ namespace crowd_management.pages;
 
 public partial class Rapport : System.Web.UI.Page
 {
-	private readonly DbRepository _dbRepository = new DbRepository();
-	private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
-	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-	private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
+    private readonly DbRepository _dbRepository = new DbRepository();
+    private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
+    private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+    private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		Session["ReturnURL"] = "rapport.aspx";
-		if (Session["User"] == null)
-		{
-            Response.Redirect("login.aspx");
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["User"] == null)
+        {
+            divPage.Visible = false;
+            divLogin.Visible = true;
         }
         else
-		{
-            if (!IsPostBack)
-            {
-                pdfContainer.Visible = false;
-            }
-
-            SetPdfList();
+        {
+            divPage.Visible = true;
+            divLogin.Visible = false;
         }
-	}
 
-	protected override void OnUnload(EventArgs e)
-	{
-		base.OnUnload(e);
+        if (!IsPostBack)
+        {
+            pdfContainer.Visible = false;
+        }
 
-		// Close all open connections
-		_dbRepository.Dispose();
-	}
+        SetPdfList();
 
-	protected void btnGenRapport_Click(object sender, EventArgs e)
-	{
-		// Generate the pdf file with the filter data
+    }
 
-		string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
-		FileStream fs = File.Create(contentPath);
-		fs.Close();
+    protected override void OnUnload(EventArgs e)
+    {
+        base.OnUnload(e);
 
-		string filePath = Server.MapPath("~/reports/report_template.html");
-		string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
-		File.Copy(filePath, newTemplate);
+        // Close all open connections
+        _dbRepository.Dispose();
+    }
 
-		_barometerPercentage.MakeGraph(contentPath);
+    protected void btnGenRapport_Click(object sender, EventArgs e)
+    {
+        // Generate the pdf file with the filter data
 
-		File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
+        string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
+        FileStream fs = File.Create(contentPath);
+        fs.Close();
 
-		var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
-		File.Delete(newTemplate);
-		File.Delete(contentPath);
+        string filePath = Server.MapPath("~/reports/report_template.html");
+        string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
+        File.Copy(filePath, newTemplate);
 
-		string fileName = fileNames.Item1;
-		string friendlyName = fileNames.Item2;
+        _barometerPercentage.MakeGraph(contentPath);
 
-		// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
-		string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
-		DataTable dt = _dbRepository.SqlExecuteReader(query);
-		if (dt.Rows.Count > 0)
-		{
-			friendlyName = $"{friendlyName} ({dt.Rows.Count})";
-		}
+        File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
 
-		query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
-		_dbRepository.SqlExecute(query);
+        var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
+        File.Delete(newTemplate);
+        File.Delete(contentPath);
 
-		_logbookHandler.AddLogbookEntry("Rapport", Session["User"].ToString(), $"Rapport {fileName} gegenereerd");
+        string fileName = fileNames.Item1;
+        string friendlyName = fileNames.Item2;
 
-		SetPdfContainer(fileName);
-	}
+        // make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
+        string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
+        DataTable dt = _dbRepository.SqlExecuteReader(query);
+        if (dt.Rows.Count > 0)
+        {
+            friendlyName = $"{friendlyName} ({dt.Rows.Count})";
+        }
 
-	private void SetPdfList()
-	{
-		string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
-		DataTable pdfList = _dbRepository.SqlExecuteReader(query);
+        query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
+        _dbRepository.SqlExecute(query);
 
-		divPdfList.Controls.Clear();
+        _logbookHandler.AddLogbookEntry("Rapport", Session["User"].ToString(), $"Rapport {fileName} gegenereerd");
 
-		foreach (DataRow row in pdfList.Rows)
-		{
-			LinkButton pdf = new LinkButton();
+        SetPdfContainer(fileName);
+    }
 
-			pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-			pdf.ID = row["file_name"].ToString();
-			pdf.Click += pdfList_Click;
-			pdf.CssClass = "panel-block";
+    private void SetPdfList()
+    {
+        string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
+        DataTable pdfList = _dbRepository.SqlExecuteReader(query);
 
-			divPdfList.Controls.Add(pdf);
-		}
-	}
+        divPdfList.Controls.Clear();
 
-	protected void pdfList_Click(object sender, EventArgs e)
-	{
-		if (sender is not LinkButton file)
-		{
-			return;
-		}
+        foreach (DataRow row in pdfList.Rows)
+        {
+            LinkButton pdf = new LinkButton();
 
-		SetPdfContainer(file.ID);
-	}
+            pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
+            pdf.ID = row["file_name"].ToString();
+            pdf.Click += pdfList_Click;
+            pdf.CssClass = "panel-block";
 
-	private void SetPdfContainer(string filename)
-	{
-		pdfContainer.Visible = true;
-		string pdfUrl = $"../eventHandlers/report.ashx?filename={filename}";
+            divPdfList.Controls.Add(pdf);
+        }
+    }
 
-		pdfContainer.InnerHtml = $@"<p class=""subtitle""><b>Voorstelling</b></p>
+    protected void pdfList_Click(object sender, EventArgs e)
+    {
+        if (sender is not LinkButton file)
+        {
+            return;
+        }
+
+        SetPdfContainer(file.ID);
+    }
+
+    private void SetPdfContainer(string filename)
+    {
+        pdfContainer.Visible = true;
+        string pdfUrl = $"../eventHandlers/report.ashx?filename={filename}";
+
+        pdfContainer.InnerHtml = $@"<p class=""subtitle""><b>Voorstelling</b></p>
 											<div class=""is-hidden-touch"">
 												<object data=""\rapports\{pdfUrl}"" type=""application/pdf"" width=""100%"" height=""700px"">
 													<p>Er is een fout opgetreden met het openen van de pdf</p>
@@ -125,13 +129,45 @@ public partial class Rapport : System.Web.UI.Page
 													<a href=""{pdfUrl}"" target=""_blank"">example</a>.
 												</p>
 											</div>";
-		SetPdfList();
-	}
+        SetPdfList();
+    }
 
     protected void btnLogout_Click(object sender, EventArgs e)
     {
-		Session["User"] = null;
-        Session["ReturnURL"] = "rapport.aspx";
-        Response.Redirect("login.aspx?logout=true");
+        Session["User"] = null;
+        divPage.Visible = false;
+        divLogin.Visible = true;
+    }
+
+    protected void btnLogin_Click(object sender, EventArgs e)
+    {
+        string tbEmail_text = tbEmail.Text.Trim().ToUpper();
+        string tbWW_text = tbWW.Text.Trim();
+        string hashedWW = Hash.GetHash(tbWW_text);
+
+        DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row["password"].ToString() == hashedWW)
+                {
+                    Session["User"] = row["username"];
+                    divPage.Visible = true;
+                    divLogin.Visible = false;
+                }
+
+                break;
+            }
+
+            lbError.Visible = true;
+            tbWW.Text = "";
+        }
+        else
+        {
+            lbError.Visible = true;
+            tbWW.Text = "";
+        }
     }
 }
