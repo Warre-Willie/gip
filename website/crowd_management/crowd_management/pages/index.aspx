@@ -15,7 +15,6 @@
     <script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 
 
-
     <!-- CSS -->
     <link rel="stylesheet" href="../css/bulma.css" />
     <link rel="stylesheet" href="../css/style.css" />
@@ -422,6 +421,7 @@
                     <asp:Label ID="lbError" runat="server" Text="Ongeldige login poging" CssClass="has-text-danger" Visible="false"></asp:Label>
                 </div>
             </div>
+            <asp:TextBox ID="tbHidden" runat="server" Visible="False"></asp:TextBox>
         </div>
     </form>
 </body>

@@ -4,6 +4,7 @@ using System.Data;
 using System.Web.UI.WebControls;
 using crowd_management.classes.report;
 using System.IO;
+using System.Web;
 
 namespace crowd_management.pages;
 
@@ -135,6 +136,13 @@ public partial class Rapport : System.Web.UI.Page
     protected void btnLogout_Click(object sender, EventArgs e)
     {
         Session["User"] = null;
+        Session.Clear();
+        Session.Abandon();
+
+        Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        Response.Cache.SetNoStore();
+
         divPage.Visible = false;
         divLogin.Visible = true;
     }
