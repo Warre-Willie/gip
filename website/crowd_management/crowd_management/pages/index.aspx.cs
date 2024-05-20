@@ -161,6 +161,14 @@ namespace crowd_management.pages
 		{
 			string query = $"SELECT * FROM zone_population_data WHERE zone_id = '{Session["zoneID"]}' ORDER BY timestamp DESC;";
 			DataTable logbook = _dbRepository.SqlExecuteReader(query);
+
+			if (logbook.Rows.Count == 0)
+			{
+				string html = "<tr><td>--/-- --:--</td><td>Nog geen data beschikbaar</td></tr>";
+				tbodyLogbook.InnerHtml = html;
+				return;
+			}
+
 			tbodyLogbook.InnerHtml = "";
 
 			int interval = Convert.ToInt16(dbZoneLogbookFilter.SelectedValue);
@@ -244,7 +252,7 @@ namespace crowd_management.pages
 		{
 			if ((string) Session["zoneType"] == AccessZoneType && Session["zoneID"] != null)
 			{
-				string query = $"SELECT br.*, brz.zone_id FROM badge_rights br LEFT JOIN badge_rights_zones brz ON brz.badge_right_id = br.id";
+				string query = $"SELECT br.*, CASE WHEN brz.zone_id = {Session["zoneID"]} THEN brz.zone_id ELSE NULL END AS zone_id FROM badge_rights br LEFT JOIN badge_rights_zones brz ON br.id = brz.badge_right_id AND brz.zone_id = {Session["zoneID"]}";
 				DataTable badgeRights = _dbRepository.SqlExecuteReader(query);
 
 				divBadgeRightsEdit.Controls.Clear();
@@ -262,8 +270,11 @@ namespace crowd_management.pages
 
 					CheckBox checkBox = new CheckBox();
 					checkBox.ID = "cbBadgeRightID" + row["id"];
-
-					if (row["zone_id"] != DBNull.Value)
+					int zoneId = Convert.ToInt32(Session["zoneID"]);
+					var tet = row["zone_id"];
+					var tet1 = row["name"];
+					var tet2 = Session["zoneID"];
+					if (row["zone_id"] != DBNull.Value && row["zone_id"].ToString() == Session["zoneID"].ToString())
 					{
 						// Check edit checkbox
 						checkBox.Checked = row["zone_id"] != DBNull.Value;
@@ -358,10 +369,10 @@ namespace crowd_management.pages
 					{
 						string barometerColor = GetBarometerColor(Convert.ToInt32(tbEditPeopleCount.Text), Convert.ToInt32(tbMaxPeople.Text), Convert.ToDouble(tbBarThresGreen.Text), Convert.ToDouble(tbBarThresOrange.Text));
 
-                        var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
-                        _mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
+						var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
+						_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
 
-                        query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
+						query = $"UPDATE zones SET name = '{tbZoneName.Text}', people_count = {tbEditPeopleCount.Text}, max_people = {tbMaxPeople.Text}, threshold_green = {tbBarThresGreen.Text}, threshold_orange = {tbBarThresOrange.Text}, barometer_color = '{barometerColor}' WHERE id = {Session["zoneID"]}";
 					}
 				}
 			}

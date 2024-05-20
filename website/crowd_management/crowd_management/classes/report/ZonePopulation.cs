@@ -66,7 +66,7 @@ public class ZonePopulation
 		string minTimestamp = firstAndLastTimestamps["FirstTimestamp"].ToString("yyyy-MM-ddTHH:mm");
 		string maxTimestamp = firstAndLastTimestamps["LastTimestamp"].ToString("yyyy-MM-ddTHH:mm");
 
-		string jsonData = "{{ 'type': 'line', 'data': {{ 'datasets': [{0}] }}, 'options': {{ 'title': {{ 'display': false }}, 'scales': {{ 'x': {{ 'type': 'time', 'ticks': {{ 'maxRotation': 45, 'minRotation': 45 }}, 'time': {{ 'unit': 'minute', 'stepSize': 5, 'autoSkip': false, 'displayFormats': {{ 'hour': 'HH:mm', 'minute': 'HH:mm' }} }}, 'min': new Date('{1}'), 'max': new Date('{2}') }} }} }} }}";
+		string jsonData = "{{ 'type': 'line', 'data': {{ 'datasets': [{0}] }}, 'options': {{ 'title': {{ 'display': false }}, 'scales': {{ 'x': {{ 'title': {{ 'display': true, 'text': 'Tijd' }}, 'type': 'time', 'ticks': {{ 'maxRotation': 45, 'minRotation': 45 }}, 'time': {{ 'unit': 'minute', 'stepSize': 5, 'autoSkip': false, 'displayFormats': {{ 'hour': 'HH:mm', 'minute': 'HH:mm' }} }}, 'min': new Date('{1}'), 'max': new Date('{2}') }}, 'y': {{ 'title': {{ 'display': true, 'text': 'Aantal mensen' }} }} }} }} }}";
 
 		jsonData = string.Format(jsonData, string.Join(",", datasets), minTimestamp, maxTimestamp);
 

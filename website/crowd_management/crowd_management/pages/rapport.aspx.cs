@@ -39,68 +39,73 @@ public partial class Rapport : System.Web.UI.Page
 
 	protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
-        if (cbRapport01.Checked || cbRapport02.Checked || cbRapport03.Checked || cbRapport04.Checked)
-        {
-            // Generate the pdf file with the filter data
-            string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
-            FileStream fs = File.Create(contentPath);
-            fs.Close();
+		if (cbRapport01.Checked || cbRapport02.Checked || cbRapport03.Checked || cbRapport04.Checked)
+		{
+			// Generate the pdf file with the filter data
+			string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
+			FileStream fs = File.Create(contentPath);
+			fs.Close();
 
-            string filePath = Server.MapPath("~/reports/report_template.html");
-            string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
-            File.Copy(filePath, newTemplate);
+			string filePath = Server.MapPath("~/reports/report_template.html");
+			string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
+			File.Copy(filePath, newTemplate);
 
-            if (cbRapport01.Checked)
-            {
-                _zonePopulation.MakeGraph(contentPath);
-            }
+			if (cbRapport01.Checked)
+			{
+				_zonePopulation.MakeGraph(contentPath);
+			}
 
-            if (cbRapport02.Checked)
-            {
-                _barometerPercentage.MakeGraph(contentPath);
-            }
+			if (cbRapport02.Checked)
+			{
+				_barometerPercentage.MakeGraph(contentPath);
+			}
 
-            if (cbRapport03.Checked)
-            {
-                _barometerTimeline.MakeGraph(contentPath);
-            }
+			if (cbRapport03.Checked)
+			{
+				_barometerTimeline.MakeGraph(contentPath);
+			}
 
-            if (cbRapport04.Checked)
-            {
-                _ticketProgressBar.MakeGraph(contentPath);
-            }
+			if (cbRapport04.Checked)
+			{
+				_ticketProgressBar.MakeGraph(contentPath);
+			}
 
-            File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
+			cbRapport01.Checked = false;
+			cbRapport02.Checked = false;
+			cbRapport03.Checked = false;
+			cbRapport04.Checked = false;
 
-            var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
-            File.Delete(newTemplate);
-            File.Delete(contentPath);
+			File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
 
-            string fileName = fileNames.Item1;
-            string friendlyName = fileNames.Item2;
+			var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
+			File.Delete(newTemplate);
+			File.Delete(contentPath);
 
-            // make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
-            string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
-            DataTable dt = _dbRepository.SqlExecuteReader(query);
-            if (dt.Rows.Count > 0)
-            {
-                friendlyName = $"{friendlyName} ({dt.Rows.Count})";
-            }
+			string fileName = fileNames.Item1;
+			string friendlyName = fileNames.Item2;
 
-            query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
-            _dbRepository.SqlExecute(query);
+			// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
+			string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
+			DataTable dt = _dbRepository.SqlExecuteReader(query);
+			if (dt.Rows.Count > 0)
+			{
+				friendlyName = $"{friendlyName} ({dt.Rows.Count})";
+			}
 
-            //Change the logbook entry to the correct category and change the user to the current user
-            _logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
+			query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
+			_dbRepository.SqlExecute(query);
 
-            SetPdfContainer(fileName);
-            lblError.Visible = false;
-        }
-        else
-        {
-            lblError.Text = "Selecteer minstens één optie om te genereren.";
-            lblError.Visible = true;
-        }
+			//Change the logbook entry to the correct category and change the user to the current user
+			_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
+
+			SetPdfContainer(fileName);
+			lblError.Visible = false;
+		}
+		else
+		{
+			lblError.Text = "Selecteer minstens één optie om te genereren.";
+			lblError.Visible = true;
+		}
 	}
 
 	private void SetPdfList()
