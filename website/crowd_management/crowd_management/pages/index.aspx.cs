@@ -13,6 +13,7 @@ public partial class Index : Page
     private readonly DbRepository _dbRepository = new DbRepository();
     private readonly MqttRepository _mqttRepository = new MqttRepository();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+    private readonly LoginHandler _login = new LoginHandler();
 
     private const string AccessZoneType = "access";
     private const string CountZoneType = "count";
@@ -477,43 +478,31 @@ public partial class Index : Page
         divPage.Visible = false;
         divLogin.Visible = true;
 
-        Response.Redirect(Request.RawUrl);
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         string tbEmailText = tbEmail.Text.Trim().ToUpper();
-        string tbWwText = tbWW.Text.Trim();
-        string hashedWw = Hash.GetHash(tbWwText);
-
-        DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmailText}'");
-
-        if (dt.Rows.Count > 0)
+        string tbWwText = tbWW.Text;
+        
+        string user = _login.LoginUser(tbEmailText, tbWwText);
+        
+        if (user != null)
         {
-            foreach (DataRow row in dt.Rows)
-            {
-                if (row["password"].ToString() == hashedWw)
-                {
-                    Session["User"] = row["username"];
-                    divPage.Visible = true;
-                    divLogin.Visible = false;
-                    lbError.Visible = false;
-                }
-                else
-                {
-                    divPage.Visible = true;
-                    divLogin.Visible = false;
-                }
-
-                tbEmail.Text = "";
-                tbWW.Text = "";
-                return;
-            }
+            Session["User"] = user;
+            divPage.Visible = true;
+            divLogin.Visible = false;
+            lbError.Visible = false;
         }
         else
         {
+            divPage.Visible = false;
+            divLogin.Visible = true;
             lbError.Visible = true;
-            tbWW.Text = "";
+            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
         }
+
+        tbEmail.Text = "";
+        tbWW.Text = "";
     }
 }

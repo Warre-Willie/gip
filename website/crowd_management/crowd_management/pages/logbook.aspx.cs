@@ -1,13 +1,13 @@
 using System;
 using System.Data;
-using System.Web;
 using crowd_management.classes;
 
 namespace crowd_management.pages;
 
 public partial class Logbook : System.Web.UI.Page
 {
-    private readonly DbRepository _dbRepository = new DbRepository();
+    private readonly LoginHandler _login = new LoginHandler();
+    private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -32,7 +32,7 @@ public partial class Logbook : System.Web.UI.Page
     {
         DbRepository dbRepository = new DbRepository();
 
-        string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC";
+        string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC LIMIT 100";
         DataTable ticketList = dbRepository.SqlExecuteReader(query);
 
         foreach (DataRow row in ticketList.Rows)
@@ -53,38 +53,32 @@ public partial class Logbook : System.Web.UI.Page
     {
         Session["User"] = null;
         divPage.Visible = false;
-        divLogin.Visible = true; ;
+        divLogin.Visible = true;
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        string tbEmail_text = tbEmail.Text.Trim().ToUpper();
-        string tbWW_text = tbWW.Text.Trim();
-        string hashedWW = Hash.GetHash(tbWW_text);
+        string tbEmailText = tbEmail.Text.Trim().ToUpper();
+        string tbWwText = tbWW.Text;
 
-        DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+        string user = _login.LoginUser(tbEmailText, tbWwText);
 
-        if (dt.Rows.Count > 0)
+        if (user != null)
         {
-            foreach (DataRow row in dt.Rows)
-            {
-                if (row["password"].ToString() == hashedWW)
-                {
-                    Session["User"] = row["username"];
-                    divPage.Visible = true;
-                    divLogin.Visible = false;
-                }
-
-                break;
-            }
-
-            lbError.Visible = true;
-            tbWW.Text = "";
+            Session["User"] = user;
+            divPage.Visible = true;
+            divLogin.Visible = false;
+            lbError.Visible = false;
         }
         else
         {
+            divPage.Visible = false;
+            divLogin.Visible = true;
             lbError.Visible = true;
-            tbWW.Text = "";
+            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
         }
+
+        tbEmail.Text = "";
+        tbWW.Text = "";
     }
 }

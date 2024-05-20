@@ -14,6 +14,7 @@ public partial class Rapport : System.Web.UI.Page
     private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
     private readonly BarometerPercentage _barometerPercentage = new BarometerPercentage();
+    private readonly LoginHandler _login = new LoginHandler();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -149,33 +150,27 @@ public partial class Rapport : System.Web.UI.Page
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        string tbEmail_text = tbEmail.Text.Trim().ToUpper();
-        string tbWW_text = tbWW.Text.Trim();
-        string hashedWW = Hash.GetHash(tbWW_text);
+        string tbEmailText = tbEmail.Text.Trim().ToUpper();
+        string tbWwText = tbWW.Text;
 
-        DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+        string user = _login.LoginUser(tbEmailText, tbWwText);
 
-        if (dt.Rows.Count > 0)
+        if (user != null)
         {
-            foreach (DataRow row in dt.Rows)
-            {
-                if (row["password"].ToString() == hashedWW)
-                {
-                    Session["User"] = row["username"];
-                    divPage.Visible = true;
-                    divLogin.Visible = false;
-                }
-
-                break;
-            }
-
-            lbError.Visible = true;
-            tbWW.Text = "";
+            Session["User"] = user;
+            divPage.Visible = true;
+            divLogin.Visible = false;
+            lbError.Visible = false;
         }
         else
         {
+            divPage.Visible = false;
+            divLogin.Visible = true;
             lbError.Visible = true;
-            tbWW.Text = "";
+            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
         }
+
+        tbEmail.Text = "";
+        tbWW.Text = "";
     }
 }

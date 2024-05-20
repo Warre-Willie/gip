@@ -11,7 +11,8 @@ namespace crowd_management.pages;
 public partial class TicketBeheer : System.Web.UI.Page
 {
     private readonly DbRepository _dbRepository = new DbRepository();
-    private LogbookHandler logbook_Handler = new LogbookHandler();
+    private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+    private readonly LoginHandler _login = new LoginHandler();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -208,14 +209,14 @@ public partial class TicketBeheer : System.Web.UI.Page
             string query = $"INSERT INTO badge_rights_tickets (ticket_id, badge_right_id) VALUES ({Session["ticketID"]}, {badgeRightId})";
             _dbRepository.SqlExecute(query);
             // Change the admin to the logged in user
-            logbook_Handler.AddLogbookEntry("Ticket", "Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
+            _logbookHandler.AddLogbookEntry("Ticket", "Admin", "Badge right added to ticket with ID: " + Session["ticketID"]);
         }
         else
         {
             string query = $"DELETE FROM badge_rights_tickets WHERE ticket_id = {Session["ticketID"]} AND badge_right_id = {badgeRightId}";
             _dbRepository.SqlExecute(query);
 
-            logbook_Handler.AddLogbookEntry("Ticket", Session["User"].ToString(), "Badge recht verwijdert bij ID: " + Session["ticketID"]);
+            _logbookHandler.AddLogbookEntry("Ticket", Session["User"].ToString(), "Badge recht verwijdert bij ID: " + Session["ticketID"]);
         }
 
         SetTicketList();
@@ -244,33 +245,27 @@ public partial class TicketBeheer : System.Web.UI.Page
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        string tbEmail_text = tbEmail.Text.Trim().ToUpper();
-        string tbWW_text = tbWW.Text.Trim();
-        string hashedWW = Hash.GetHash(tbWW_text);
+        string tbEmailText = tbEmail.Text.Trim().ToUpper();
+        string tbWwText = tbWW.Text;
 
-        DataTable dt = _dbRepository.SqlExecuteReader($"SELECT * FROM users WHERE email = '{tbEmail_text}'");
+        string user = _login.LoginUser(tbEmailText, tbWwText);
 
-        if (dt.Rows.Count > 0)
+        if (user != null)
         {
-            foreach (DataRow row in dt.Rows)
-            {
-                if (row["password"].ToString() == hashedWW)
-                {
-                    Session["User"] = row["username"];
-                    divPage.Visible = true;
-                    divLogin.Visible = false;
-                }
-
-                break;
-            }
-
-            lbError.Visible = true;
-            tbWW.Text = "";
+            Session["User"] = user;
+            divPage.Visible = true;
+            divLogin.Visible = false;
+            lbError.Visible = false;
         }
         else
         {
+            divPage.Visible = false;
+            divLogin.Visible = true;
             lbError.Visible = true;
-            tbWW.Text = "";
+            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
         }
+
+        tbEmail.Text = "";
+        tbWW.Text = "";
     }
 }
