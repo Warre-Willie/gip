@@ -1,7 +1,9 @@
 ﻿using crowd_management.classes;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -42,6 +44,68 @@ namespace crowd_management.pages
 			{
 				SetBadgeRights();
 			}
+		}
+
+		[WebMethod]
+		public static string GetHeatMapData()
+		{
+			Index indexPage = new Index();
+			return indexPage.FetchHeatMapData();
+		}
+
+		public class ZoneData
+		{
+			public string Name { get; set; }
+			public double Percentage { get; set; }
+			public bool Lockdown { get; set; }
+		}
+
+		private string FetchHeatMapData()
+		{
+			string query = "SELECT * FROM zones";
+			DataTable zones = _dbRepository.SqlExecuteReader(query);
+
+			_dbRepository.Dispose();
+
+			var heatMapData = new Dictionary<string, ZoneData>
+			{
+				{ "Zone1", new ZoneData() },
+				{ "Zone2", new ZoneData() },
+				{ "Zone3", new ZoneData() },
+				{ "Zone4", new ZoneData() }
+			};
+
+			foreach (DataRow row in zones.Rows)
+			{
+				int zoneId = Convert.ToInt32(row["id"]);
+				double percentage = 0;
+				bool lockdown = Convert.ToBoolean(row["lockdown"]);
+
+				// Formatting zone data
+				if (!string.IsNullOrEmpty(row["people_count"].ToString()) && !string.IsNullOrEmpty(row["max_people"].ToString()))
+				{
+					percentage = Convert.ToDouble(row["people_count"]) / Convert.ToDouble(row["max_people"]) * 100;
+					percentage = Math.Round(percentage, 2);
+				}
+
+				switch (zoneId)
+				{
+					case 1:
+						heatMapData["Zone1"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+						break;
+					case 2:
+						heatMapData["Zone2"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+						break;
+					case 3:
+						heatMapData["Zone3"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+						break;
+					case 4:
+						heatMapData["Zone4"] = new ZoneData { Name = row["name"].ToString(), Percentage = percentage, Lockdown = lockdown };
+						break;
+				}
+			}
+
+			return JsonConvert.SerializeObject(heatMapData);
 		}
 
 		private void LoadHeatMap()
@@ -324,8 +388,6 @@ namespace crowd_management.pages
 				barometerColor = "red";
 			}
 
-			InsertBarometerLogbook(barometerColor);
-
 			return barometerColor;
 		}
 
@@ -368,6 +430,7 @@ namespace crowd_management.pages
 					else
 					{
 						string barometerColor = GetBarometerColor(Convert.ToInt32(tbEditPeopleCount.Text), Convert.ToInt32(tbMaxPeople.Text), Convert.ToDouble(tbBarThresGreen.Text), Convert.ToDouble(tbBarThresOrange.Text));
+						InsertBarometerLogbook(barometerColor);
 
 						var mqttMessageJson = new { id = Convert.ToInt16(Session["zoneID"]), color = barometerColor };
 						_mqttRepository.PublishAsync("gip/teller/barometer", JsonConvert.SerializeObject(mqttMessageJson));
@@ -441,6 +504,7 @@ namespace crowd_management.pages
 			if (!cbBarLock.Checked)
 			{
 				barometerColor = GetBarometerColor(Convert.ToInt32(row["people_count"]), Convert.ToInt32(row["max_people"]), Convert.ToInt32(row["threshold_green"]), Convert.ToInt32(row["threshold_orange"]));
+				InsertBarometerLogbook(barometerColor);
 			}
 
 			int lockdown = Convert.ToInt32(cbBarLock.Checked);

@@ -9,10 +9,14 @@
     "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included",
+    "~\\.micropico-stubs\\included",
+    "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included"
   ],
   "python.analysis.extraPaths": [
     "./totaal_projecten",
+    "~\\.micropico-stubs\\included",
+    "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included",
     "~\\.micropico-stubs\\included",
