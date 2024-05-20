@@ -89,7 +89,7 @@
 																				</asp:RectangleHotSpot>
                                     </asp:ImageMap>
 
-                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load style="background-color: red;">
+                                    <div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>
                                         <div class="zone-tile">
                                             <div class="icons">
                                                 <span class="icon is-large">

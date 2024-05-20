@@ -1,41 +1,40 @@
 ﻿$(document).ready(function () {
-    function updateHeatMap() {
-        $.ajax({
-            type: "POST",
-            url: "index.aspx/GetHeatMapData",
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                var data = JSON.parse(response.d);
+	function updateHeatMap() {
+		$.ajax({
+			type: "POST",
+			url: "index.aspx/GetHeatMapData",
+			data: '{}',
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function (response) {
+				var data = JSON.parse(response.d);
 
-                // Update Zone 1
-                $("#tagZoneName1").text(data.Zone1.Name);
-                $("#tagZonePercentage1").text(data.Zone1.Percentage + "%");
-                if (data.Zone1.Lockdown) {
-                    $("#zoneLockdown1").show();
-                } else {
-                    $("#zoneLockdown1").hide();
-                }
+				var colorClasses = ["is-success", "is-warning", "is-danger"]; // Add all possible color classes
 
-                // Update Zone 2
-                $("#tagZoneName2").text(data.Zone2.Name);
-                $("#tagZonePercentage2").text(data.Zone2.Percentage + "%");
-                if (data.Zone2.Lockdown) {
-                    $("#zoneLockdown2").show();
-                } else {
-                    $("#zoneLockdown2").hide();
-                }
-            },
-            error: function (error) {
-                console.log("Error: ", error);
-            }
-        });
-    }
+				for (var id in data) {
+					$("#tagZoneName" + id).text(data[id].Name);
+					if (data[id].Percentage === -1) {
+						$("#tagZoneColor" + id).removeClass(colorClasses.join(" ")).addClass('is-' + data[id].Color);
+					} else {
+						$("#tagZonePercentage" + id).text(data[id].Percentage + "%");
+					}
 
-    // Initial call to update the heatmap
-    updateHeatMap();
+					if (data[id].Lockdown) {
+						$("#zoneLockdown" + id).removeClass('fa-lock-open').addClass('fa-lock').show();
+					} else {
+						$("#zoneLockdown" + id).removeClass('fa-lock').addClass('fa-lock-open').show();
+					}
+				};
+			},
+			error: function (error) {
+				console.log("Error: ", error);
+			}
+		});
+	}
 
-    // Set an interval to update the heatmap periodically
-    setInterval(updateHeatMap, 3000); // Update every 5 seconds
+	// Initial call to update the heatmap
+	updateHeatMap();
+
+	// Set an interval to update the heatmap periodically
+	setInterval(updateHeatMap, 3000); // Update every 5 seconds
 });
