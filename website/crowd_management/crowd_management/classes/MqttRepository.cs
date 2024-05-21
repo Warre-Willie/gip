@@ -18,9 +18,9 @@ public class MqttRepository
 	#region Variables and constands
 
 	private readonly IMqttClient _mqttClient;
-	private const string Broker = "broker.hivemq.com";
-	private readonly string username;
-	private readonly string password;
+	private const string Broker = "192.168.0.101";
+	private readonly string username = "";
+	private readonly string password = "";
 
 	#endregion
 
@@ -36,12 +36,12 @@ public class MqttRepository
 			{
 				var options = new MqttClientOptionsBuilder()
 					.WithTcpServer(Broker)
-					//.WithCredentials(username, password)
-					//.WithTls(tls =>
-					//{
-					//    tls.UseTls = true;
-					//    tls.AllowUntrustedCertificates = true;
-					//})
+					.WithCredentials(username, password)
+					.WithTls(tls =>
+					{
+						tls.UseTls = true;
+						tls.AllowUntrustedCertificates = true;
+					})
 					.WithCleanSession()
 					.Build();
 
