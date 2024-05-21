@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿/*
+ * File: live_update.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the live update of the heatmap on the crowd management page.
+ */
+$(document).ready(function () {
 	function updateHeatMap() {
 		window.$.ajax({
 			type: "POST",

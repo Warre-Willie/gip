@@ -15,9 +15,14 @@
 
 	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
 	<title>Crowd management</title>
+	
+	<script src="../Scripts/jquery-1.7.min.js"></script>
+	<script src="../Scripts/jquery.signalR-2.4.3.min.js"></script>
+	<script src="/signalr/hubs"></script>
+	<script src="../js/live_notifications.js"></script>
 
 	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--%>
 	<script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 
 
@@ -441,11 +446,12 @@
 
 			<!-- Loading JavaScript at the end of the page for better preformance-->
 			<script src="../js/image_map.js"></script>
-			<script src="../js/navbar.js"></script>
 			<script src="../js/settings_panel.js"></script>
 			<script src="../js/search_ticket.js"></script>
 			<script src="../js/ticket_modal.js"></script>
 			<script src="../js/live_update.js"></script>
+
+			<%--<script src="../js/SignalR/live_notifications.js"></script>--%>
 		</div>
 		<div id="divLogin" runat="server">
 			<div class="login-container">
