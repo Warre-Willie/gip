@@ -13,8 +13,9 @@ namespace crowd_management.classes;
 
 public class DbRepository
 {
-	#region Variables
+	#region Variables and accessors
 
+	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
 	private readonly MySqlConnection _conn;
 	private readonly MySqlCommand _cmd = new MySqlCommand();
@@ -26,7 +27,14 @@ public class DbRepository
 	public DbRepository()
 	{
 		_conn = new MySqlConnection(ConnString);
-		_conn.Open();
+		try
+		{
+			_conn.Open();
+		}
+		catch (Exception e)
+		{
+			_logbookHandler.AddLogbookEntry("Database", "System", "Connectie met database mislukt.");
+		}
 	}
 
 	public void Dispose()
@@ -52,7 +60,7 @@ public class DbRepository
 		}
 		catch (Exception ex)
 		{
-			throw new Exception(ex.ToString());
+			_logbookHandler.AddLogbookEntry("Database", "System", "Query uitvoeren mislukt.");
 		}
 
 		return dt;
@@ -68,7 +76,7 @@ public class DbRepository
 		}
 		catch (Exception ex)
 		{
-			throw new Exception(ex.ToString());
+			_logbookHandler.AddLogbookEntry("Database", "System", "Query uitvoeren mislukt.");
 		}
 	}
 

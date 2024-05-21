@@ -15,14 +15,14 @@ namespace crowd_management_live
 	{
 		private static IHubProxy _hubProxy;
 		private static HubConnection _hubConnection;
-		private static IMqttClient mqttClient;
-		private static DbRepository dbRepository;
+		private static MqttRepository _mqttRepository;
+		private static DbRepository _dbRepository;
 
 		// MQTT configuration
-		public static string mqttBrokerHost = "567c45d531f2488ebee03bbbf8b02f1a.s1.eu.hivemq.cloud";
-		public static string mqttUsername = "Willeme";
-		public static string mqttPassword = "VickW2607-hi";
-		public static string mqttTopic = "SignalR";
+		private static readonly string _mqttBrokerHost = "567c45d531f2488ebee03bbbf8b02f1a.s1.eu.hivemq.cloud";
+		private static readonly string _mqttUsername = "Willeme";
+		private static readonly string _mqttPassword = "VickW2607-hi";
+		private static readonly string _mqttTopic = "gip/disconnected";
 
 		static async Task Main(string[] args)
 		{
@@ -31,17 +31,12 @@ namespace crowd_management_live
 			var hubName = "LiveUpdateHub";
 
 			// Create and open the DbRepository connection
-			dbRepository = new DbRepository();
+			_dbRepository = new DbRepository();
 
 			// Create MQTT client
-			var mqttFactory = new MqttFactory();
-			mqttClient = mqttFactory.CreateMqttClient();
-			await ConnectToMqttBroker(mqttUsername, mqttPassword);
-
-			await SubscribeToTopic(mqttTopic);
-
-			// Connect to MQTT broker
-			mqttClient.ApplicationMessageReceivedAsync += HandleMqttMessageReceived;
+			_mqttRepository = new MqttRepository(_mqttBrokerHost, _mqttUsername, _mqttPassword);
+			await _mqttRepository.ConnectAsync();
+			await _mqttRepository.SubscribeAsync(_mqttTopic);
 
 			// Connect to SignalR Hub
 			_hubConnection = new HubConnection(signalrUrl);
@@ -49,6 +44,12 @@ namespace crowd_management_live
 			await _hubConnection.Start();
 
 			Console.WriteLine("Connected to MQTT broker and SignalR Hub. Listening for MQTT messages...");
+
+			_mqttRepository.MessageReceived += async (message) =>
+			{
+				Console.WriteLine($"Received MQTT message: {message}");
+				await _hubProxy.Invoke("Send", "Console App", message);
+			};
 
 			while (true)
 			{
@@ -60,7 +61,7 @@ namespace crowd_management_live
 		static string FetchHeatMapData()
 		{
 			string query = "SELECT * FROM zones";
-			DataTable zones = dbRepository.SqlExecuteReader(query);
+			DataTable zones = _dbRepository.SqlExecuteReader(query);
 
 			var heatMapData = new Dictionary<string, ZoneData>
 						{
@@ -83,7 +84,7 @@ namespace crowd_management_live
 					percentage = Math.Round(percentage, 2);
 				}
 
-				string color = "link";
+				string color;
 				switch (row["barometer_color"].ToString())
 				{
 					case "green":
@@ -112,49 +113,6 @@ namespace crowd_management_live
 			return JsonConvert.SerializeObject(heatMapData);
 		}
 
-		public static async Task ConnectToMqttBroker(string username, string password)
-		{
-			if (!mqttClient.IsConnected)
-			{
-				var mqttClientOptions = new MqttClientOptionsBuilder()
-						.WithTcpServer(mqttBrokerHost)
-						.WithCredentials(username, password)
-						.WithTls(tls =>
-						{
-							tls.UseTls = true;
-							tls.AllowUntrustedCertificates = true;
-						})
-						.WithTlsOptions(o => o.WithCertificateValidationHandler(_ => true)) // Accept all certificates
-						.Build();
-
-				await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
-				Console.WriteLine("Connected to the MQTT broker with TLS encryption and accepting all certificates.");
-			}
-			else
-			{
-				Console.WriteLine("Already connected to the MQTT broker.");
-			}
-		}
-
-		public static async Task SubscribeToTopic(string topic)
-		{
-			var mqttSubscribeOptions = new MqttClientSubscribeOptionsBuilder()
-					.WithTopicFilter(f => f.WithTopic(topic))
-					.Build();
-
-			await mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
-			Console.WriteLine($"Subscribed to topic: {topic}");
-		}
-
-		private static async Task HandleMqttMessageReceived(MqttApplicationMessageReceivedEventArgs args)
-		{
-			var message = args.ApplicationMessage.ConvertPayloadToString();
-			Console.WriteLine($"Received MQTT message: {message}");
-
-			// Send MQTT message to SignalR Hub
-			await _hubProxy.Invoke("Send", "Console App", message);
-		}
-
 		private class ZoneData
 		{
 			public string Name { get; set; }
@@ -162,5 +120,111 @@ namespace crowd_management_live
 			public bool Lockdown { get; set; }
 			public string Color { get; set; }
 		}
+	}
+
+	/*
+	* File: MqttRepository.cs
+	* Author: Warre Willeme & Jesse UijtdeHaag
+	* Date: 12-05-2024
+	* Description: This file contains the MqttRepository class. This class is used to connect to the MQTT broker and publish messages.
+	*/
+	public class MqttRepository
+	{
+		#region Variables and constants
+
+		private readonly IMqttClient _mqttClient;
+		private readonly string _broker;
+		private readonly string _username;
+		private readonly string _password;
+
+		#endregion
+
+		#region Events
+
+		public event Func<string, Task> MessageReceived;
+
+		#endregion
+
+		#region Methods
+
+		public MqttRepository(string broker, string username, string password)
+		{
+			_broker = broker;
+			_username = username;
+			_password = password;
+			var factory = new MqttFactory();
+			_mqttClient = factory.CreateMqttClient();
+			_mqttClient.ApplicationMessageReceivedAsync += HandleMessageReceived;
+		}
+
+		public async Task ConnectAsync()
+		{
+			if (!_mqttClient.IsConnected)
+			{
+				try
+				{
+					var options = new MqttClientOptionsBuilder()
+							.WithTcpServer(_broker)
+							.WithCredentials(_username, _password)
+							.WithTls(tls =>
+							{
+								tls.UseTls = true;
+								tls.AllowUntrustedCertificates = true;
+							})
+							.WithCleanSession()
+							.Build();
+
+					await _mqttClient.ConnectAsync(options, CancellationToken.None);
+					Console.WriteLine("Connected to the MQTT broker with TLS encryption and accepting all certificates.");
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
+			else
+			{
+				Console.WriteLine("Already connected to the MQTT broker.");
+			}
+		}
+
+		public async Task SubscribeAsync(string topic)
+		{
+			var mqttSubscribeOptions = new MqttClientSubscribeOptionsBuilder()
+					.WithTopicFilter(f => f.WithTopic(topic))
+					.Build();
+
+			await _mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
+			Console.WriteLine($"Subscribed to topic: {topic}");
+		}
+
+		public async Task PublishAsync(string topic, string payload)
+		{
+			var message = new MqttApplicationMessageBuilder()
+					.WithTopic(topic)
+					.WithPayload(payload)
+					.Build();
+
+			await _mqttClient.PublishAsync(message, CancellationToken.None);
+		}
+
+		private async Task HandleMessageReceived(MqttApplicationMessageReceivedEventArgs args)
+		{
+			var message = args.ApplicationMessage.ConvertPayloadToString();
+			if (MessageReceived != null)
+			{
+				await MessageReceived.Invoke(message);
+			}
+		}
+
+		public void Dispose()
+		{
+			if (_mqttClient.IsConnected)
+			{
+				_mqttClient.DisconnectAsync().Wait();
+			}
+		}
+
+		#endregion
 	}
 }
