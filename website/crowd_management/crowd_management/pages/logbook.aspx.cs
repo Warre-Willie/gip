@@ -16,7 +16,7 @@ public partial class Logbook : System.Web.UI.Page
 	#region Accessors
 
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-	private readonly LoginHandler _login = new LoginHandler();
+	private readonly LoginHandler _loginHandler = new LoginHandler();
 
 	#endregion
 
@@ -67,35 +67,12 @@ public partial class Logbook : System.Web.UI.Page
 
 	protected void btnLogout_Click(object sender, EventArgs e)
 	{
-		Session["User"] = null;
-		divPage.Visible = false;
-		divLogin.Visible = true;
+		_loginHandler.LogoutUser(this);
 	}
 
 	protected void btnLogin_Click(object sender, EventArgs e)
 	{
-		string tbEmailText = tbEmail.Text.Trim().ToUpper();
-		string tbWwText = tbWW.Text;
-
-		string user = _login.LoginUser(tbEmailText, tbWwText);
-
-		if (user != null)
-		{
-			Session["User"] = user;
-			divPage.Visible = true;
-			divLogin.Visible = false;
-			lbError.Visible = false;
-		}
-		else
-		{
-			divPage.Visible = false;
-			divLogin.Visible = true;
-			lbError.Visible = true;
-			_logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
-		}
-
-		tbEmail.Text = "";
-		tbWW.Text = "";
+		_loginHandler.LoginUser(this);
 	}
 
 	#endregion

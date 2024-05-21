@@ -24,7 +24,7 @@ public partial class Index : Page
 	private readonly DbRepository _dbRepository = new DbRepository();
 	private readonly MqttRepository _mqttRepository = new MqttRepository();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-	private readonly LoginHandler _login = new LoginHandler();
+	private readonly LoginHandler _loginHandler = new LoginHandler();
 
 	private const string AccessZoneType = "access";
 	private const string CountZoneType = "count";
@@ -553,38 +553,12 @@ public partial class Index : Page
 
 	protected void btnLogout_Click(object sender, EventArgs e)
 	{
-		Session["User"] = null;
-		Session.Clear();
-		Session.Abandon();
-
-		divPage.Visible = false;
-		divLogin.Visible = true;
+		_loginHandler.LogoutUser(this);
 	}
 
 	protected void btnLogin_Click(object sender, EventArgs e)
 	{
-		string tbEmailText = tbEmail.Text.Trim().ToUpper();
-		string tbWwText = tbWW.Text;
-
-		string user = _login.LoginUser(tbEmailText, tbWwText);
-
-		if (user != null)
-		{
-			Session["User"] = user;
-			divPage.Visible = true;
-			divLogin.Visible = false;
-			lbError.Visible = false;
-		}
-		else
-		{
-			divPage.Visible = false;
-			divLogin.Visible = true;
-			lbError.Visible = true;
-			_logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
-		}
-
-		tbEmail.Text = "";
-		tbWW.Text = "";
+		_loginHandler.LoginUser(this);
 	}
 
 	#endregion

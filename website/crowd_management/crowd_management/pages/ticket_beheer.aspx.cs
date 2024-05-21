@@ -20,7 +20,7 @@ public partial class TicketBeheer : System.Web.UI.Page
 
 		private readonly DbRepository _dbRepository = new DbRepository();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-    private readonly LoginHandler _login = new LoginHandler();
+    private readonly LoginHandler _loginHandler = new LoginHandler();
 
 		#endregion
 
@@ -255,43 +255,15 @@ public partial class TicketBeheer : System.Web.UI.Page
         dbRepository.Dispose();
     }
 
-    protected void btnLogout_Click(object sender, EventArgs e)
-    {
-        Session["User"] = null;
-        Session.Clear();
-        Session.Abandon();
+	protected void btnLogout_Click(object sender, EventArgs e)
+	{
+		_loginHandler.LogoutUser(this);
+	}
 
-        divPage.Visible = false;
-        divLogin.Visible = true;
+	protected void btnLogin_Click(object sender, EventArgs e)
+	{
+		_loginHandler.LoginUser(this);
+	}
 
-        Response.Redirect(Request.RawUrl);
-    }
-
-    protected void btnLogin_Click(object sender, EventArgs e)
-    {
-        string tbEmailText = tbEmail.Text.Trim().ToUpper();
-        string tbWwText = tbWW.Text;
-
-        string user = _login.LoginUser(tbEmailText, tbWwText);
-
-        if (user != null)
-        {
-            Session["User"] = user;
-            divPage.Visible = true;
-            divLogin.Visible = false;
-            lbError.Visible = false;
-        }
-        else
-        {
-            divPage.Visible = false;
-            divLogin.Visible = true;
-            lbError.Visible = true;
-            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
-        }
-
-        tbEmail.Text = "";
-        tbWW.Text = "";
-    }
-
-		#endregion
+	#endregion
 }
