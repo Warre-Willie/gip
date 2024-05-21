@@ -48,7 +48,7 @@ public partial class Logbook : System.Web.UI.Page
 	{
 		DbRepository dbRepository = new DbRepository();
 
-		string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC LIMIT 100";
+		string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC LIMIT 1000";
 		DataTable ticketList = dbRepository.SqlExecuteReader(query);
 
 		foreach (DataRow row in ticketList.Rows)
