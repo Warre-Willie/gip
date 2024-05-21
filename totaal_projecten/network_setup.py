@@ -1,5 +1,5 @@
 """
-File: mysql_api.py
+File: network_setup.py
 Author: Warre Willeme & Jesse UijtdeHaag
 Date: 29-04-2024
 Description: This is the start of the network setup library.

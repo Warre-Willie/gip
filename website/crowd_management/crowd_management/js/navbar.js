@@ -1,3 +1,10 @@
+/*
+ * File: navbar.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the navbar on the crowd management page.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get all "navbar-burger" elements

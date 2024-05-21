@@ -1,4 +1,10 @@
-﻿using crowd_management.classes;
+﻿/*
+ * File: index.aspx.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: This file contains the code behind for the index page. This page is used to display the heat map and zone information.
+ */
+using crowd_management.classes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,14 +18,17 @@ namespace crowd_management.pages;
 
 public partial class Index : Page
 {
-	private readonly DbRepository _dbRepository = new DbRepository();
-	private readonly MqttRepository _mqttRepository = new MqttRepository();
-	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-	private readonly LoginHandler _login = new LoginHandler();
+	#region Accessors and constants
+        private readonly DbRepository _dbRepository = new DbRepository();
+		private readonly MqttRepository _mqttRepository = new MqttRepository();
+		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+		private readonly LoginHandler _login = new LoginHandler();
 
-	private const string AccessZoneType = "access";
-	private const string CountZoneType = "count";
+		private const string AccessZoneType = "access";
+		private const string CountZoneType = "count";
+	#endregion
 
+#region Load and unload page
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		if (Session["User"] == null)
@@ -72,6 +81,10 @@ public partial class Index : Page
 			SetBadgeRights();
 		}
 	}
+
+	#endregion
+
+	#region Methods
 
 	[WebMethod]
 	public static string GetHeatMapData()
@@ -574,4 +587,6 @@ public partial class Index : Page
 		tbEmail.Text = "";
 		tbWW.Text = "";
 	}
+
+	#endregion
 }

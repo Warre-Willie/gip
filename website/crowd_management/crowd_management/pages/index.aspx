@@ -1,4 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.Index" %>
+﻿<!--
+   File: index.html
+   Author: Warre Willeme & Jesse UijtdeHaag
+   Date: May 12, 2024
+   Description: This is the main page of the website. It contains the navigation bar, the heat map and the information panel.
+-->
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="crowd_management.pages.Index" %>
 
 <!DOCTYPE html>
 

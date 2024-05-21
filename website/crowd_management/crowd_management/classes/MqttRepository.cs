@@ -1,4 +1,10 @@
-﻿using MQTTnet;
+﻿/*
+ * File: MqttRepository.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: 12-05-2024
+ * Description: This file contains the MqttRepository class. This class is used to connect to the MQTT broker and publish messages.
+ */
+using MQTTnet;
 using MQTTnet.Client;
 using System.Threading;
 using System;
@@ -8,11 +14,16 @@ namespace crowd_management.classes
 {
     public class MqttRepository
     {
+        #region Variables and constands
+
         private readonly IMqttClient _mqttClient;
-				private const string Broker = "broker.hivemq.com";
-				private readonly string username;
+		private const string Broker = "broker.hivemq.com";
+		private readonly string username;
         private readonly string password;
 
+        #endregion
+
+        #region Methods
         public MqttRepository()
         {
             var factory = new MqttFactory();
@@ -58,5 +69,6 @@ namespace crowd_management.classes
 
             await _mqttClient.PublishAsync(message, CancellationToken.None);
         }
+#endregion
     }
 }

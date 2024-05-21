@@ -55,7 +55,7 @@ def on_message(client, userdata, msg):
 
 
 # Create MQTT client instance with no client_id
-client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,client_id="", clean_session=True)
+client = mqtt.Client(client_id="", clean_session=True)
 
 # Set last will message
 will_topic = "disconnected"

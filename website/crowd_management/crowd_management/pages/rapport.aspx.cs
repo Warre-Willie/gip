@@ -1,4 +1,11 @@
-﻿using crowd_management.classes;
+﻿/*
+ * File: rapport.aspx.cs
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the code behind for the report page. This page allows the user to generate a report and view previously generated reports.
+ */
+
+using crowd_management.classes;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -11,6 +18,7 @@ namespace crowd_management.pages;
 
 public partial class Rapport : System.Web.UI.Page
 {
+	#region Accessors and constants
 	private readonly DbRepository _dbRepository = new DbRepository();
 	private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
@@ -19,7 +27,9 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
     private readonly LoginHandler _login = new LoginHandler();
+	#endregion
 
+	#region Load and unload page
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -50,75 +60,87 @@ public partial class Rapport : System.Web.UI.Page
         _dbRepository.Dispose();
     }
 
+	#endregion
+
+	#region Methods
+
 	protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
-		if (cbRapport01.Checked || cbRapport02.Checked || cbRapport03.Checked || cbRapport04.Checked)
+		try
 		{
-			// Generate the pdf file with the filter data
-			string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
-			FileStream fs = File.Create(contentPath);
-			fs.Close();
-
-			string filePath = Server.MapPath("~/reports/report_template.html");
-			string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
-			File.Copy(filePath, newTemplate);
-
-			if (cbRapport01.Checked)
+			if (cbRapport01.Checked || cbRapport02.Checked || cbRapport03.Checked || cbRapport04.Checked)
 			{
-				_zonePopulation.MakeGraph(contentPath);
-			}
+			
+				// Generate the pdf file with the filter data
+				string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
+				FileStream fs = File.Create(contentPath);
+				fs.Close();
 
-			if (cbRapport02.Checked)
+				string filePath = Server.MapPath("~/reports/report_template.html");
+				string newTemplate = Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(filePath));
+				File.Copy(filePath, newTemplate);
+
+				if (cbRapport01.Checked)
+				{
+					_zonePopulation.MakeGraph(contentPath);
+				}
+
+				if (cbRapport02.Checked)
+				{
+					_barometerPercentage.MakeGraph(contentPath);
+				}
+
+				if (cbRapport03.Checked)
+				{
+					_barometerTimeline.MakeGraph(contentPath);
+				}
+
+				if (cbRapport04.Checked)
+				{
+					_ticketProgressBar.MakeGraph(contentPath);
+				}
+
+				cbRapport01.Checked = false;
+				cbRapport02.Checked = false;
+				cbRapport03.Checked = false;
+				cbRapport04.Checked = false;
+
+				File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
+
+				var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
+				File.Delete(newTemplate);
+				File.Delete(contentPath);
+
+				string fileName = fileNames.Item1;
+				string friendlyName = fileNames.Item2;
+
+				// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
+				string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
+				DataTable dt = _dbRepository.SqlExecuteReader(query);
+				if (dt.Rows.Count > 0)
+				{
+					friendlyName = $"{friendlyName} ({dt.Rows.Count})";
+				}
+
+				query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
+				_dbRepository.SqlExecute(query);
+
+				//Change the logbook entry to the correct category and change the user to the current user
+				_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
+
+				SetPdfContainer(fileName);
+				lblError.Visible = false;
+			}
+			else
 			{
-				_barometerPercentage.MakeGraph(contentPath);
+				lblError.Text = "Selecteer minstens één optie om te genereren.";
+				lblError.Visible = true;
 			}
-
-			if (cbRapport03.Checked)
-			{
-				_barometerTimeline.MakeGraph(contentPath);
-			}
-
-			if (cbRapport04.Checked)
-			{
-				_ticketProgressBar.MakeGraph(contentPath);
-			}
-
-			cbRapport01.Checked = false;
-			cbRapport02.Checked = false;
-			cbRapport03.Checked = false;
-			cbRapport04.Checked = false;
-
-			File.WriteAllText(newTemplate, File.ReadAllText(newTemplate).Replace("{{HtmlContent}}", File.ReadAllText(contentPath)));
-
-			var fileNames = _htmlToPdfConverter.ConvertToPdf(newTemplate);
-			File.Delete(newTemplate);
-			File.Delete(contentPath);
-
-			string fileName = fileNames.Item1;
-			string friendlyName = fileNames.Item2;
-
-			// make a function that checks if the file is already in the database with the same friendly name if so add a number to the end
-			string query = $"SELECT * FROM report_files WHERE friendly_name LIKE '%{friendlyName}%'";
-			DataTable dt = _dbRepository.SqlExecuteReader(query);
-			if (dt.Rows.Count > 0)
-			{
-				friendlyName = $"{friendlyName} ({dt.Rows.Count})";
-			}
-
-			query = $@"INSERT INTO report_files (file_name, friendly_name) VALUES ('{fileName}', '{friendlyName}')";
-			_dbRepository.SqlExecute(query);
-
-			//Change the logbook entry to the correct category and change the user to the current user
-			_logbookHandler.AddLogbookEntry("Rapport", "Admin", $"Rapport {fileName} gegenereerd");
-
-			SetPdfContainer(fileName);
-			lblError.Visible = false;
 		}
-		else
+		catch (Exception ex)
 		{
-			lblError.Text = "Selecteer minstens één optie om te genereren.";
-			lblError.Visible = true;
-		}
+            _logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+        }
 	}
 
 	private void SetPdfList()
@@ -244,4 +266,5 @@ public partial class Rapport : System.Web.UI.Page
         tbEmail.Text = "";
         tbWW.Text = "";
     }
+	#endregion
 }

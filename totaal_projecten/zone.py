@@ -1,5 +1,5 @@
 """
-File: mysql_api.py
+File: zone.py
 Author: Warre Willeme & Jesse UijtdeHaag
 Date: 29-04-2024
 Description: This is the main script for the zone counter.

@@ -1,4 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ticket_beheer.aspx.cs" Inherits="crowd_management.pages.TicketBeheer" %>
+﻿<!--
+   File: ticket_beheer.aspx
+   Author: Warre Willeme & Jesse UijtdeHaag
+   Date: May 12, 2024
+   Description: This file contains the ticket management page. This page is used to manage tickets and connect them to badges.
+-->
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ticket_beheer.aspx.cs" Inherits="crowd_management.pages.TicketBeheer" %>
 
 <!DOCTYPE html>
 

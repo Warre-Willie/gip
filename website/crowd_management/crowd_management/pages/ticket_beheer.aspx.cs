@@ -10,9 +10,13 @@ namespace crowd_management.pages;
 
 public partial class TicketBeheer : System.Web.UI.Page
 {
+    #region Accessors
     private readonly DbRepository _dbRepository = new DbRepository();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
     private readonly LoginHandler _login = new LoginHandler();
+    #endregion
+
+    #region Load and unload page
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -41,6 +45,9 @@ public partial class TicketBeheer : System.Web.UI.Page
         // Close all open connections
         _dbRepository.Dispose();
     }
+    #endregion
+
+    #region Methods
 
     private protected void SetTicketList()
     {
@@ -268,4 +275,5 @@ public partial class TicketBeheer : System.Web.UI.Page
         tbEmail.Text = "";
         tbWW.Text = "";
     }
+    #endregion
 }

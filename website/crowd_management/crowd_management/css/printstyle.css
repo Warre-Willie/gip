@@ -1,3 +1,11 @@
+/*
+   File: printstyle.css
+   Author: Warre Willeme & Jesse UijtdeHaag
+   Date: May 12, 2024
+   Description: This file contains the print styling for the crowd management application.
+*/
+
+
 @font-face {
         font-family: "Inter";
         src: url("Inter-Regular.ttf") format("truetype");
