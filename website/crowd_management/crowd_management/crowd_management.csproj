@@ -212,10 +212,12 @@
     <Content Include="FontAwesome\js\v4-shims.min.js" />
     <Content Include="Global.asax" />
     <Content Include="image\favicon.png" />
+    <Content Include="image\floor_plan.png" />
     <Content Include="image\foor_plan.png" />
     <Content Include="image\logo_navbar.png" />
     <Content Include="image\logo_print.png" />
     <Content Include="js\image_map.js" />
+    <Content Include="js\live_update.js" />
     <Content Include="js\navbar.js" />
     <Content Include="js\search_report.js" />
     <Content Include="js\search_ticket.js" />
@@ -225,14 +227,13 @@
     <Content Include="pages\dummy\dummy-teller.aspx" />
     <Content Include="pages\dummy\images\logo_print.png" />
     <Content Include="pages\index.aspx" />
-    <Content Include="pages\logboek.aspx" />
+    <Content Include="pages\logbook.aspx" />
     <Content Include="pages\rapport.aspx" />
     <Content Include="pages\ticket_beheer.aspx" />
     <Content Include="reports\barometer_timeline.html" />
     <Content Include="reports\ticket_progress_bar.html" />
     <Content Include="reports\barometer_zone_percentage.html" />
     <Content Include="reports\bulma.css" />
-    <Content Include="reports\print_rapport.html" />
     <Content Include="reports\report_template.html" />
     <Content Include="reports\style.css" />
     <Content Include="reports\zone_population.html" />
@@ -242,6 +243,7 @@
     <Compile Include="classes\DbRepository.cs" />
     <Compile Include="classes\HtmlToPdfConverter.cs" />
     <Compile Include="classes\LogbookHandler.cs" />
+    <Compile Include="classes\LoginHandler.cs" />
     <Compile Include="classes\MqttRepository.cs" />
     <Compile Include="classes\report\BarometerPercentage.cs" />
     <Compile Include="classes\report\BarometerTimeline.cs" />
@@ -274,12 +276,12 @@
     <Compile Include="pages\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\logboek.aspx.cs">
-      <DependentUpon>logboek.aspx</DependentUpon>
+    <Compile Include="pages\logbook.aspx.cs">
+      <DependentUpon>logbook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pages\logboek.aspx.designer.cs">
-      <DependentUpon>logboek.aspx</DependentUpon>
+    <Compile Include="pages\logbook.aspx.designer.cs">
+      <DependentUpon>logbook.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\rapport.aspx.cs">
       <DependentUpon>rapport.aspx</DependentUpon>

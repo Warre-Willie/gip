@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Web.Script.Serialization;
 using QuickChart;
 
 namespace crowd_management.classes.report;
@@ -44,56 +43,67 @@ public class BarometerPercentage
 	private string MakeJson()
 	{
 		List<BarometerPercentage> barometerPercentages = GetChartData();
-		var labels = new List<string>();
-		var datasets = new List<object>();
+		var datasets = new List<string>();
+		List<string> labels = new List<string>();
+		List<int> greenData = new List<int>();
+		List<int> orangeData = new List<int>();
+		List<int> redData = new List<int>();
+
 
 		foreach (var barometerPercentage in barometerPercentages)
 		{
-			labels.Add(barometerPercentage.Zone);
+			labels.Add($"'{barometerPercentage.Zone}'");
 
-			datasets.Add(new
-			{
-				label = "Groen",
-				backgroundColor = "lime",
-				data = new[] { barometerPercentage.PercentageGreen }
-			});
-
-			datasets.Add(new
-			{
-				label = "Geel",
-				backgroundColor = "yellow",
-				data = new[] { barometerPercentage.PercentageOrange }
-			});
-
-			datasets.Add(new
-			{
-				label = "Rood",
-				backgroundColor = "red",
-				data = new[] { barometerPercentage.PercentageRed }
-			});
+			greenData.Add(barometerPercentage.PercentageGreen);
+			orangeData.Add(barometerPercentage.PercentageOrange);
+			redData.Add(barometerPercentage.PercentageRed);
 		}
 
-		var jsonData = new
-		{
-			type = "bar",
-			data = new
-			{
-				labels,
-				datasets
-			},
-			options = new
-			{
-				title = new { display = false },
-				scales = new
-				{
-					xAxes = new[] { new { stacked = true, barThickness = 50 } },
-					yAxes = new[] { new { stacked = true } }
-				}
-			}
-		};
+		datasets.Add($"{{ label: 'Groen', backgroundColor: ['lime'], data: [{string.Join(",", greenData)}] }}");
+		datasets.Add($"{{ label: 'Geel', backgroundColor: ['yellow'], data: [{string.Join(",", orangeData)}] }}");
+		datasets.Add($"{{ label: 'Rood', backgroundColor: ['red'], data: [{string.Join(",", redData)}] }}");
 
-		JavaScriptSerializer serializer = new JavaScriptSerializer();
-		return serializer.Serialize(jsonData);
+		// Constructing the JSON string
+		string jsonData = @"
+    {{
+      ""type"": ""bar"",
+      ""data"": {{
+        ""labels"": [{0}],
+        ""datasets"": [{1}]
+      }},
+      ""options"": {{
+        ""scales"": {{
+          ""xAxes"": [
+            {{
+							""scaleLabel"": {{
+								display: true,
+								labelString: 'Zones',
+							}},
+              ""stacked"": true,
+              ""barThickness"": 50
+            }}
+          ],
+          ""yAxes"": [
+            {{
+							""scaleLabel"": {{
+								display: true,
+								labelString: 'Percentages',
+							}},
+              ""ticks"": {{
+                ""callback"": (val) => {{
+                  return val + '%';
+                }}
+              }},
+              ""stacked"": true
+            }}
+          ]
+        }}
+      }}
+    }}";
+
+		jsonData = string.Format(jsonData, string.Join(",", labels), string.Join(",", datasets));
+
+		return jsonData;
 	}
 
 	private List<BarometerPercentage> GetChartData()
@@ -134,7 +144,7 @@ public class BarometerPercentage
 
 			DateTime currentTime = DateTime.Parse(row["timestamp"].ToString());
 
-			int seconds = (int)(currentTime - prevTime).TotalSeconds;
+			int seconds = (int) (currentTime - prevTime).TotalSeconds;
 
 			secondCount[(int) row["zone_id"]][row["color"].ToString()] += seconds;
 
@@ -149,9 +159,56 @@ public class BarometerPercentage
 			{
 				if (barometerPercentage.Id == kvp.Key)
 				{
-					barometerPercentage.PercentageGreen = (int) Math.Round((double) kvp.Value["green"] / totalSecondsZone * 100);
-					barometerPercentage.PercentageOrange = (int) Math.Round((double) kvp.Value["orange"] / totalSecondsZone * 100);
-					barometerPercentage.PercentageRed = (int) Math.Round((double) kvp.Value["red"] / totalSecondsZone * 100);
+					double greenPercentage = (double) kvp.Value["green"] / totalSecondsZone * 100;
+					double orangePercentage = (double) kvp.Value["orange"] / totalSecondsZone * 100;
+					double redPercentage = (double) kvp.Value["red"] / totalSecondsZone * 100;
+
+					int roundedGreen = (int) Math.Floor(greenPercentage);
+					int roundedOrange = (int) Math.Floor(orangePercentage);
+					int roundedRed = (int) Math.Floor(redPercentage);
+
+					int totalRounded = roundedGreen + roundedOrange + roundedRed;
+
+					// Calculate rounding difference
+					double roundingDifference = 100 - totalRounded;
+
+					if (roundingDifference > 0)
+					{
+						// Add rounding difference to the largest percentage rounding difference
+						if (greenPercentage - roundedGreen > orangePercentage - roundedOrange && greenPercentage - roundedGreen > redPercentage - roundedRed)
+						{
+							roundedGreen += (int) roundingDifference;
+						}
+						else if (orangePercentage - roundedOrange > redPercentage - roundedRed)
+						{
+							roundedOrange += (int) roundingDifference;
+						}
+						else
+						{
+							roundedRed += (int) roundingDifference;
+						}
+					}
+					else if (roundingDifference < 0)
+					{
+						// Subtract rounding difference from the largest percentage rounding difference
+						if (greenPercentage - roundedGreen < orangePercentage - roundedOrange && greenPercentage - roundedGreen < redPercentage - roundedRed)
+						{
+							roundedGreen -= (int) Math.Abs(roundingDifference);
+						}
+						else if (orangePercentage - roundedOrange < redPercentage - roundedRed)
+						{
+							roundedOrange -= (int) Math.Abs(roundingDifference);
+						}
+						else
+						{
+							roundedRed -= (int) Math.Abs(roundingDifference);
+						}
+					}
+
+					// Assign rounded percentages
+					barometerPercentage.PercentageGreen = roundedGreen;
+					barometerPercentage.PercentageOrange = roundedOrange;
+					barometerPercentage.PercentageRed = roundedRed;
 				}
 			}
 		}

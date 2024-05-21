@@ -1,5 +1,5 @@
 """
-File: mysql_api.py
+File: feedback_alerts.py
 Author: Warre Willeme & Jesse UijtdeHaag
 Date: 29-04-2024
 Description: This is an custom library for feedback and alerts.

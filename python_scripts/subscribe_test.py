@@ -1,5 +1,5 @@
 """
-File: mysql_api.py
+File: subscribe_test.py
 Author: Warre Willeme & Jesse UijtdeHaag
 Date: 29-04-2024
 Description: This script is used to connect to the database and listen to the MQTT broker for incoming queries.

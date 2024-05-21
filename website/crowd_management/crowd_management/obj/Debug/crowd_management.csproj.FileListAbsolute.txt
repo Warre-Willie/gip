@@ -758,3 +758,10 @@ C:\Users\Jesse UijtdeHaag\Documents\gip\website\crowd_management\crowd_managemen
 C:\Users\Jesse UijtdeHaag\Documents\gip\website\crowd_management\crowd_management\bin\System.Text.Encodings.Web.xml
 C:\Users\Jesse UijtdeHaag\Documents\gip\website\crowd_management\crowd_management\bin\System.Text.Json.xml
 C:\Users\Jesse UijtdeHaag\Documents\gip\website\crowd_management\crowd_management\bin\System.ValueTuple.xml
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\QuickChart.dll
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.Text.Encodings.Web.dll
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.Text.Json.dll
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.ValueTuple.dll
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.Text.Encodings.Web.xml
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.Text.Json.xml
+C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\System.ValueTuple.xml

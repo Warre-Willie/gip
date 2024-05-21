@@ -6,87 +6,86 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Dummy_gip.Pages
+namespace Dummy_gip.Pages;
+
+public partial class dummy_search : System.Web.UI.Page
 {
-    public partial class dummy_search : System.Web.UI.Page
+    //database connection
+    const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
+    MySqlConnection conn = new MySqlConnection(constring);
+
+    protected void Page_Load(object sender, EventArgs e)
     {
-        //database connection
-        const string constring = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;";
-        MySqlConnection conn = new MySqlConnection(constring);
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
             
-        }
+    }
 
-        protected void bttSearch_Click(object sender, EventArgs e)
+    protected void bttSearch_Click(object sender, EventArgs e)
+    {
+        //varibles
+        string input;
+
+        lblError.Text = "";
+
+        try
         {
-            //varibles
-            string input;
+            input = tbTknb.Text;
 
-            lblError.Text = "";
-
-            try
+            if(input == "")
             {
-                input = tbTknb.Text;
-
-                if(input == "")
-                {
-                    throw new Exception("Please fill in an ticket");
-                }
-
-                getTicket(input);
+                throw new Exception("Please fill in an ticket");
             }
-            catch(Exception ex) 
-            {
-                lblError.Text = ex.Message;
-            }
-            tbTknb.Text = "";
+
+            getTicket(input);
         }
-
-        void getTicket (string ticketNr)
+        catch(Exception ex) 
         {
-            //variables
-            string RFID, camping, VIP, backstage, artiest;
+            lblError.Text = ex.Message;
+        }
+        tbTknb.Text = "";
+    }
 
-            string query = $"SELECT `RFID`,`camping`, `VIP`, `backstage`, `artiest` FROM `tickets` WHERE `barcode` = '{ticketNr}'";
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
+    void getTicket (string ticketNr)
+    {
+        //variables
+        string RFID, camping, VIP, backstage, artiest;
+
+        string query = $"SELECT `RFID`,`camping`, `VIP`, `backstage`, `artiest` FROM `tickets` WHERE `barcode` = '{ticketNr}'";
+        conn.Open();
+        MySqlCommand cmd = new MySqlCommand(query, conn);
+        MySqlDataReader reader = cmd.ExecuteReader();
            
-            if(reader.HasRows) 
+        if(reader.HasRows) 
+        {
+            while (reader.Read())
             {
-                while (reader.Read())
+                RFID = reader["RFID"].ToString();
+
+                if (RFID == "")
                 {
-                    RFID = reader["RFID"].ToString();
-
-                    if (RFID == "")
-                    {
-                        tbOutput.Text += $"{ticketNr}: niet gescand.\n";
-                    }
-                    else
-                    {
-                        tbOutput.Text += $"{ticketNr}: gescand --> camping:{reader["camping"]}, VIP:{reader["VIP"]}, backstage:{reader["backstage"]}, artiest:{reader["artiest"]}\n";
-                    }
-
+                    tbOutput.Text += $"{ticketNr}: niet gescand.\n";
+                }
+                else
+                {
+                    tbOutput.Text += $"{ticketNr}: gescand --> camping:{reader["camping"]}, VIP:{reader["VIP"]}, backstage:{reader["backstage"]}, artiest:{reader["artiest"]}\n";
                 }
 
-                conn.Close();
             }
-            else
-            {
-                throw new Exception("Barcode niet gevonden");
-            }
-        }
 
-        protected void btnTeller_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("dummy-teller.aspx");
+            conn.Close();
         }
+        else
+        {
+            throw new Exception("Barcode niet gevonden");
+        }
+    }
 
-        protected void btnZoekenPG_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("dummy-search.aspx");
-        }
+    protected void btnTeller_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("dummy-teller.aspx");
+    }
+
+    protected void btnZoekenPG_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("dummy-search.aspx");
     }
 }

@@ -1,36 +1,43 @@
-﻿$(document).ready(function () {
+/*
+ * File: image_map.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the image map on the crowd management page.
+ */
+
+$(document).ready(function () {
     window.$('img[usemap]').rwdImageMaps();
 });
 
 window.onload = function () {
-    checkCoordsChange();
+	checkCoordsChange();
 };
 
 function checkCoordsChange() {
-    var heatMap = document.getElementById("heatMap");
-    var areas = heatMap.getElementsByTagName('area');
-    for (var i = 0; i < areas.length; i++) {
-        var area = areas[i];
-        handleCoordsChange(area.id, area.coords);
-    }
+	var heatMap = document.getElementById("heatMap");
+	var areas = heatMap.getElementsByTagName('area');
+	for (var i = 0; i < areas.length; i++) {
+		var area = areas[i];
+		handleCoordsChange(area.id, area.coords);
+	}
 }
 
 function handleCoordsChange(id, coords) {
-    // Parse the coordinates string into an array
-    var coordArray = coords.split(',');
+	// Parse the coordinates string into an array
+	var coordArray = coords.split(',');
 
-    // Get the highlight div
-    var heatMapZone = document.getElementById("div" + id);
+	// Get the highlight div
+	var heatMapZone = document.getElementById("div" + id);
 
-    // Set the size and position of the highlight div based on the coordinates
-    heatMapZone.style.width = coordArray[2] - coordArray[0] + 'px';
-    heatMapZone.style.height = coordArray[3] - coordArray[1] + 'px';
-    heatMapZone.style.left = coordArray[0] + 'px';
-    heatMapZone.style.top = coordArray[1] + 'px';
+	// Set the size and position of the highlight div based on the coordinates
+	heatMapZone.style.width = coordArray[2] - coordArray[0] + 'px';
+	heatMapZone.style.height = coordArray[3] - coordArray[1] + 'px';
+	heatMapZone.style.left = coordArray[0] + 'px';
+	heatMapZone.style.top = coordArray[1] + 'px';
 
-    if (heatMapZone.hasAttribute("data-first_load")) {
-        heatMapZone.removeAttribute("data-first_load");
-    } else {
-        heatMapZone.classList.remove("hide");
-    }
+	if (heatMapZone.hasAttribute("data-first_load")) {
+		heatMapZone.removeAttribute("data-first_load");
+	} else {
+		heatMapZone.classList.remove("hide");
+	}
 }

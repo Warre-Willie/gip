@@ -1,3 +1,10 @@
+/*
+ * File: search_ticket.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 12, 2024
+ * Description: This file contains the JavaScript code for the search ticket functionality on the crowd management page.
+ */
+
 //https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
 
 function searchTicket() {
