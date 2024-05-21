@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logboek.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logbook.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
 
 <!DOCTYPE html>
 

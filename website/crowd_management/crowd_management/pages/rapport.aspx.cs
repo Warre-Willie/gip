@@ -40,8 +40,7 @@ public partial class Rapport : System.Web.UI.Page
         }
 
         SetPdfList();
-
-    }
+		}
 
     protected override void OnUnload(EventArgs e)
     {
@@ -122,25 +121,41 @@ public partial class Rapport : System.Web.UI.Page
 		}
 	}
 
-    private void SetPdfList()
-    {
-        string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
-        DataTable pdfList = _dbRepository.SqlExecuteReader(query);
+	private void SetPdfList()
+	{
+		string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
+		DataTable pdfList = _dbRepository.SqlExecuteReader(query);
 
-        divPdfList.Controls.Clear();
+		divPdfList.Controls.Clear();
 
-        foreach (DataRow row in pdfList.Rows)
-        {
-            LinkButton pdf = new LinkButton();
+		foreach (DataRow row in pdfList.Rows)
+		{
+			Panel pdfPanel = new Panel();
+			pdfPanel.CssClass = "panel-block panel-row";
 
-            pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-            pdf.ID = row["file_name"].ToString();
-            pdf.Click += pdfList_Click;
-            pdf.CssClass = "panel-block";
+			LinkButton pdfLink = new LinkButton();
+			pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
+			pdfLink.ID = "rmv_" + row["file_name"];
+			pdfLink.Attributes["fileName"] = row["file_name"].ToString();
+			pdfLink.Click += pdfList_Click;
 
-            divPdfList.Controls.Add(pdf);
-        }
-    }
+			LinkButton deletePdfLink = new LinkButton();
+			deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
+			deletePdfLink.ID = "pdf_" + row["file_name"];
+			deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
+			deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
+			deletePdfLink.Click += btnDeletePdf_Click;
+
+			// Add PDF link button to the panel
+			pdfPanel.Controls.Add(pdfLink);
+
+			// Add delete PDF link button to the PDF panel
+			pdfPanel.Controls.Add(deletePdfLink);
+
+			// Add the panel to the container
+			divPdfList.Controls.Add(pdfPanel);
+		}
+	}
 
 	protected void btnDeletePdf_Click(object sender, EventArgs e)
 	{
