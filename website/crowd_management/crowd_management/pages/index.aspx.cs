@@ -90,57 +90,6 @@ public partial class Index : Page
 
 	#region Methods
 
-	[WebMethod]
-	public static string GetHeatMapData()
-	{
-		Index indexPage = new Index();
-		return indexPage.FetchHeatMapData();
-	}
-
-	public class ZoneData
-	{
-		public string Name { get; set; }
-		public double Percentage { get; set; }
-		public bool Lockdown { get; set; }
-		public string Color { get; set; }
-	}
-
-	private string FetchHeatMapData()
-	{
-		string query = "SELECT * FROM zones";
-		DataTable zones = _dbRepository.SqlExecuteReader(query);
-
-		_dbRepository.Dispose();
-
-		var heatMapData = new Dictionary<string, ZoneData>
-			{
-				{ "1", new ZoneData() },
-				{ "2", new ZoneData() },
-				{ "3", new ZoneData() },
-				{ "4", new ZoneData() }
-			};
-
-		foreach (DataRow row in zones.Rows)
-		{
-			int zoneId = Convert.ToInt32(row["id"]);
-			double percentage = -1;
-			bool lockdown = Convert.ToBoolean(row["lockdown"]);
-
-			// Formatting zone data
-			if (!string.IsNullOrEmpty(row["people_count"].ToString()) && !string.IsNullOrEmpty(row["max_people"].ToString()))
-			{
-				percentage = Convert.ToDouble(row["people_count"]) / Convert.ToDouble(row["max_people"]) * 100;
-				percentage = Math.Round(percentage, 2);
-			}
-
-			string color = GetColorClass(row["barometer_color"].ToString());
-
-			heatMapData[zoneId.ToString()] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
-		}
-
-		return JsonConvert.SerializeObject(heatMapData);
-	}
-
 	private void LoadHeatMap()
 	{
 		string query = "SELECT * FROM zones";
