@@ -55,7 +55,7 @@ Description: This file contains the HTML code for the logbook page.
 
 					<div class="navbar-end">
 						<div class="navbar-item">
-							<asp:LinkButton ID="btnLogout" runat="server" CssClass="button is-warning" OnClick="btnLogin_Click"><b>Uitloggen</b></asp:LinkButton>
+							<asp:LinkButton ID="btnLogout" runat="server" CssClass="button is-warning" OnClick="btnLogout_Click"><b>Uitloggen</b></asp:LinkButton>
 						</div>
 					</div>
 				</div>

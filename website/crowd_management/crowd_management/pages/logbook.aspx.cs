@@ -15,7 +15,6 @@ public partial class Logbook : System.Web.UI.Page
 {
 	#region Accessors
 
-	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private readonly LoginHandler _loginHandler = new LoginHandler();
 
 	#endregion

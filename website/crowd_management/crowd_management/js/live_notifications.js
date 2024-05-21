@@ -1,15 +1,14 @@
 ﻿$(function () {
-	console.log($.connection);
-	var chat = $.connection.chatHub;
+	var chat = window.$.connection.liveUpdateHub;
 
 	chat.client.broadcastMessage = function (name, message) {
 		console.log(name, message);
 	};
 
-	$.connection.hub.start().done(function () {
-		$('#send').click(function () {
-			chat.server.send($('#name').val(), $('#message').val());
-			$('#message').val('').focus();
+	window.$.connection.hub.start().done(function () {
+		window.$('#send').click(function () {
+			chat.server.send(window.$('#name').val(), window.$('#message').val());
+			window.$('#message').val('').focus();
 		});
 	});
 });

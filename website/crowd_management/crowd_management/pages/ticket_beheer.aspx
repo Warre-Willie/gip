@@ -177,7 +177,6 @@
 			</div>
 
 			<!-- Loading JavaScript at the end of the page for better preformance-->
-			<script src="../js/navbar.js"></script>
 			<script src="../js/settings_panel.js"></script>
 			<script src="../js/search_ticket.js"></script>
 			<script src="../js/ticket_modal.js"></script>

@@ -1,0 +1,15 @@
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\crowd_management_live.exe.config
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\crowd_management_live.exe
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\crowd_management_live.pdb
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\MQTTnet.dll
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\Newtonsoft.Json.dll
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\MQTTnet.xml
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\bin\Debug\Newtonsoft.Json.xml
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.csproj.AssemblyReference.cache
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.csproj.CoreCompileInputs.cache
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_ma.1EC1F453.Up2Date
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.exe
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.pdb

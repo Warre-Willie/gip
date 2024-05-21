@@ -153,7 +153,6 @@
 			</div>
 
 			<!-- Loading JavaScript at the end of the page for better performance-->
-			<script src="../js/navbar.js"></script>
 			<script src="../js/search_report.js"></script>
 		</div>
 		<div id="divLogin" runat="server">

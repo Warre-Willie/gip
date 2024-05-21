@@ -2,7 +2,7 @@
 
 namespace crowd_management;
 
-public class ChatHub : Hub
+public class LiveUpdateHub : Hub
 {
 	// ReSharper disable once UnusedMember.Global
 	public void Send(string name, string message)

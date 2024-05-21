@@ -255,15 +255,15 @@
     <Content Include="reports\report_template.html" />
     <Content Include="reports\style.css" />
     <Content Include="reports\zone_population.html" />
-    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.js" />
-    <Content Include="Scripts\jquery-1.7.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
+    <None Include="js\SignalR\jquery-1.6.4-vsdoc.js" />
+    <Content Include="js\SignalR\jquery-1.7.js" />
+    <Content Include="js\SignalR\jquery-1.7.min.js" />
+    <Content Include="js\SignalR\jquery.signalR-2.4.3.js" />
+    <Content Include="js\SignalR\jquery.signalR-2.4.3.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatHub.cs" />
+    <Compile Include="LiveUpdateHub.cs" />
     <Compile Include="classes\DbRepository.cs" />
     <Compile Include="classes\HtmlToPdfConverter.cs" />
     <Compile Include="classes\LogbookHandler.cs" />
