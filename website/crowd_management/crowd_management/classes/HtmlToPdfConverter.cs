@@ -20,8 +20,9 @@ public class HtmlToPdfConverter
 	// This class mimics the request that is made when you upload a file to the website
 	// This is not an official API with documentation
 
-	#region Varibables
+	#region Varibables and accessors
 
+	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private const string BaseUrl = "https://html2pdf.com";
 
 	private string _sid = string.Empty;
@@ -184,7 +185,7 @@ public class HtmlToPdfConverter
 
 				if (jsonResponse?["data"]["file"] != Path.GetFileName(filePath))
 				{
-					throw new Exception("File upload failed");
+					_logbookHandler.AddLogbookEntry("Rapport", "System", "Uploaden van pdf.");
 				}
 			}
 		}
@@ -200,7 +201,7 @@ public class HtmlToPdfConverter
 
 		if (jsonResponse?["status"] != "success")
 		{
-			throw new Exception("File conversion failed");
+			_logbookHandler.AddLogbookEntry("Rapport", "System", "Conversie van HTML naar PDF mislukt.");
 		}
 	}
 

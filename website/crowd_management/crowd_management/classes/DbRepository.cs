@@ -15,7 +15,6 @@ public class DbRepository
 {
 	#region Variables and accessors
 
-	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
 	private readonly MySqlConnection _conn;
 	private readonly MySqlCommand _cmd = new MySqlCommand();
@@ -33,7 +32,7 @@ public class DbRepository
 		}
 		catch (Exception e)
 		{
-			_logbookHandler.AddLogbookEntry("Database", "System", "Connectie met database mislukt.");
+			// ignored
 		}
 	}
 
@@ -60,7 +59,7 @@ public class DbRepository
 		}
 		catch (Exception ex)
 		{
-			_logbookHandler.AddLogbookEntry("Database", "System", "Query uitvoeren mislukt.");
+			// ignored
 		}
 
 		return dt;
@@ -76,7 +75,7 @@ public class DbRepository
 		}
 		catch (Exception ex)
 		{
-			_logbookHandler.AddLogbookEntry("Database", "System", "Query uitvoeren mislukt.");
+			// ignored
 		}
 	}
 

@@ -199,7 +199,7 @@ public partial class Index : Page
 		}
 		else
 		{
-			// Message: zone not found
+			_logbookHandler.AddLogbookEntry("Zone", "System", $"Zone {Session["zoneID"]} niet gevonden.");
 		}
 	}
 
