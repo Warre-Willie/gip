@@ -8,22 +8,48 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace crowd_management.pages
+namespace crowd_management.pages;
+
+public partial class Index : Page
 {
 	public partial class Index : Page
 	{
 		private readonly DbRepository _dbRepository = new DbRepository();
 		private readonly MqttRepository _mqttRepository = new MqttRepository();
 		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+		private readonly LoginHandler _login = new LoginHandler();
 
 		private const string AccessZoneType = "access";
 		private const string CountZoneType = "count";
 
-		protected void Page_PreRender(object sender, EventArgs e)
-		{
-			LoadHeatMap();
-			if (IsPostBack)
+		protected void Page_Load(object sender, EventArgs e)
+    	{
+			if (Session["User"] == null)
 			{
+				divPage.Visible = false;
+				divLogin.Visible = true;
+			}
+			else
+			{
+				divPage.Visible = true;
+				divLogin.Visible = false;
+				LoadHeatMap();
+				LoadZonePanel();
+			}
+		}
+
+		protected void Page_PreRender(object sender, EventArgs e)
+    	{
+			if (Session["User"] == null)
+			{
+				divPage.Visible = false;
+				divLogin.Visible = true;
+			}
+			else
+			{
+				divPage.Visible = true;
+				divLogin.Visible = false;
+				LoadHeatMap();
 				LoadZonePanel();
 			}
 		}
@@ -35,6 +61,9 @@ namespace crowd_management.pages
 			// Close all open connections
 			_dbRepository.Dispose();
 			_mqttRepository.Dispose();
+
+			divPage.Visible = false;
+			divLogin.Visible = true;    
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -509,6 +538,43 @@ namespace crowd_management.pages
 			int lockdown = Convert.ToInt32(cbAccessLock.Checked);
 			string query = $"UPDATE zones SET lockdown = {lockdown} WHERE id = {Session["zoneID"]}";
 			_dbRepository.SqlExecute(query);
+		}
+
+		protected void btnLogout_Click(object sender, EventArgs e)
+		{
+			Session["User"] = null;
+			Session.Clear();    
+			Session.Abandon();
+
+			divPage.Visible = false;
+			divLogin.Visible = true;
+
+		}
+
+		protected void btnLogin_Click(object sender, EventArgs e)
+		{
+			string tbEmailText = tbEmail.Text.Trim().ToUpper();
+			string tbWwText = tbWW.Text;
+			
+			string user = _login.LoginUser(tbEmailText, tbWwText);
+			
+			if (user != null)
+			{
+				Session["User"] = user;
+				divPage.Visible = true;
+				divLogin.Visible = false;
+				lbError.Visible = false;
+			}
+			else
+			{
+				divPage.Visible = false;
+				divLogin.Visible = true;
+				lbError.Visible = true;
+				_logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
+			}
+
+			tbEmail.Text = "";
+			tbWW.Text = "";
 		}
 	}
 }

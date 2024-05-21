@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Web.UI.WebControls;
 using crowd_management.classes.report;
 using System.IO;
-using System.Web.UI;
+using System.Web;
 
 namespace crowd_management.pages;
 
@@ -18,24 +18,38 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly ZonePopulation _zonePopulation = new ZonePopulation();
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
+    private readonly LoginHandler _login = new LoginHandler();
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (!IsPostBack)
-		{
-			pdfContainer.Visible = false;
-		}
 
-		SetPdfList();
-	}
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["User"] == null)
+        {
+            divPage.Visible = false;
+            divLogin.Visible = true;
+        }
+        else
+        {
+            divPage.Visible = true;
+            divLogin.Visible = false;
+        }
 
-	protected override void OnUnload(EventArgs e)
-	{
-		base.OnUnload(e);
+        if (!IsPostBack)
+        {
+            pdfContainer.Visible = false;
+        }
 
-		// Close all open connections
-		_dbRepository.Dispose();
-	}
+        SetPdfList();
+
+    }
+
+    protected override void OnUnload(EventArgs e)
+    {
+        base.OnUnload(e);
+
+        // Close all open connections
+        _dbRepository.Dispose();
+    }
 
 	protected void btnGenRapport_Click(object sender, EventArgs e)
 	{
@@ -108,51 +122,25 @@ public partial class Rapport : System.Web.UI.Page
 		}
 	}
 
-	private void SetPdfList()
-	{
-		string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
-		DataTable pdfList = _dbRepository.SqlExecuteReader(query);
+    private void SetPdfList()
+    {
+        string query = "SELECT * FROM report_files ORDER BY timestamp DESC";
+        DataTable pdfList = _dbRepository.SqlExecuteReader(query);
 
-		divPdfList.Controls.Clear();
+        divPdfList.Controls.Clear();
 
-		foreach (DataRow row in pdfList.Rows)
-		{
-			Panel pdfPanel = new Panel();
-			pdfPanel.CssClass = "panel-block panel-row";
+        foreach (DataRow row in pdfList.Rows)
+        {
+            LinkButton pdf = new LinkButton();
 
-			LinkButton pdfLink = new LinkButton();
-			pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-			pdfLink.ID = "rmv_" + row["file_name"];
-			pdfLink.Attributes["fileName"] = row["file_name"].ToString();
-			pdfLink.Click += pdfList_Click;
+            pdf.Text = $"<span class='panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
+            pdf.ID = row["file_name"].ToString();
+            pdf.Click += pdfList_Click;
+            pdf.CssClass = "panel-block";
 
-			LinkButton deletePdfLink = new LinkButton();
-			deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
-			deletePdfLink.ID = "pdf_" + row["file_name"];
-			deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
-			deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
-			deletePdfLink.Click += btnDeletePdf_Click;
-
-			// Add PDF link button to the panel
-			pdfPanel.Controls.Add(pdfLink);
-
-			// Add delete PDF link button to the PDF panel
-			pdfPanel.Controls.Add(deletePdfLink);
-
-			// Add the panel to the container
-			divPdfList.Controls.Add(pdfPanel);
-		}
-	}
-
-	protected void pdfList_Click(object sender, EventArgs e)
-	{
-		if (sender is not LinkButton file)
-		{
-			return;
-		}
-
-		SetPdfContainer(file.Attributes["fileName"]);
-	}
+            divPdfList.Controls.Add(pdf);
+        }
+    }
 
 	protected void btnDeletePdf_Click(object sender, EventArgs e)
 	{
@@ -173,12 +161,22 @@ public partial class Rapport : System.Web.UI.Page
 		SetPdfList();
 	}
 
-	private void SetPdfContainer(string filename)
-	{
-		pdfContainer.Visible = true;
-		string pdfUrl = $"../eventHandlers/report.ashx?filename={filename}";
+    protected void pdfList_Click(object sender, EventArgs e)
+    {
+        if (sender is not LinkButton file)
+        {
+            return;
+        }
 
-		pdfContainer.InnerHtml = $@"<p class=""subtitle""><b>Voorstelling</b></p>
+        SetPdfContainer(file.ID);
+    }
+
+    private void SetPdfContainer(string filename)
+    {
+        pdfContainer.Visible = true;
+        string pdfUrl = $"../eventHandlers/report.ashx?filename={filename}";
+
+        pdfContainer.InnerHtml = $@"<p class=""subtitle""><b>Voorstelling</b></p>
 											<div class=""is-hidden-touch"">
 												<object data=""\rapports\{pdfUrl}"" type=""application/pdf"" width=""100%"" height=""700px"">
 													<p>Er is een fout opgetreden met het openen van de pdf</p>
@@ -189,6 +187,46 @@ public partial class Rapport : System.Web.UI.Page
 													<a href=""{pdfUrl}"" target=""_blank"">example</a>.
 												</p>
 											</div>";
-		SetPdfList();
-	}
+        SetPdfList();
+    }
+
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+        Session["User"] = null;
+        Session.Clear();
+        Session.Abandon();
+
+        Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        Response.Cache.SetNoStore();
+
+        divPage.Visible = false;
+        divLogin.Visible = true;
+    }
+
+    protected void btnLogin_Click(object sender, EventArgs e)
+    {
+        string tbEmailText = tbEmail.Text.Trim().ToUpper();
+        string tbWwText = tbWW.Text;
+
+        string user = _login.LoginUser(tbEmailText, tbWwText);
+
+        if (user != null)
+        {
+            Session["User"] = user;
+            divPage.Visible = true;
+            divLogin.Visible = false;
+            lbError.Visible = false;
+        }
+        else
+        {
+            divPage.Visible = false;
+            divLogin.Visible = true;
+            lbError.Visible = true;
+            _logbookHandler.AddLogbookEntry("Login", "System", $"Failed login attempt by {tbEmailText}");
+        }
+
+        tbEmail.Text = "";
+        tbWW.Text = "";
+    }
 }

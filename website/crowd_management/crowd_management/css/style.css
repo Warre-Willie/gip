@@ -1,37 +1,37 @@
 .navbar-brand-container {
-  padding-top: 0px;
-  padding-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .navbar-brand-img {
-  max-height: 48px !important;
+    max-height: 48px !important;
 }
 
 .tile-padding {
-  padding: 15px;
+    padding: 15px;
 }
 
 .hide {
-  display: none !important;
+    display: none !important;
 }
 
 .logbook {
-  max-height: 300px;
-  overflow: auto;
+    max-height: 300px;
+    overflow: auto;
 }
 
 .panel-button-container {
-  position: relative;
+    position: relative;
 }
 
 .panel-1-button {
-  position: absolute;
-  right: 0px;
+    position: absolute;
+    right: 0px;
 }
 
 .panel-2-button {
-  position: absolute;
-  right: 50.5px;
+    position: absolute;
+    right: 50.5px;
 }
 .panel-list {
   max-height: 300px;
@@ -39,27 +39,27 @@
 }
 
 .panel-heading {
-  margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
 }
 
 .fit-tile-content {
-  display: inline !important;
+    display: inline !important;
 }
 
 .ticket-panel-container {
-  display: flex;
+    display: flex;
 }
 
 .ticket-dropdown {
-  margin-left: auto;
+    margin-left: auto;
 }
 
 .ticket-connect-modal {
-  width: 300px;
+    width: 300px;
 }
 
 .ticket-barcode-center {
-  margin-left: 25%;
+    margin-left: 25%;
 }
 
 .panel-selected {
@@ -67,26 +67,26 @@
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .page-content {
-  flex: 1;
+    flex: 1;
 }
 
 .footer {
-  position: relative;
-  bottom: 0;
-  padding: 5px;
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
+    position: relative;
+    bottom: 0;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
 }
 
-.filter-table{
-  padding-top: 0px;
+.filter-table {
+    padding-top: 0px;
 }
 
 .column-disabled {
@@ -129,4 +129,22 @@ body {
 
 .report-panel-icon {
   margin-top: 5px;
+}
+.image-container {
+    text-align: center; /* Center the image horizontally */
+    margin-bottom: 20px; /* Add some space between image and login fields */
+}
+
+    .image-container img {
+        width: 200px; /* Adjust the width of the image */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
 }

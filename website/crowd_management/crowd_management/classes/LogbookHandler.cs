@@ -14,6 +14,5 @@ namespace crowd_management.classes
             string query = $"INSERT INTO website_logbook(category, user, description) VALUES ('{category}','{user}','{description}')";
             db.SqlExecute(query);
         }
-
     }
 }
