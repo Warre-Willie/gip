@@ -119,7 +119,11 @@ def color_barometer(response_dict):
 
 
 connect_wifi()
-client = connect_mqtt(callback)
+if(switch.value() == True):
+    client = connect_mqtt(callback, "Zone" + str(zone_id) + "ingang")
+else:
+    client = connect_mqtt(callback, "Zone" + str(zone_id) + "uitgang")
+    
 # subscribe to topic
 client.subscribe("gip/teller/barometer")
 client.publish("gip/teller/new_device", '{"id": ' + str(zone_id) + '}')

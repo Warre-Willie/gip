@@ -28,21 +28,22 @@ def connect_wifi():
             time.sleep(1)
     print('network config:', wlan.ifconfig())
 
-def connect_mqtt(callback):
+def connect_mqtt(callback, device_name):
     network_config = load_network_config()
     if network_config["isDevelopment"]:
         server = network_config['mqtt']["mqttDev"]['broker']
-        # port = network_config['mqtt']["mqttDev"]['port']
-        # user = network_config['mqtt']["mqttDev"]['user']
-        # password = network_config['mqtt']["mqttDev"]['password']
+        port = network_config['mqtt']["mqttDev"]['port']
+        user = network_config['mqtt']["mqttDev"]['user']
+        password = network_config['mqtt']["mqttDev"]['password']
     else:
         server = network_config['mqtt']["mqttProd"]['broker']
-        # port = network_config['mqtt']["mqttProd"]['port']
-        # user = network_config['mqtt']["mqttProd"]['user']
-        # password = network_config['mqtt']["mqttProd"]['password']
+        port = network_config['mqtt']["mqttProd"]['port']
+        user = network_config['mqtt']["mqttProd"]['user']
+        password = network_config['mqtt']["mqttProd"]['password']
         
-    client = MQTTClient(b"", server)
+    client = MQTTClient(b"", server, port, user, password)
     client.set_callback(callback)
+    client.set_last_will("gip/disconnected", '{ "name": "' + device_name + '" }', retain=False, qos=2)
     client.connect()
     print('connected to MQTT server')
     return client

@@ -26,9 +26,13 @@ mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing r
 if db_mqtt_settings["isDevlopment"] == True:
     broker_address = db_mqtt_settings['mqtt']["mqttDev"]['broker']
     port = db_mqtt_settings['mqtt']["mqttDev"]['port']
+    username = db_mqtt_settings['mqtt']["mqttDev"]['username']
+    password = db_mqtt_settings['mqtt']["mqttDev"]['password']
 else:
     broker_address = db_mqtt_settings['mqtt']["mqttProd"]['broker']
     port = db_mqtt_settings['mqtt']["mqttProd"]['port']
+    username = db_mqtt_settings['mqtt']["mqttProd"]['username']
+    password = db_mqtt_settings['mqtt']["mqttProd"]['password']
 
 
 def count_request(msg):
@@ -121,8 +125,11 @@ client = mqtt.Client(client_id="", clean_session=True)
 # Set callback functions
 client.on_message = on_message
 
+# Set last will message
+client.will_set("gip/disconnected", '{ "name": "Count handler" }', 2, False)
+
 # Connect to the broker
-client.connect(broker_address, port, 60)
+client.connect(broker_address, port, 60, username, password)
 
 client.subscribe("gip/teller/counter")
 client.subscribe("gip/teller/new_device")
