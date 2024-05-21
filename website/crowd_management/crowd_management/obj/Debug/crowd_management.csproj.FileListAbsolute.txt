@@ -778,3 +778,6 @@ C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_managem
 C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.Owin.xml
 C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.Owin.Security.xml
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.AspNet.SignalR.Client.pdb
+C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\Microsoft.AspNet.SignalR.Client.xml

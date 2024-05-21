@@ -158,3 +158,51 @@ body {
 	width: 400px;
 	height: 400px;
 }
+
+.message-container {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	z-index: 1000;
+	font-family: Arial, sans-serif;
+}
+
+.message {
+	margin-bottom: 10px;
+	opacity: 0;
+	transition: opacity 0.5s, transform 0.5s;
+	position: relative;
+}
+
+	.message.show {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+.progress-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 0 0 5px 5px;
+	overflow: hidden;
+}
+
+.progress-bar-inner {
+	height: 100%;
+	width: 100%;
+	background-color: hsl(348, 100%, 61%);
+	animation: progress-animation linear;
+}
+
+@keyframes progress-animation {
+	0% {
+		width: 100%;
+	}
+
+	99.9% {
+		width: 0;
+	}
+}

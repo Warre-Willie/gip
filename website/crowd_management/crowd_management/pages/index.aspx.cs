@@ -6,11 +6,8 @@
 */
 
 using crowd_management.classes;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -25,6 +22,7 @@ public partial class Index : Page
 	//private readonly MqttRepository _mqttRepository = new MqttRepository();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private readonly LoginHandler _loginHandler = new LoginHandler();
+
 
 	private const string AccessZoneType = "access";
 	private const string CountZoneType = "count";
