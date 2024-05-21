@@ -1,3 +1,10 @@
+/*
+* File: logbook.aspx.cs
+* Author: Warre Willeme & Jesse UijtdeHaag
+* Date: 20-05-2024
+* Description: This file contains the code behind for the logbook page. This page is used to display logbook data.
+*/
+
 using System;
 using System.Data;
 using crowd_management.classes;

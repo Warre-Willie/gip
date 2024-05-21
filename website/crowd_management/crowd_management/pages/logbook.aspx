@@ -1,4 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="logbook.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
+﻿<!--
+File: rapport.aspx
+Author: Warre Willeme & Jesse UijtdeHaag
+Date: May 12, 2024
+Description: This file contains the HTML code for the logbook page.
+-->
+
+ Page Language="C#" AutoEventWireup="true" CodeBehind="logbook.aspx.cs" Inherits="crowd_management.pages.Logbook" %>
 
 <!DOCTYPE html>
 
