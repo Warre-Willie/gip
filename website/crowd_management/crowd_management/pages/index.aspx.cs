@@ -1,9 +1,10 @@
 ﻿/*
- * File: index.aspx.cs
- * Author: Warre Willeme & Jesse UijtdeHaag
- * Date: 12-05-2024
- * Description: This file contains the code behind for the index page. This page is used to display the heat map and zone information.
- */
+* File: index.aspx.cs
+* Author: Warre Willeme & Jesse UijtdeHaag
+* Date: 12-05-2024
+* Description: This file contains the code behind for the index page. This page is used to display the heat map and zone information.
+*/
+
 using crowd_management.classes;
 using Newtonsoft.Json;
 using System;
@@ -19,16 +20,19 @@ namespace crowd_management.pages;
 public partial class Index : Page
 {
 	#region Accessors and constants
-        private readonly DbRepository _dbRepository = new DbRepository();
-		private readonly MqttRepository _mqttRepository = new MqttRepository();
-		private readonly LogbookHandler _logbookHandler = new LogbookHandler();
-		private readonly LoginHandler _login = new LoginHandler();
 
-		private const string AccessZoneType = "access";
-		private const string CountZoneType = "count";
+	private readonly DbRepository _dbRepository = new DbRepository();
+	private readonly MqttRepository _mqttRepository = new MqttRepository();
+	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
+	private readonly LoginHandler _login = new LoginHandler();
+
+	private const string AccessZoneType = "access";
+	private const string CountZoneType = "count";
+
 	#endregion
 
-#region Load and unload page
+	#region Load and unload page
+
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		if (Session["User"] == null)
@@ -131,7 +135,7 @@ public partial class Index : Page
 
 			string color = GetColorClass(row["barometer_color"].ToString());
 
-			heatMapData[row["id"].ToString()] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
+			heatMapData[zoneId.ToString()] = new ZoneData { Name = row["name"].ToString(), Color = color, Percentage = percentage, Lockdown = lockdown };
 		}
 
 		return JsonConvert.SerializeObject(heatMapData);
@@ -363,10 +367,6 @@ public partial class Index : Page
 
 				CheckBox checkBox = new CheckBox();
 				checkBox.ID = "cbBadgeRightID" + row["id"];
-				int zoneId = Convert.ToInt32(Session["zoneID"]);
-				var tet = row["zone_id"];
-				var tet1 = row["name"];
-				var tet2 = Session["zoneID"];
 				if (row["zone_id"] != DBNull.Value && row["zone_id"].ToString() == Session["zoneID"].ToString())
 				{
 					// Check edit checkbox
@@ -559,7 +559,6 @@ public partial class Index : Page
 
 		divPage.Visible = false;
 		divLogin.Visible = true;
-
 	}
 
 	protected void btnLogin_Click(object sender, EventArgs e)

@@ -15,7 +15,7 @@ function searchReport() {
 	a = tickets.getElementsByTagName("div");
 
 	for (i = 0; i < a.length; i++) {
-		txtValue = a[i].textContent || a[i].innerText;
+		var txtValue = a[i].textContent || a[i].innerText;
 		if (txtValue.toUpperCase().indexOf(filter) > -1) {
 			a[i].style.display = "";
 		} else {

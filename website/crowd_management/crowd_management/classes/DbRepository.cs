@@ -8,68 +8,69 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using System.Diagnostics;
 
-namespace crowd_management.classes
+namespace crowd_management.classes;
+
+public class DbRepository
 {
-    public class DbRepository
-    {
-        #region Variables
-        private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
-        private readonly MySqlConnection _conn;
-			private readonly MySqlCommand _cmd = new MySqlCommand();
-        #endregion
+	#region Variables
 
-        #region Methods
+	private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
+	private readonly MySqlConnection _conn;
+	private readonly MySqlCommand _cmd = new MySqlCommand();
 
-        public DbRepository()
-        {
-            _conn = new MySqlConnection(ConnString);
-            _conn.Open();
-        }
+	#endregion
 
-        public void Dispose()
-        {
-            if (_conn != null)
-            {
-                _conn.Close();
-                _conn.Dispose();
-            }
-        }
+	#region Methods
 
-        public DataTable SqlExecuteReader(string query)
-        {
-            DataTable dt = new DataTable();
+	public DbRepository()
+	{
+		_conn = new MySqlConnection(ConnString);
+		_conn.Open();
+	}
 
-            try
-            {
-                _cmd.Connection = _conn;
-                _cmd.CommandText = query;
+	public void Dispose()
+	{
+		if (_conn != null)
+		{
+			_conn.Close();
+			_conn.Dispose();
+		}
+	}
 
-                MySqlDataReader reader = _cmd.ExecuteReader();
-                dt.Load(reader);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
+	public DataTable SqlExecuteReader(string query)
+	{
+		DataTable dt = new DataTable();
 
-            return dt;
-        }
+		try
+		{
+			_cmd.Connection = _conn;
+			_cmd.CommandText = query;
 
-        public void SqlExecute(string query)
-        {
-            try
-            {
-                _cmd.Connection = _conn;
-                _cmd.CommandText = query;
-                _cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-        }
-    #endregion  
-    }
+			MySqlDataReader reader = _cmd.ExecuteReader();
+			dt.Load(reader);
+		}
+		catch (Exception ex)
+		{
+			throw new Exception(ex.ToString());
+		}
+
+		return dt;
+	}
+
+	public void SqlExecute(string query)
+	{
+		try
+		{
+			_cmd.Connection = _conn;
+			_cmd.CommandText = query;
+			_cmd.ExecuteNonQuery();
+		}
+		catch (Exception ex)
+		{
+			throw new Exception(ex.ToString());
+		}
+	}
+
+	#endregion  
 }

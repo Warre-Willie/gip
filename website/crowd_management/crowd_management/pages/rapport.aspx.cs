@@ -8,7 +8,6 @@
 using crowd_management.classes;
 using System;
 using System.Data;
-using System.Diagnostics;
 using System.Web.UI.WebControls;
 using crowd_management.classes.report;
 using System.IO;
@@ -19,6 +18,7 @@ namespace crowd_management.pages;
 public partial class Rapport : System.Web.UI.Page
 {
 	#region Accessors and constants
+
 	private readonly DbRepository _dbRepository = new DbRepository();
 	private readonly HtmlToPdfConverter _htmlToPdfConverter = new HtmlToPdfConverter();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
@@ -27,7 +27,8 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
     private readonly LoginHandler _login = new LoginHandler();
-	#endregion
+
+		#endregion
 
 	#region Load and unload page
 
@@ -70,7 +71,6 @@ public partial class Rapport : System.Web.UI.Page
 		{
 			if (cbRapport01.Checked || cbRapport02.Checked || cbRapport03.Checked || cbRapport04.Checked)
 			{
-			
 				// Generate the pdf file with the filter data
 				string contentPath = Server.MapPath("~/reports/report_template_content_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
 				FileStream fs = File.Create(contentPath);
@@ -139,8 +139,8 @@ public partial class Rapport : System.Web.UI.Page
 		}
 		catch (Exception ex)
 		{
-            _logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
-        }
+			_logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
+		}
 	}
 
 	private void SetPdfList()
@@ -157,13 +157,13 @@ public partial class Rapport : System.Web.UI.Page
 
 			LinkButton pdfLink = new LinkButton();
 			pdfLink.Text = $"<span class='panel-icon report-panel-icon'><i class='fa-solid fa-file-pdf'></i></span>{row["friendly_name"]}";
-			pdfLink.ID = "rmv_" + row["file_name"];
+			pdfLink.ID = "pdf_" + row["file_name"];
 			pdfLink.Attributes["fileName"] = row["file_name"].ToString();
 			pdfLink.Click += pdfList_Click;
 
 			LinkButton deletePdfLink = new LinkButton();
 			deletePdfLink.Text = "<i class='fa-solid fa-trash-can'></i>";
-			deletePdfLink.ID = "pdf_" + row["file_name"];
+			deletePdfLink.ID = "rmv_" + row["file_name"];
 			deletePdfLink.Attributes["fileName"] = row["file_name"].ToString();
 			deletePdfLink.CssClass = "button is-small is-danger is-light is-rounded panel-button";
 			deletePdfLink.Click += btnDeletePdf_Click;
@@ -189,9 +189,9 @@ public partial class Rapport : System.Web.UI.Page
 		string query = $"DELETE FROM report_files WHERE file_name = '{file.Attributes["fileName"]}'";
 		_dbRepository.SqlExecute(query);
 
-		if (File.Exists(Server.MapPath($"~/rapports/{file.Attributes["fileName"]}")))
+		if (File.Exists(Server.MapPath($"~/reports/{file.Attributes["fileName"]}")))
 		{
-			File.Delete(Server.MapPath($"~/rapports/{file.Attributes["fileName"]}"));
+			File.Delete(Server.MapPath($"~/reports/{file.Attributes["fileName"]}"));
 		}
 
 		pdfContainer.Visible = false;
@@ -205,7 +205,7 @@ public partial class Rapport : System.Web.UI.Page
             return;
         }
 
-        SetPdfContainer(file.ID);
+		SetPdfContainer(file.Attributes["fileName"]);
     }
 
     private void SetPdfContainer(string filename)
@@ -266,5 +266,6 @@ public partial class Rapport : System.Web.UI.Page
         tbEmail.Text = "";
         tbWW.Text = "";
     }
-	#endregion
+
+		#endregion
 }

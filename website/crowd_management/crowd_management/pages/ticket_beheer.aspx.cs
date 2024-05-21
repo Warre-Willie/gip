@@ -11,10 +11,12 @@ namespace crowd_management.pages;
 public partial class TicketBeheer : System.Web.UI.Page
 {
     #region Accessors
-    private readonly DbRepository _dbRepository = new DbRepository();
+
+		private readonly DbRepository _dbRepository = new DbRepository();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
     private readonly LoginHandler _login = new LoginHandler();
-    #endregion
+
+		#endregion
 
     #region Load and unload page
 
@@ -45,7 +47,8 @@ public partial class TicketBeheer : System.Web.UI.Page
         // Close all open connections
         _dbRepository.Dispose();
     }
-    #endregion
+
+		#endregion
 
     #region Methods
 
@@ -183,8 +186,12 @@ public partial class TicketBeheer : System.Web.UI.Page
 
     protected void ticketList_Click(object sender, EventArgs e)
     {
-        LinkButton ticket = (LinkButton)sender;
-        Session["ticketID"] = ticket.ID;
+			if (sender is not LinkButton ticket)
+			{
+				return;
+			}
+
+			Session["ticketID"] = ticket.ID;
 
         // Only execute this if column is disabled
         if (divTicketPanel.Attributes["class"].IndexOf("column-disabled") != -1)
@@ -208,8 +215,12 @@ public partial class TicketBeheer : System.Web.UI.Page
 
     protected void cbBadgeRights_CheckedChanged(object sender, EventArgs e)
     {
-        CheckBox checkBox = (CheckBox)sender;
-        string badgeRightId = checkBox.ID.Replace("cbBadgeRightID", "");
+			if (sender is not CheckBox checkBox)
+			{
+				return;
+			}
+
+			string badgeRightId = checkBox.ID.Replace("cbBadgeRightID", "");
 
         if (checkBox.Checked)
         {
@@ -275,5 +286,6 @@ public partial class TicketBeheer : System.Web.UI.Page
         tbEmail.Text = "";
         tbWW.Text = "";
     }
-    #endregion
+
+		#endregion
 }

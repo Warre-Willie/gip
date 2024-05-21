@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 	function updateHeatMap() {
-		$.ajax({
+		window.$.ajax({
 			type: "POST",
 			url: "index.aspx/GetHeatMapData",
 			data: '{}',
@@ -12,17 +12,19 @@
 				var colorClasses = ["is-success", "is-warning", "is-danger"]; // Add all possible color classes
 
 				for (var id in data) {
-					$("#tagZoneName" + id).text(data[id].Name);
-					if (data[id].Percentage === -1) {
-						$("#tagZoneColor" + id).removeClass(colorClasses.join(" ")).addClass('is-' + data[id].Color);
-					} else {
-						$("#tagZonePercentage" + id).text(data[id].Percentage + "%");
-					}
+					if (Object.prototype.hasOwnProperty.call(data, id)) {
+						window.$("#tagZoneName" + id).text(data[id].Name);
+						if (data[id].Percentage === -1) {
+							window.$("#tagZoneColor" + id).removeClass(colorClasses.join(" ")).addClass('is-' + data[id].Color);
+						} else {
+							window.$("#tagZonePercentage" + id).text(data[id].Percentage + "%");
+						}
 
-					if (data[id].Lockdown) {
-						$("#zoneLockdown" + id).removeClass('fa-lock-open').addClass('fa-lock').show();
-					} else {
-						$("#zoneLockdown" + id).removeClass('fa-lock').addClass('fa-lock-open').show();
+						if (data[id].Lockdown) {
+							window.$("#zoneLockdown" + id).removeClass('fa-lock-open').addClass('fa-lock').show();
+						} else {
+							window.$("#zoneLockdown" + id).removeClass('fa-lock').addClass('fa-lock-open').show();
+						}
 					}
 				};
 			},

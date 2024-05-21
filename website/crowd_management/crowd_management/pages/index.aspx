@@ -471,13 +471,12 @@
 					</div>
 					<div class="field">
 						<p class="control">
-							<asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="button is-warning" OnClick="btnLogin_Click" />
+							<asp:Button ID="btnLogin" runat="server" Text="Login" Font-Bold="True" CssClass="button is-warning" OnClick="btnLogin_Click" />
 						</p>
 					</div>
 					<asp:Label ID="lbError" runat="server" Text="Ongeldige login poging" CssClass="has-text-danger" Visible="false"></asp:Label>
 				</div>
 			</div>
-			<asp:TextBox ID="tbHidden" runat="server" Visible="False"></asp:TextBox>
 		</div>
 	</form>
 </body>

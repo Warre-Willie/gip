@@ -234,7 +234,6 @@
     <Content Include="reports\ticket_progress_bar.html" />
     <Content Include="reports\barometer_zone_percentage.html" />
     <Content Include="reports\bulma.css" />
-    <Content Include="reports\print_rapport.html" />
     <Content Include="reports\report_template.html" />
     <Content Include="reports\style.css" />
     <Content Include="reports\zone_population.html" />
