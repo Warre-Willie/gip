@@ -243,7 +243,6 @@
     <Content Include="js\search_report.js" />
     <Content Include="js\search_ticket.js" />
     <Content Include="js\settings_panel.js" />
-    <Content Include="js\live_notifications.js" />
     <Content Include="js\ticket_modal.js" />
     <Content Include="pages\dummy\dummy-search.aspx" />
     <Content Include="pages\dummy\dummy-teller.aspx" />

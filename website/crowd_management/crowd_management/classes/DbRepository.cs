@@ -15,7 +15,7 @@ public class DbRepository
 {
 	#region Variables and accessors
 
-	private const string ConnString = "SERVER=localhost;DATABASE=crowd_management;UID=root;PASSWORD=gip-WJ;Max Pool Size=200;Connection Lifetime=300;";
+	private const string ConnString = "SERVER=192.168.80.81;DATABASE=crowd_management;UID=gip;PASSWORD=gip-WJ;";
 	private readonly MySqlConnection _conn;
 	private readonly MySqlCommand _cmd = new MySqlCommand();
 
@@ -26,9 +26,10 @@ public class DbRepository
 	public DbRepository()
 	{
 		_conn = new MySqlConnection(ConnString);
+		_conn.Open();
 		try
 		{
-			_conn.Open();
+			
 		}
 		catch (Exception e)
 		{

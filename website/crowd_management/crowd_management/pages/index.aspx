@@ -25,7 +25,6 @@
 	<script src="../js/settings_panel.js"></script>
 	<script src="/signalr/hubs"></script>
 	<script src="../js/live_update.js"></script>
-	<script src="../js/live_notifications.js"></script>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css" />

@@ -25,9 +25,9 @@ static class Program
 	private static DbRepository _dbRepository;
 
 	// MQTT configuration
-	private static readonly string _mqttBrokerHost = "192.169.0.101";
-	private static readonly string _mqttUsername = "";
-	private static readonly string _mqttPassword = "";
+	private static readonly string _mqttBrokerHost = "192.168.80.81";
+	private static readonly string _mqttUsername = "gip";
+	private static readonly string _mqttPassword = "gip-WJ";
 	private static readonly string _mqttTopic = "gip/disconnected";
 
 	static async Task Main()
@@ -132,16 +132,10 @@ static class Program
 				var mqttClientOptions = new MqttClientOptionsBuilder()
 					.WithTcpServer(_mqttBrokerHost)
 					.WithCredentials(username, password)
-					.WithTls(tls =>
-					{
-						tls.UseTls = true;
-						tls.AllowUntrustedCertificates = true;
-					})
 					.WithCleanSession()
 					.Build();
 
 				await _mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
-				Console.WriteLine("Connected to the MQTT broker with TLS encryption and accepting all certificates.");
 			}
 			catch (Exception ex)
 			{
