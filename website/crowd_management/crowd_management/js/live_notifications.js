@@ -1,4 +1,11 @@
-﻿$(function () {
+﻿/*
+ * File: live-notifications.js
+ * Author: Warre Willeme & Jesse UijtdeHaag
+ * Date: May 21, 2024
+ * Description: This file contains the JavaScript code for receiving the live notifications.
+ */
+
+$(function () {
 	const messageContainer = document.createElement('div');
 	messageContainer.classList.add('message-container');
 	document.body.appendChild(messageContainer);

@@ -12,25 +12,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
 	<title>Crowd management</title>
 
+	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
 	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
 	
+	<!-- JS -->
 	<script src="../js/SignalR/jquery-1.7.min.js"></script>
 	<script src="../js/SignalR/jquery.signalR-2.4.3.min.js"></script>
 	<script src="../js/image_map.js"></script>
+	<script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 	<script src="../js/settings_panel.js"></script>
-	<script src="../js/search_ticket.js"></script>
-	<script src="../js/ticket_modal.js"></script>
-
 	<script src="/signalr/hubs"></script>
 	<script src="../js/live_update.js"></script>
 	<script src="../js/live_notifications.js"></script>
-	<script src="https://res.cloudinary.com/positionrelativ/raw/upload/v1492377595/jquery.rwdImageMaps_lq5sye.js"></script>
 
-	
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css" />
 	<link rel="stylesheet" href="../css/style.css" />

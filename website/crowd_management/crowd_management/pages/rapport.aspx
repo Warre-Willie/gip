@@ -16,6 +16,13 @@
 
 	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
 	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
+	
+	<!-- JS -->
+	<script src="../js/SignalR/jquery-1.7.min.js"></script>
+	<script src="../js/SignalR/jquery.signalR-2.4.3.min.js"></script>
+	<script src="../js/search_report.js"></script>
+	<script src="/signalr/hubs"></script>
+	<script src="../js/live_notifications.js"></script>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css">
@@ -151,9 +158,6 @@
 			<div class="footer has-background-white ">
 				Ontworpen door Warre Willeme & Jesse UijtdeHaag
 			</div>
-
-			<!-- Loading JavaScript at the end of the page for better performance-->
-			<script src="../js/search_report.js"></script>
 		</div>
 		<div id="divLogin" runat="server">
 			<div class="login-container">

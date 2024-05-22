@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+* File: Program.cs
+* Author: Warre Willeme & Jesse UijtdeHaag
+* Date: 20-05-2024
+* Description: This file contains the and logic to update the heatmap and send disconnect notifications live.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -18,9 +25,9 @@ static class Program
 	private static DbRepository _dbRepository;
 
 	// MQTT configuration
-	private static readonly string _mqttBrokerHost = "567c45d531f2488ebee03bbbf8b02f1a.s1.eu.hivemq.cloud";
-	private static readonly string _mqttUsername = "Willeme";
-	private static readonly string _mqttPassword = "VickW2607-hi";
+	private static readonly string _mqttBrokerHost = "192.169.0.101";
+	private static readonly string _mqttUsername = "";
+	private static readonly string _mqttPassword = "";
 	private static readonly string _mqttTopic = "gip/disconnected";
 
 	static async Task Main()
