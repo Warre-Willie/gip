@@ -199,10 +199,10 @@ body {
 
 @keyframes progress-animation {
 	0% {
-		width: 100%;
+		width: 0;
 	}
 
-	99.9% {
-		width: 0;
+	100% {
+		width: 100%;
 	}
 }

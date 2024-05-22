@@ -31,22 +31,6 @@ public partial class Index : Page
 
 	#region Load and unload page
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (Session["User"] == null)
-		{
-			divPage.Visible = false;
-			divLogin.Visible = true;
-		}
-		else
-		{
-			divPage.Visible = true;
-			divLogin.Visible = false;
-			LoadHeatMap();
-			LoadZonePanel();
-		}
-	}
-
 	protected void Page_PreRender(object sender, EventArgs e)
 	{
 		if (Session["User"] == null)
