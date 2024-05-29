@@ -11,457 +11,466 @@ namespace crowd_management.pages
 {
 
 
-	public partial class Index
-	{
+  public partial class Index
+  {
 
-		/// <summary>
-		/// form1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+    /// <summary>
+    /// form1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
-		/// <summary>
-		/// divPage control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPage;
+    /// <summary>
+    /// hiddenMessageField control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField hiddenMessageField;
 
-		/// <summary>
-		/// btnLogout control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+    /// <summary>
+    /// divPage control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPage;
 
-		/// <summary>
-		/// imgHeatMap control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.ImageMap imgHeatMap;
+    /// <summary>
+    /// btnLogout control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
-		/// <summary>
-		/// zoneLockdown1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown1;
+    /// <summary>
+    /// imgHeatMap control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.ImageMap imgHeatMap;
 
-		/// <summary>
-		/// tagZoneColor1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor1;
+    /// <summary>
+    /// zoneLockdown1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown1;
 
-		/// <summary>
-		/// tagZoneName1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZoneName1;
+    /// <summary>
+    /// tagZoneColor1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor1;
 
-		/// <summary>
-		/// tagZonePercentage1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZonePercentage1;
+    /// <summary>
+    /// tagZoneName1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZoneName1;
 
-		/// <summary>
-		/// zoneLockdown2 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown2;
+    /// <summary>
+    /// tagZonePercentage1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZonePercentage1;
 
-		/// <summary>
-		/// tagZoneColor2 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor2;
+    /// <summary>
+    /// zoneLockdown2 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown2;
 
-		/// <summary>
-		/// tagZoneName2 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZoneName2;
+    /// <summary>
+    /// tagZoneColor2 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor2;
 
-		/// <summary>
-		/// zoneLockdown3 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown3;
+    /// <summary>
+    /// tagZoneName2 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZoneName2;
 
-		/// <summary>
-		/// tagZoneColor3 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor3;
+    /// <summary>
+    /// zoneLockdown3 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown3;
 
-		/// <summary>
-		/// tagZoneName3 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZoneName3;
+    /// <summary>
+    /// tagZoneColor3 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor3;
 
-		/// <summary>
-		/// zoneLockdown4 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown4;
+    /// <summary>
+    /// tagZoneName3 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZoneName3;
 
-		/// <summary>
-		/// tagZoneColor4 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor4;
+    /// <summary>
+    /// zoneLockdown4 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl zoneLockdown4;
 
-		/// <summary>
-		/// tagZoneName4 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZoneName4;
+    /// <summary>
+    /// tagZoneColor4 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagZoneColor4;
 
-		/// <summary>
-		/// tagZonePercentage4 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label tagZonePercentage4;
+    /// <summary>
+    /// tagZoneName4 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZoneName4;
 
-		/// <summary>
-		/// divInfoPanel control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoPanel;
+    /// <summary>
+    /// tagZonePercentage4 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label tagZonePercentage4;
 
-		/// <summary>
-		/// spanZoneName control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneName;
+    /// <summary>
+    /// divInfoPanel control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoPanel;
 
-		/// <summary>
-		/// btnZoneSettings control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnZoneSettings;
+    /// <summary>
+    /// spanZoneName control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneName;
 
-		/// <summary>
-		/// divInfoZoneCardsCount control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoZoneCardsCount;
+    /// <summary>
+    /// btnZoneSettings control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.LinkButton btnZoneSettings;
 
-		/// <summary>
-		/// tagCurrentStatus control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatus;
+    /// <summary>
+    /// divInfoZoneCardsCount control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoZoneCardsCount;
 
-		/// <summary>
-		/// btnBarManGreen control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Button btnBarManGreen;
+    /// <summary>
+    /// tagCurrentStatus control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatus;
 
-		/// <summary>
-		/// btnBarManOrange control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Button btnBarManOrange;
+    /// <summary>
+    /// btnBarManGreen control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnBarManGreen;
 
-		/// <summary>
-		/// btnBarManRed control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Button btnBarManRed;
+    /// <summary>
+    /// btnBarManOrange control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnBarManOrange;
 
-		/// <summary>
-		/// cbBarLock control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox cbBarLock;
+    /// <summary>
+    /// btnBarManRed control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnBarManRed;
 
-		/// <summary>
-		/// dbZoneLogbookFilter control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList dbZoneLogbookFilter;
+    /// <summary>
+    /// cbBarLock control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.CheckBox cbBarLock;
 
-		/// <summary>
-		/// tbodyLogbook control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbodyLogbook;
+    /// <summary>
+    /// dbZoneLogbookFilter control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.DropDownList dbZoneLogbookFilter;
 
-		/// <summary>
-		/// divInfoZoneCardsAccess control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoZoneCardsAccess;
+    /// <summary>
+    /// tbodyLogbook control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbodyLogbook;
 
-		/// <summary>
-		/// cbAccessLock control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox cbAccessLock;
+    /// <summary>
+    /// divInfoZoneCardsAccess control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoZoneCardsAccess;
 
-		/// <summary>
-		/// tableBadgeRightsView control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlTable tableBadgeRightsView;
+    /// <summary>
+    /// cbAccessLock control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.CheckBox cbAccessLock;
 
-		/// <summary>
-		/// divSettingsPanel control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsPanel;
+    /// <summary>
+    /// tableBadgeRightsView control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlTable tableBadgeRightsView;
 
-		/// <summary>
-		/// spanZoneNameSettings control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneNameSettings;
+    /// <summary>
+    /// divSettingsPanel control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsPanel;
 
-		/// <summary>
-		/// btnExitZoneSettings control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnExitZoneSettings;
+    /// <summary>
+    /// spanZoneNameSettings control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanZoneNameSettings;
 
-		/// <summary>
-		/// btnSaveZoneSettings control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnSaveZoneSettings;
+    /// <summary>
+    /// btnExitZoneSettings control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.LinkButton btnExitZoneSettings;
 
-		/// <summary>
-		/// tbZoneName control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbZoneName;
+    /// <summary>
+    /// btnSaveZoneSettings control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.LinkButton btnSaveZoneSettings;
 
-		/// <summary>
-		/// divSettingsZoneCardsCount control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsCount;
+    /// <summary>
+    /// tbZoneName control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbZoneName;
 
-		/// <summary>
-		/// tagCurrentStatusSettings control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatusSettings;
+    /// <summary>
+    /// divSettingsZoneCardsCount control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsCount;
 
-		/// <summary>
-		/// tbMaxPeople control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbMaxPeople;
+    /// <summary>
+    /// tagCurrentStatusSettings control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl tagCurrentStatusSettings;
 
-		/// <summary>
-		/// tbBarThresGreen control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbBarThresGreen;
+    /// <summary>
+    /// tbMaxPeople control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbMaxPeople;
 
-		/// <summary>
-		/// tbBarThresOrange control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbBarThresOrange;
+    /// <summary>
+    /// tbBarThresGreen control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbBarThresGreen;
 
-		/// <summary>
-		/// tbEditPeopleCount control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbEditPeopleCount;
+    /// <summary>
+    /// tbBarThresOrange control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbBarThresOrange;
 
-		/// <summary>
-		/// divSettingsZoneCardsAccess control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsAccess;
+    /// <summary>
+    /// tbEditPeopleCount control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbEditPeopleCount;
 
-		/// <summary>
-		/// divBadgeRightsEdit control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBadgeRightsEdit;
+    /// <summary>
+    /// divSettingsZoneCardsAccess control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSettingsZoneCardsAccess;
 
-		/// <summary>
-		/// divLogin control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogin;
+    /// <summary>
+    /// divBadgeRightsEdit control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBadgeRightsEdit;
 
-		/// <summary>
-		/// tbEmail control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbEmail;
+    /// <summary>
+    /// divLogin control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogin;
 
-		/// <summary>
-		/// tbWW control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox tbWW;
+    /// <summary>
+    /// tbEmail control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbEmail;
 
-		/// <summary>
-		/// btnLogin control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Button btnLogin;
+    /// <summary>
+    /// tbWW control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox tbWW;
 
-		/// <summary>
-		/// lbError control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lbError;
-	}
+    /// <summary>
+    /// btnLogin control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnLogin;
+
+    /// <summary>
+    /// lbError control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lbError;
+  }
 }

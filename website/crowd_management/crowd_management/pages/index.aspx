@@ -16,7 +16,7 @@
 
 	<link rel="shortcut icon" href="../image/favicon.png" type="image/x-icon" />
 	<link href="../FontAwesome/css/all.css" rel="stylesheet" />
-	
+
 	<!-- JS -->
 	<script src="../js/SignalR/jquery-1.7.min.js"></script>
 	<script src="../js/SignalR/jquery.signalR-2.4.3.min.js"></script>
@@ -33,6 +33,7 @@
 </head>
 <body onresize="checkCoordsChange()">
 	<form id="form1" runat="server">
+		<asp:HiddenField ID="hiddenMessageField" runat="server" />
 		<div id="divPage" runat="server">
 			<nav class="navbar is-link" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
