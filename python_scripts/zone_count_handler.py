@@ -126,7 +126,7 @@ client = mqtt.Client(client_id="", clean_session=True)
 client.on_message = on_message
 
 # Set last will message
-client.will_set("gip/disconnected", '{ "name": "Count handler" }', 2, False)
+client.will_set("gip/disconnectedServer", '{ "name": "Count handler server" }', 2, False)
 
 # Connect to the broker
 client.connect(broker_address, port, 60, username, password)

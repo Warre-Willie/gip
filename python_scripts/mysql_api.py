@@ -62,7 +62,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client(client_id="", clean_session=True)
 
 # Set last will message
-client.will_set("gip/disconnected", '{ "name": "MySQL API" }', 2, False)
+client.will_set("gip/disconnectedServer", '{ "name": "MySQL API" }', 2, False)
 
 # Set callback functions
 client.on_message = on_message

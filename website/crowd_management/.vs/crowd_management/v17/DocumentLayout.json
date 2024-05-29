@@ -1,10 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\warre\\Documents\\Programmeren\\gip\\website\\crowd_management\\",
+  "WorkspaceRootPath": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\warre\\documents\\programmeren\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\index.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\js\\live_update.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\pages\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\liveupdatehub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\liveupdatehub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|c:\\users\\jesse uijtdehaag\\documents\\gip\\website\\crowd_management\\crowd_management\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F249BB-E875-4662-89AB-A97AF184A820}|crowd_management\\crowd_management.csproj|solutionrelative:crowd_management\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,25 +30,73 @@
       "DocumentGroups": [
         {
           "DockedHeight": 90,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.aspx",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx",
+              "RelativeDocumentMoniker": "crowd_management\\pages\\index.aspx",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx",
+              "RelativeToolTip": "crowd_management\\pages\\index.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-29T12:33:17.487Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "Startup.cs",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\Startup.cs",
+              "RelativeDocumentMoniker": "crowd_management\\Startup.cs",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\Startup.cs",
+              "RelativeToolTip": "crowd_management\\Startup.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-29T12:24:48.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LiveUpdateHub.cs",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\LiveUpdateHub.cs",
+              "RelativeDocumentMoniker": "crowd_management\\LiveUpdateHub.cs",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\LiveUpdateHub.cs",
+              "RelativeToolTip": "crowd_management\\LiveUpdateHub.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-29T12:24:42.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "index.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx.cs",
+              "RelativeDocumentMoniker": "crowd_management\\pages\\index.aspx.cs",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\pages\\index.aspx.cs",
+              "RelativeToolTip": "crowd_management\\pages\\index.aspx.cs",
+              "ViewState": "AQIAAMoBAAAAAAAAAAAawOUBAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-29T12:23:31.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "live_update.js",
-              "DocumentMoniker": "C:\\Users\\warre\\Documents\\Programmeren\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js",
+              "DocumentMoniker": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js",
               "RelativeDocumentMoniker": "crowd_management\\js\\live_update.js",
-              "ToolTip": "C:\\Users\\warre\\Documents\\Programmeren\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js*",
-              "RelativeToolTip": "crowd_management\\js\\live_update.js*",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABkAAAAaAAAA",
+              "ToolTip": "C:\\Users\\Jesse UijtdeHaag\\Documents\\gip\\website\\crowd_management\\crowd_management\\js\\live_update.js",
+              "RelativeToolTip": "crowd_management\\js\\live_update.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-05-22T23:36:31.314Z",
               "EditorCaption": ""

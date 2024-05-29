@@ -28,6 +28,7 @@ static class Program
 	private static readonly string _mqttBrokerHost = "192.168.80.81";
 	private static readonly string _mqttUsername = "gip";
 	private static readonly string _mqttPassword = "gip-WJ";
+	private static readonly string _mqttTopicServer = "gip/disconnectedServer";
 	private static readonly string _mqttTopic = "gip/disconnected";
 
 	static async Task Main()
@@ -44,6 +45,7 @@ static class Program
 		_mqttClient = mqttFactory.CreateMqttClient();
 		await ConnectToMqttBroker(_mqttUsername, _mqttPassword);
 		await SubscribeToTopic(_mqttTopic);
+        await SubscribeToTopic(_mqttTopicServer);
 
 		_mqttClient.ApplicationMessageReceivedAsync += HandleMqttMessageReceived;
 
@@ -161,13 +163,25 @@ static class Program
 	private static async Task HandleMqttMessageReceived(MqttApplicationMessageReceivedEventArgs args)
 	{
 		string message = args.ApplicationMessage.ConvertPayloadToString();
-		dynamic jsonMessage = JsonConvert.DeserializeObject(message);
+        string topic = args.ApplicationMessage.Topic;
+        dynamic jsonMessage = JsonConvert.DeserializeObject(message);
 
 		Console.WriteLine(jsonMessage?["name"]);
 		// Send MQTT message to SignalR Hub
-		string notificaton = $"Verbinding met <b>{jsonMessage?["name"]}</b> is verbroken";
-		await _hubProxy.Invoke("Send", "Notification", notificaton);
-	}
+        if (topic == _mqttTopic)
+        {
+			DataTable zones = _dbRepository.SqlExecuteReader($"SELECT name FROM zones WHERE id = {jsonMessage?["id"]}");
+
+			string zoneName = zones.Rows[0]["name"].ToString();
+            string notificaton = $"Verbinding met <b>{zoneName}</b> is verbroken";
+            await _hubProxy.Invoke("Send", "Notification", notificaton);
+        }
+        else if (topic == _mqttTopicServer)
+        {
+            string notificaton = $"Verbinding met <b>{jsonMessage?["name"]}</b> is verbroken";
+            await _hubProxy.Invoke("Send", "Notification", notificaton);
+        }
+    }
 
 	private class ZoneData
 	{

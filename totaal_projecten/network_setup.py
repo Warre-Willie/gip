@@ -33,12 +33,12 @@ def connect_mqtt(callback, device_name):
     if network_config["isDevelopment"]:
         server = network_config['mqtt']["mqttDev"]['broker']
         port = network_config['mqtt']["mqttDev"]['port']
-        user = network_config['mqtt']["mqttDev"]['user']
+        user = network_config['mqtt']["mqttDev"]['username']
         password = network_config['mqtt']["mqttDev"]['password']
     else:
         server = network_config['mqtt']["mqttProd"]['broker']
         port = network_config['mqtt']["mqttProd"]['port']
-        user = network_config['mqtt']["mqttProd"]['user']
+        user = network_config['mqtt']["mqttProd"]['username']
         password = network_config['mqtt']["mqttProd"]['password']
         
     client = MQTTClient(b"", server, port, user, password)
