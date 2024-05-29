@@ -8,6 +8,10 @@
 $(function () {
 	var chat = window.$.connection.liveUpdateHub;
 
+	const messageContainer = document.createElement('div');
+	messageContainer.classList.add('message-container');
+	document.body.appendChild(messageContainer);
+
 	chat.client.broadcastMessage = function (name, message) {
 		console.log(name, message);
 		if (name === "HeatMap") {

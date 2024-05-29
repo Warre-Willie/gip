@@ -28,8 +28,8 @@ static class Program
 	private static readonly string _mqttBrokerHost = "192.168.80.81";
 	private static readonly string _mqttUsername = "gip";
 	private static readonly string _mqttPassword = "gip-WJ";
-	private static readonly string _mqttTopicServer = "gip/disconnectedServer";
-	private static readonly string _mqttTopic = "gip/disconnected";
+	private static readonly string _mqttTopicServer = "gip/disconnected/server";
+	private static readonly string _mqttTopicCounter = "gip/disconnected/counter";
 
 	static async Task Main()
 	{
@@ -44,8 +44,8 @@ static class Program
 		var mqttFactory = new MqttFactory();
 		_mqttClient = mqttFactory.CreateMqttClient();
 		await ConnectToMqttBroker(_mqttUsername, _mqttPassword);
-		await SubscribeToTopic(_mqttTopic);
-        await SubscribeToTopic(_mqttTopicServer);
+		await SubscribeToTopic(_mqttTopicCounter);
+		await SubscribeToTopic(_mqttTopicServer);
 
 		_mqttClient.ApplicationMessageReceivedAsync += HandleMqttMessageReceived;
 
@@ -163,25 +163,29 @@ static class Program
 	private static async Task HandleMqttMessageReceived(MqttApplicationMessageReceivedEventArgs args)
 	{
 		string message = args.ApplicationMessage.ConvertPayloadToString();
-        string topic = args.ApplicationMessage.Topic;
-        dynamic jsonMessage = JsonConvert.DeserializeObject(message);
+		string topic = args.ApplicationMessage.Topic;
+		dynamic jsonMessage = JsonConvert.DeserializeObject(message);
 
-		Console.WriteLine(jsonMessage?["name"]);
 		// Send MQTT message to SignalR Hub
-        if (topic == _mqttTopic)
-        {
+		if (topic == _mqttTopicCounter)
+		{
 			DataTable zones = _dbRepository.SqlExecuteReader($"SELECT name FROM zones WHERE id = {jsonMessage?["id"]}");
 
 			string zoneName = zones.Rows[0]["name"].ToString();
-            string notificaton = $"Verbinding met <b>{zoneName}</b> is verbroken";
-            await _hubProxy.Invoke("Send", "Notification", notificaton);
-        }
-        else if (topic == _mqttTopicServer)
-        {
-            string notificaton = $"Verbinding met <b>{jsonMessage?["name"]}</b> is verbroken";
-            await _hubProxy.Invoke("Send", "Notification", notificaton);
-        }
-    }
+			var notification = jsonMessage?["isExit"] == true
+				? $"Verbinding met <b>{zoneName} uitgang</b> is verbroken"
+				: $"Verbinding met <b>{zoneName} ingang</b> is verbroken";
+
+			await _hubProxy.Invoke("Send", "Notification", notification);
+		}
+		else if (topic == _mqttTopicServer)
+		{
+			string notification = $"Verbinding met <b>{jsonMessage?["name"]}</b> is verbroken";
+			await _hubProxy.Invoke("Send", "Notification", notification);
+		}
+
+		Console.WriteLine($"Received message from topic {topic}: {message}");
+	}
 
 	private class ZoneData
 	{
