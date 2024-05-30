@@ -266,6 +266,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\ENotificationCategories.cs" />
+    <Compile Include="classes\NotificationHandler.cs" />
     <Compile Include="LiveUpdateHub.cs" />
     <Compile Include="classes\DbRepository.cs" />
     <Compile Include="classes\HtmlToPdfConverter.cs" />

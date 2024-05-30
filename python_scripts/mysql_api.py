@@ -62,7 +62,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client(client_id="", clean_session=True)
 
 # Set last will message
-client.will_set("gip/disconnected/server", '{ "name": "MySQL API" }', 2, False)
+client.will_set("gip/notification", '{ "isCounter": false, "message": "Verbinding met <b>MySQL API</b> verloren", "category": "Alert" }', 2, False)
 
 # Set callback functions
 client.on_message = on_message
@@ -71,6 +71,7 @@ client.on_message = on_message
 try:
     client.username_pw_set(username, password)
     client.connect(broker_address, port, 60)
+    client.publish("gip/notification", '{ "isCounter": false, "message": "Verbinding met <b>MySQL API</b> gemaakt", "category": "Info" }')
 except:
     print("MQTT connection failed")
 

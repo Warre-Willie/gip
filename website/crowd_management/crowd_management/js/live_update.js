@@ -12,24 +12,22 @@ $(function () {
 	messageContainer.classList.add('message-container');
 	document.body.appendChild(messageContainer);
 
-	
-	try {
-		var messageField = window.$("#hiddenMessageField");
-		const messages = JSON.parse(messageField.val())["messages"];
+
+	var messageField = window.$("#hiddenMessageField");
+
+	if (messageField.val() !== "") {
+		const messages = JSON.parse(messageField.val());
 		for (let i = 0; i < messages.length; i++) {
 			addNotification(messages[i]);
 		};
 		messageField.val("");
-
-	} catch (e) {
 	}
 
 
 	chat.client.broadcastMessage = function (name, message) {
-		console.log(name, message);
+		var data = JSON.parse(message);
+		console.log(data);
 		if (name === "HeatMap") {
-			var data = JSON.parse(message);
-
 			var colorClasses = ["is-success", "is-warning", "is-danger"]; // Add all possible color classes
 
 			for (var id in data) {
@@ -49,22 +47,37 @@ $(function () {
 			};
 		};
 		if (name === "Notification") {
-			addNotification(message);
+			addNotification(data);
 		};
 	};
 
+	function getCategoryColor(category) {
+		switch (category.toLowerCase()) {
+			case "alert":
+				return "is-danger";
+			case "warning":
+				return "is-warning";
+			default:
+				return "is-link";
+		}
+	}
+
 	function addNotification(message) {
+		const messageText = message["message"];
+		const messageCategory = message["category"];
+
 		const messageElement = document.createElement('article');
-		messageElement.classList.add('message', 'is-danger');
+		messageElement.classList.add('message', getCategoryColor(messageCategory));
 
 		const messageBody = document.createElement('div');
 		messageBody.classList.add('message-body');
-		messageBody.innerHTML = message;
+		messageBody.innerHTML = messageText;
 
 		const progressBar = document.createElement('div');
 		progressBar.classList.add('progress-bar');
 		const progressBarInner = document.createElement('div');
 		progressBarInner.classList.add('progress-bar-inner');
+		progressBarInner.classList.add(messageCategory.toLowerCase());
 
 		progressBar.appendChild(progressBarInner);
 		messageElement.appendChild(messageBody);

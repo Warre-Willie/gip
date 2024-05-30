@@ -125,7 +125,7 @@ else:
     client = connect_mqtt(callback, "Zone" + str(zone_id) + "uitgang")
 
 # Set last will message
-client.will_set("gip/disconnected/counter", '{ "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) +'  }', 2, False)
+client.will_set("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) +', "category": "Info" }', 2, False)
 
 
 # subscribe to topic

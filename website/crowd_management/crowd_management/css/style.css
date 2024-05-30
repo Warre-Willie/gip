@@ -193,9 +193,20 @@ body {
 .progress-bar-inner {
 	height: 100%;
 	width: 100%;
-	background-color: hsl(348, 100%, 61%);
 	animation: progress-animation linear;
 }
+
+	.progress-bar-inner.alert {
+		background-color: hsl(348, 100%, 61%);
+	}
+
+	.progress-bar-inner.warning {
+		background-color: hsl(48, 100%, 67%);
+	}
+
+	.progress-bar-inner.info {
+		background-color: hsl(217, 71%, 53%);
+	}
 
 @keyframes progress-animation {
 	0% {

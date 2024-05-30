@@ -12,7 +12,6 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace crowd_management.pages;
 
@@ -24,7 +23,7 @@ public partial class Index : Page
 	private readonly MqttRepository _mqttRepository = new MqttRepository();
 	private readonly LogbookHandler _logbookHandler = new LogbookHandler();
 	private readonly LoginHandler _loginHandler = new LoginHandler();
-
+	private readonly NotificationHandler _notificationHandler = new NotificationHandler();
 
 	private const string AccessZoneType = "access";
 	private const string CountZoneType = "count";
@@ -380,7 +379,7 @@ public partial class Index : Page
 					string.IsNullOrEmpty(tbBarThresOrange.Text) ||
 					string.IsNullOrEmpty(tbEditPeopleCount.Text))
       {
-        AddNotification("Not all fields are filled in.");
+        _notificationHandler.AddNotification("Gelieve alle velden in te vullen.", ENotificationCategories.Warning, this);
         return;
 			}
 			else
@@ -493,37 +492,6 @@ public partial class Index : Page
 	{
 		_loginHandler.LoginUser(this);
 	}
-
-  private void AddNotification(string message)
-  {
-    try
-    {
-      JObject notificationObject;
-
-      if (string.IsNullOrEmpty(hiddenMessageField.Value))
-      {
-        notificationObject = new JObject();
-      }
-      else
-      {
-        notificationObject = JObject.Parse(hiddenMessageField.Value);
-      }
-
-      JArray notificationsArray = notificationObject["messages"] as JArray ?? new JArray();
-
-      // Add the new message to the "messages" array
-      notificationsArray.Add(message);
-
-      notificationObject["messages"] = notificationsArray;
-
-      string notificationString = JsonConvert.SerializeObject(notificationObject);
-      hiddenMessageField.Value = notificationString;
-    }
-    catch (JsonException e)
-    {
-      hiddenMessageField.Value = hiddenMessageField.Value;
-    }
-  }
 
   #endregion
 }

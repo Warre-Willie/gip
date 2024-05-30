@@ -126,12 +126,13 @@ client = mqtt.Client(client_id="", clean_session=True)
 client.on_message = on_message
 
 # Set last will message
-client.will_set("gip/disconnected/server", '{ "name": "Count handler server" }', 2, False)
+client.will_set("gip/notification", '{ "isCounter": false, "message": "Verbinding met <b>Count handler server</b> verloren", "category": "Alert" }', 2, False)
 
 # Connect to the broker
 try:
     client.username_pw_set(username, password)
     client.connect(broker_address, port, 60)
+    client.publish("gip/notification", '{ "isCounter": false, "message": "Verbinding met <b>Count handler server</b> gemaakt", "category": "Info" }')
 except:
     print("MQTT connection failed")
 
