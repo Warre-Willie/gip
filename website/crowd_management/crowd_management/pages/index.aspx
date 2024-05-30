@@ -80,10 +80,10 @@
 										<!-- Visible imageMap with id for adjusting the heatmap text -->
 										<img src="../image/floor_plan.png" usemap="#heatMap" alt="Floor Plan" />
 										<map name="heatMap" id="heatMap">
-											<area id="HeatMapZone1" shape="rect" coords="280,37,523,246" onclick="__doPostBack('imgHeatMap','0')" />
-											<area id="HeatMapZone2" shape="rect" coords="280,245,425,337" onclick="__doPostBack('imgHeatMap','1')" />
-											<area id="HeatMapZone3" shape="rect" coords="644,36,840,187" onclick="__doPostBack('imgHeatMap','2')" />
-											<area id="HeatMapZone4" shape="rect" coords="688,202,955,335" onclick="__doPostBack('imgHeatMap','3')" />
+											<area id="HeatMapZone1" shape="rect" coords="113,32,397,319" onclick="__doPostBack('imgHeatMap','0')" />
+											<area id="HeatMapZone2" shape="rect" coords="113,320,257,445" onclick="__doPostBack('imgHeatMap','1')" />
+											<area id="HeatMapZone3" shape="rect" coords="726,36,1149,187" onclick="__doPostBack('imgHeatMap','2')" />
+											<area id="HeatMapZone4" shape="rect" coords="735,216,1027,416" onclick="__doPostBack('imgHeatMap','3')" />
 										</map>
 										<!-- Hidden imageMap for triggering the backend -->
 										<asp:ImageMap ID="imgHeatMap" ImageUrl="~/image/floor_plan.png" runat="server" HotSpotMode="PostBack" OnClick="imgHeatMap_Click" class="hide">
@@ -97,7 +97,7 @@
 												PostBackValue="4"></asp:RectangleHotSpot>
 										</asp:ImageMap>
 
-										<div id="divHeatMapZone1" class="heatMapZone hide" data-first_load>
+										<div id="divHeatMapZone1" class="heat-map-zone hide" data-first_load>
 											<div class="zone-tile">
 												<div class="icons">
 													<span class="icon is-large">
@@ -120,7 +120,7 @@
 												</div>
 											</div>
 										</div>
-										<div id="divHeatMapZone2" class="heatMapZone hide" data-first_load>
+										<div id="divHeatMapZone2" class="heat-map-zone hide" data-first_load>
 											<div class="zone-tile">
 												<div class="icons">
 													<span class="icon is-large">
@@ -139,7 +139,7 @@
 												</div>
 											</div>
 										</div>
-										<div id="divHeatMapZone3" class="heatMapZone hide" data-first_load>
+										<div id="divHeatMapZone3" class="heat-map-zone hide" data-first_load>
 											<div class="zone-tile">
 												<div class="icons">
 													<span class="icon is-large">
@@ -158,7 +158,7 @@
 												</div>
 											</div>
 										</div>
-										<div id="divHeatMapZone4" class="heatMapZone hide" data-first_load>
+										<div id="divHeatMapZone4" class="heat-map-zone hide" data-first_load>
 											<div class="zone-tile">
 												<div class="icons">
 													<span class="icon is-large">

@@ -108,7 +108,7 @@ body {
 	text-align: center;
 }
 
-.heatMapZone {
+.heat-map-zone {
 	position: absolute;
 	pointer-events: none;
 	display: flex;
