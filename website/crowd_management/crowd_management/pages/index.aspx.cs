@@ -149,42 +149,51 @@ public partial class Index : Page
 
 	private void LoadZonePanel()
 	{
-		if (Session["zoneID"] == null)
-		{
-			return;
-		}
+        try
+        {
+            if (Session["zoneID"] == null)
+            {
+                return;
+            }
 
-		string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
-		DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
+            string query = $"SELECT * FROM zones WHERE id = {Session["zoneID"]}";
+            DataTable zoneInfo = _dbRepository.SqlExecuteReader(query);
 
-		if (zoneInfo.Rows.Count > 0)
-		{
-			DataRow row = zoneInfo.Rows[0];
+            if (zoneInfo.Rows.Count > 0)
+            {
+                DataRow row = zoneInfo.Rows[0];
 
-			string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
-			Session["zoneType"] = zoneType;
+                string zoneType = !string.IsNullOrEmpty(row["people_count"].ToString()) ? CountZoneType : AccessZoneType;
+                Session["zoneType"] = zoneType;
 
-			SetZoneTitle(row["name"].ToString());
+                SetZoneTitle(row["name"].ToString());
 
-			if (zoneType == CountZoneType)
-			{
-				SetCountZoneInfo(row);
-				SetStatusColor(row["barometer_color"].ToString());
-				SetLogbook();
-			}
-			else
-			{
-				cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
-				SetBadgeRights();
-			}
+                if (zoneType == CountZoneType)
+                {
+                    SetCountZoneInfo(row);
+                    SetStatusColor(row["barometer_color"].ToString());
+                    SetLogbook();
+                }
+                else
+                {
+                    cbAccessLock.Checked = Convert.ToBoolean(row["lockdown"].ToString());
+                    SetBadgeRights();
+                }
 
-			SetCardVisibility(zoneType);
-		}
-		else
-		{
-			_logbookHandler.AddLogbookEntry("Zone", "System", $"Zone {Session["zoneID"]} niet gevonden.");
-		}
-	}
+                SetCardVisibility(zoneType);
+            }
+            else
+            {
+                _logbookHandler.AddLogbookEntry("Zone", "System", $"Zone {Session["zoneID"]} niet gevonden.");
+                _notificationHandler.AddNotification("Fout bij ophalen zone.", ENotificationCategories.Warning, this);
+            }
+        }
+        catch (Exception)
+        {
+            _logbookHandler.AddLogbookEntry("Zone", "System", $"Zone {Session["zoneID"]} niet gevonden.");
+            _notificationHandler.AddNotification("Fout bij ophalen zone.", ENotificationCategories.Warning, this);
+        }
+    }
 
 	private void SetLogbook()
 	{
@@ -381,7 +390,7 @@ public partial class Index : Page
       {
         _notificationHandler.AddNotification("Gelieve alle velden in te vullen.", ENotificationCategories.Warning, this);
         return;
-			}
+      }
 			else
 			{
 				if (cbBarLock.Checked)
@@ -404,8 +413,8 @@ public partial class Index : Page
 		{
 			if (string.IsNullOrEmpty(tbZoneName.Text))
 			{
-				// Message: empty fields
-				return;
+                _notificationHandler.AddNotification("Gelieve alle velden in te vullen.", ENotificationCategories.Warning, this);
+                return;
 			}
 			else
 			{
@@ -435,7 +444,8 @@ public partial class Index : Page
 		_dbRepository.SqlExecute(query);
 		// Change the logbook entry to the correct category and change the user to the current user
 		_logbookHandler.AddLogbookEntry("Zone", "Admin", $"Wijziging instellingen zone: {Session["zoneID"]}");
-	}
+        _notificationHandler.AddNotification("Instellingen opgeslagen.", ENotificationCategories.Info, this);
+    }
 
 	protected void barManChange_Click(object sender, EventArgs e)
 	{

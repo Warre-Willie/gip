@@ -26,10 +26,11 @@ public partial class Rapport : System.Web.UI.Page
 	private readonly BarometerTimeline _barometerTimeline = new BarometerTimeline();
 	private readonly TicketProgressBar _ticketProgressBar = new TicketProgressBar();
     private readonly LoginHandler _loginHandler = new LoginHandler();
+    private readonly NotificationHandler _notificationHandler = new NotificationHandler();
 
-		#endregion
+    #endregion
 
-	#region Load and unload page
+    #region Load and unload page
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -139,7 +140,8 @@ public partial class Rapport : System.Web.UI.Page
 		catch (Exception ex)
 		{
 			_logbookHandler.AddLogbookEntry("System", Session["user"].ToString(), ex.ToString());
-		}
+            _notificationHandler.AddNotification("Fout bij genereren van pdf.", ENotificationCategories.Warning, this);
+        }
 	}
 
 	private void SetPdfList()

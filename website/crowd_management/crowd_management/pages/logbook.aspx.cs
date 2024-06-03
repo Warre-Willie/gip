@@ -16,12 +16,13 @@ public partial class Logbook : System.Web.UI.Page
 	#region Accessors
 
 	private readonly LoginHandler _loginHandler = new LoginHandler();
+    private readonly NotificationHandler _notificationHandler = new NotificationHandler();
 
-	#endregion
+    #endregion
 
-	#region Load and unload page
+    #region Load and unload page
 
-	protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
 	{
 		if (!IsPostBack)
 		{
@@ -47,17 +48,24 @@ public partial class Logbook : System.Web.UI.Page
 	{
 		DbRepository dbRepository = new DbRepository();
 
-		string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC LIMIT 1000";
-		DataTable ticketList = dbRepository.SqlExecuteReader(query);
+        try
+        {
+            string query = "SELECT * FROM website_logbook ORDER BY timestamp DESC LIMIT 1000";
+            DataTable ticketList = dbRepository.SqlExecuteReader(query);
 
-		foreach (DataRow row in ticketList.Rows)
-		{
-			DateTime timestamp = DateTime.Parse(row["timestamp"].ToString());
-			string html = $"<tr><td>{FormatDateTime(timestamp)}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
+            foreach (DataRow row in ticketList.Rows)
+            {
+                DateTime timestamp = DateTime.Parse(row["timestamp"].ToString());
+                string html = $"<tr><td>{FormatDateTime(timestamp)}</td><td>{row["category"]}</td><td>{row["user"]}</td><td>{row["description"]}</td></tr>";
 
-			divLogbookList.InnerHtml += html;
-		}
-	}
+                divLogbookList.InnerHtml += html;
+            }
+        }
+        catch (Exception)
+        {
+            _notificationHandler.AddNotification("Fout bij ophalen van logboek.", ENotificationCategories.Warning, this);
+        }
+    }
 
 	private static string FormatDateTime(DateTime dateTime)
 	{

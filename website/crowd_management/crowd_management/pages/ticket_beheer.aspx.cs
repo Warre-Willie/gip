@@ -19,11 +19,12 @@ public partial class TicketBeheer : System.Web.UI.Page
 {
     #region Accessors
 
-		private readonly DbRepository _dbRepository = new DbRepository();
+	private readonly DbRepository _dbRepository = new DbRepository();
     private readonly LogbookHandler _logbookHandler = new LogbookHandler();
     private readonly LoginHandler _loginHandler = new LoginHandler();
+    private readonly NotificationHandler _notificationHandler = new NotificationHandler();
 
-		#endregion
+    #endregion
 
     #region Load and unload page
 
@@ -244,6 +245,7 @@ public partial class TicketBeheer : System.Web.UI.Page
             _logbookHandler.AddLogbookEntry("Ticket", Session["User"].ToString(), "Badge recht verwijdert bij ID: " + Session["ticketID"]);
         }
 
+        _notificationHandler.AddNotification("Wijzigingen opgeslagen.", ENotificationCategories.Info, this);
         SetTicketList();
     }
 

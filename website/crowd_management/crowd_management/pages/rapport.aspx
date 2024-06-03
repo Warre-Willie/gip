@@ -30,6 +30,7 @@
 </head>
 <body>
 	<form id="form1" runat="server">
+        <asp:HiddenField ID="hiddenMessageField" runat="server" />
 		<div id="divPage" runat="server">
 			<nav class="navbar is-link" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
