@@ -125,12 +125,14 @@ else:
     client = connect_mqtt(callback, "Zone" + str(zone_id) + "uitgang")
 
 # Set last will message
-client.set_last_will("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) +', "category": "Info" }', 2, False)
+client.set_last_will("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) +', "category": "Alert" }', 2, False)
 
 
 # subscribe to topic
 client.subscribe("gip/teller/barometer")
 client.publish("gip/teller/new_device", '{"id": ' + str(zone_id) + '}')
+client.publish("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) + ', "category": "Info" }', 2, False)
+
 while True:
     client.check_msg()
     laser_state = not(laser.value())
