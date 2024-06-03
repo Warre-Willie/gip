@@ -43,7 +43,6 @@ def connect_mqtt(callback, device_name):
         
     client = MQTTClient(b"", server, port, user, password)
     client.set_callback(callback)
-    client.set_last_will("gip/disconnected", '{ "name": "' + device_name + '" }', retain=False, qos=2)
     client.connect()
     print('connected to MQTT server')
     return client
