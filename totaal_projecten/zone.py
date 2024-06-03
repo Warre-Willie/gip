@@ -119,19 +119,12 @@ def color_barometer(response_dict):
 
 
 connect_wifi()
-if(switch.value() == True):
-    client = connect_mqtt(callback, "Zone" + str(zone_id) + "ingang")
-else:
-    client = connect_mqtt(callback, "Zone" + str(zone_id) + "uitgang")
-
-# Set last will message
-client.set_last_will("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) +', "category": "Alert" }', 2, False)
-
+client = connect_mqtt(callback, '{ "isCounter": true, "id": ' + str(zone_id) + ', "isDisconect": true, "isExit": ' + str(switch.value()) +', "category": "Alert" }')
 
 # subscribe to topic
 client.subscribe("gip/teller/barometer")
 client.publish("gip/teller/new_device", '{"id": ' + str(zone_id) + '}')
-client.publish("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ', "isExit": ' + str(switch.value()) + ', "category": "Info" }', 2, False)
+client.publish("gip/notification", '{ "isCounter": true, "id": ' + str(zone_id) + ',"isDisconect": false, "isExit": ' + str(switch.value()) + ', "category": "Info" }')
 
 while True:
     client.check_msg()
@@ -143,3 +136,4 @@ while True:
         else:
             client.publish("gip/teller/counter", '{"id": '+ str(zone_id) + ',"people": -1}')
     last_laser_state = laser_state 
+
