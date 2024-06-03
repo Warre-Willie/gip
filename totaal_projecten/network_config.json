@@ -1,21 +1,21 @@
 {
-  "isDevelopment": true,
+  "isDevelopment": false,
   "wifi": {
-    "ssid": "TP-LINK_EE42",
+    "ssid": "Gip_JesseWarre",
     "password": "29487868"
   },
   "mqtt": {
     "mqttDev": {
-      "broker": "broker.hivemq.com",
+      "broker": "192.168.80.81",
       "port": 1883,
-      "username": "",
-      "password": ""
+      "username": "gip",
+      "password": "gip-WJ"
     },
     "mqttProd": {
       "broker": "192.168.0.101",
       "port": 1883,
-      "username": "",
-      "password": ""
+      "username": "gip",
+      "password": "gip-WJ"
     }
   }
 }

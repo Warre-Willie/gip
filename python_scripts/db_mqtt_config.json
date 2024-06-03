@@ -1,7 +1,7 @@
 {
-  "isDevlopment": true,
+  "isDevlopment": false,
   "db": {
-    "host": "192.168.80.81",
+    "host": "192.168.0.101",
     "username": "gip",
     "password": "gip-WJ",
     "database": "crowd_management"
