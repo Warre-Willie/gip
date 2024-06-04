@@ -39,6 +39,7 @@ def count_request(msg):
     counter = 0
     response = json.loads(msg.payload.decode())
     try:
+        db.reconnect()
         mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
         mycursor.execute(f"SELECT * FROM zones WHERE id = '{response['id']}'")
     except:
@@ -89,6 +90,7 @@ def count_request(msg):
 def new_device(msg):
     try:
         response = json.loads(msg.payload.decode())
+        db.reconnect()
         mycursor = db.cursor(dictionary=True) # Dictionary true for ease of processing respones
         mycursor.execute("SELECT barometer_color FROM zones WHERE id = " + str(response["id"]) + ";")
         for row in mycursor:
@@ -99,11 +101,13 @@ def new_device(msg):
 
 def insert_population():
     try:
+        db.reconnect()
         mycursor = db.cursor(dictionary=True)
         mycursor.execute("SELECT id, people_count FROM zones WHERE people_count <> 0")
         for row in mycursor:
             mycursor.execute(f"INSERT INTO zone_population_data (zone_id, people_count) VALUES ({row['id']},{row['people_count']})")
             db.commit()
+        mycursor.close()
     except:
         print("Error inserting population")
     

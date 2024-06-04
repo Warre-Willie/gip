@@ -18,7 +18,7 @@ public class MqttRepository
 	#region Variables and constands
 
 	private readonly IMqttClient _mqttClient;
-	private const string Broker = "192.168.80.81";
+	private const string Broker = "192.168.0.101";
 	private const string Username = "gip";
 	private const string Password = "gip-WJ";
 

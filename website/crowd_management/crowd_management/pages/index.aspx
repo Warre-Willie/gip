@@ -377,7 +377,7 @@
 														<div class="column">
 															<div class="field">
 																<div class="control has-icons-right">
-																	<asp:TextBox ID="tbBarThresGreen" type="number" min="0" max="100" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+																	<asp:TextBox ID="tbBarThresGreen" type="number" min="0" max="100" step="0.01" runat="server" class="input is-success" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
 																	<span class="icon is-small is-right">
 																		<i class="fa-solid fa-percent"></i>
 																	</span>
@@ -387,7 +387,7 @@
 														<div class="column">
 															<div class="field">
 																<div class="control has-icons-right">
-																	<asp:TextBox ID="tbBarThresOrange" type="number" min="0" max="100" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+																	<asp:TextBox ID="tbBarThresOrange" type="number" min="0" max="100" step="0.01" runat="server" class="input is-warning" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
 																	<span class="icon is-small is-right">
 																		<i class="fa-solid fa-percent"></i>
 																	</span>
