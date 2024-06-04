@@ -15,7 +15,7 @@ public class DbRepository
 {
 	#region Variables
 
-	private const string ConnString = "SERVER=192.168.80.81;DATABASE=crowd_management;UID=gip;PASSWORD=gip-WJ;";
+	private const string ConnString = "SERVER=192.168.0.101;DATABASE=crowd_management;UID=gip;PASSWORD=gip-WJ;";
 	private readonly MySqlConnection _conn;
 	private readonly MySqlCommand _cmd = new MySqlCommand();
 
