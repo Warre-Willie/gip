@@ -21,6 +21,7 @@ Description: This file contains the HTML code for the logbook page.
 	<script src="../js/SignalR/jquery-1.7.min.js"></script>
 	<script src="../js/SignalR/jquery.signalR-2.4.3.min.js"></script>
 	<script src="/signalr/hubs"></script>
+	<script src="../js/live_update.js"></script>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css" />

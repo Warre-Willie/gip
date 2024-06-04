@@ -81,9 +81,8 @@
 										<img src="../image/floor_plan.png" usemap="#heatMap" alt="Floor Plan" />
 										<map name="heatMap" id="heatMap">
 											<area id="HeatMapZone1" shape="rect" coords="113,32,397,319" onclick="__doPostBack('imgHeatMap','0')" />
-											<area id="HeatMapZone2" shape="rect" coords="113,320,257,445" onclick="__doPostBack('imgHeatMap','1')" />
-											<area id="HeatMapZone3" shape="rect" coords="726,36,1149,187" onclick="__doPostBack('imgHeatMap','2')" />
-											<area id="HeatMapZone4" shape="rect" coords="735,216,1027,416" onclick="__doPostBack('imgHeatMap','3')" />
+											<area id="HeatMapZone2" shape="rect" coords="113,320,257,459" onclick="__doPostBack('imgHeatMap','1')" />
+											<area id="HeatMapZone3" shape="rect" coords="726,36,1149,246" onclick="__doPostBack('imgHeatMap','2')" />
 										</map>
 										<!-- Hidden imageMap for triggering the backend -->
 										<asp:ImageMap ID="imgHeatMap" ImageUrl="~/image/floor_plan.png" runat="server" HotSpotMode="PostBack" OnClick="imgHeatMap_Click" class="hide">
@@ -93,8 +92,6 @@
 												PostBackValue="2"></asp:RectangleHotSpot>
 											<asp:RectangleHotSpot
 												PostBackValue="3"></asp:RectangleHotSpot>
-											<asp:RectangleHotSpot
-												PostBackValue="4"></asp:RectangleHotSpot>
 										</asp:ImageMap>
 
 										<div id="divHeatMapZone1" class="heat-map-zone hide" data-first_load>
@@ -154,29 +151,6 @@
 														<b>
 															<asp:Label ID="tagZoneName3" runat="server"></asp:Label>
 														</b>
-													</span>
-												</div>
-											</div>
-										</div>
-										<div id="divHeatMapZone4" class="heat-map-zone hide" data-first_load>
-											<div class="zone-tile">
-												<div class="icons">
-													<span class="icon is-large">
-														<i class="fas fa-2x fa-solid fa-users"></i>
-													</span>
-													<span class="icon">
-														<i id="zoneLockdown4" runat="server" class="fa-solid fa-lock"></i>
-													</span>
-												</div>
-												<div class="zone-info">
-													<span id="tagZoneColor4" runat="server" class="tag is-danger is-light is-medium">
-														<b>
-															<asp:Label ID="tagZoneName4" runat="server"></asp:Label>
-														</b>
-														&nbsp;
-					                                <span>
-																						<asp:Label ID="tagZonePercentage4" runat="server"></asp:Label>
-																					</span>
 													</span>
 												</div>
 											</div>

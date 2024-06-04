@@ -741,7 +741,6 @@ C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\bi
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_management.csproj.AssemblyReference.cache
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_management.csproj.CoreCompileInputs.cache
-C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_management.csproj.CopyComplete
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_management.dll
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_management.pdb
 C:\Users\warre\Documents\Programmeren\gip\website\crowd_management\crowd_management\bin\QuickChart.dll
@@ -820,3 +819,4 @@ C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_manageme
 C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\Microsoft.Owin.xml
 C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\JesseUijtdeHaag\Documents\gip-1\website\crowd_management\crowd_management\bin\Microsoft.Owin.Security.xml
+C:\Users\WarreWilleme\Documents\gip\website\crowd_management\crowd_management\obj\Debug\crowd_ma.1DCD79A6.Up2Date

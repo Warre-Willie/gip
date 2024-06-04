@@ -23,6 +23,7 @@
 	<script src="../js/search_ticket.js"></script>
 	<script src="../js/ticket_modal.js"></script>
 	<script src="/signalr/hubs"></script>
+	<script src="../js/live_update.js"></script>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css">

@@ -22,6 +22,7 @@
 	<script src="../js/SignalR/jquery.signalR-2.4.3.min.js"></script>
 	<script src="../js/search_report.js"></script>
 	<script src="/signalr/hubs"></script>
+	<script src="../js/live_update.js"></script>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../css/bulma.css">

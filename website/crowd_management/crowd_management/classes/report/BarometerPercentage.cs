@@ -129,18 +129,18 @@ public class BarometerPercentage
 			}
 		}
 
-		query = "SELECT * FROM barometer_logbook ORDER BY timestamp ASC;";
+		query = "SELECT * FROM barometer_logbook ORDER BY timestamp DESC;";
 		DataTable dtLogbook = _dbRepository.SqlExecuteReader(query);
 
-		DateTime prevTime = new DateTime();
+		DateTime prevTime = DateTime.Now;
 
 		foreach (DataRow row in dtLogbook.Rows)
 		{
-			if (prevTime == new DateTime())
-			{
-				prevTime = DateTime.Parse(row["timestamp"].ToString());
-				continue;
-			}
+			//if (prevTime == new DateTime())
+			//{
+			//	prevTime = DateTime.Parse(row["timestamp"].ToString());
+			//	continue;
+			//}
 
 			DateTime currentTime = DateTime.Parse(row["timestamp"].ToString());
 

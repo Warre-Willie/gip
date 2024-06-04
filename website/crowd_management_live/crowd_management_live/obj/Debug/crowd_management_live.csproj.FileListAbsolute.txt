@@ -87,6 +87,6 @@ C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_manageme
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.csproj.AssemblyReference.cache
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.csproj.CoreCompileInputs.cache
-C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.csproj.CopyComplete
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.exe
 C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_management_live.pdb
+C:\Users\WarreWilleme\Documents\gip\website\crowd_management_live\crowd_management_live\obj\Debug\crowd_ma.1EC1F453.Up2Date

@@ -133,9 +133,10 @@ public partial class Rapport : System.Web.UI.Page
 			}
 			else
 			{
-				lblError.Text = "Selecteer minstens één optie om te genereren.";
-				lblError.Visible = true;
-			}
+				//lblError.Text = "Selecteer minstens één optie om te genereren.";
+				//lblError.Visible = true;
+                _notificationHandler.AddNotification("Selecteer minstens één optie om te genereren.", ENotificationCategories.Info, this);
+            }
 		}
 		catch (Exception ex)
 		{
